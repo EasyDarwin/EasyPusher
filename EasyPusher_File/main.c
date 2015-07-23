@@ -33,7 +33,7 @@ int main()
     memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
     mediainfo.u32VideoCodec =   0x1C;
 
-    fES = fopen("./test.264", "rb");
+    fES = fopen("./EasyDarwin.264", "rb");
     if (NULL == fES)        return 0;
 
     pusherId = EASY_SDK_API_Create();
