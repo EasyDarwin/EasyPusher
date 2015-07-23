@@ -9,8 +9,6 @@ EasyPusher是一个推送流媒体音视频给开源流媒体服务器EasyDarwin
 
 ### 获取更多信息 ###
 
-摄像机硬件购买地址：http://easydarwin.taobao.com/
-
 邮件：[support@easydarwin.org](mailto:support@easydarwin.org) 
 
 WEB：[EasyDarwin.org](http://www.easydarwin.org)
