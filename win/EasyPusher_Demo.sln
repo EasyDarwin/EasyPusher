@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EasyPusher_FILE", "..\EasyPusher_File\EasyPusher_File.vcxproj", "{9E6ECE49-2D4A-41C9-A8EB-5605914D2116}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EasyPusher_RTSP", "..\EasyPusher_RTSP\EasyPusher_RTSP.vcxproj", "{2C677677-3CEC-43BF-90C5-CC4246894BE5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EasyPusher_SDK", "..\EasyPusher_SDK\EasyPusher_SDK.vcxproj", "{A83368AC-FC3A-42DE-BE2E-388D4CE21E32}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E6ECE49-2D4A-41C9-A8EB-5605914D2116}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9E6ECE49-2D4A-41C9-A8EB-5605914D2116}.Debug|Win32.Build.0 = Debug|Win32
+		{9E6ECE49-2D4A-41C9-A8EB-5605914D2116}.Release|Win32.ActiveCfg = Release|Win32
+		{9E6ECE49-2D4A-41C9-A8EB-5605914D2116}.Release|Win32.Build.0 = Release|Win32
+		{2C677677-3CEC-43BF-90C5-CC4246894BE5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2C677677-3CEC-43BF-90C5-CC4246894BE5}.Debug|Win32.Build.0 = Debug|Win32
+		{2C677677-3CEC-43BF-90C5-CC4246894BE5}.Release|Win32.ActiveCfg = Release|Win32
+		{2C677677-3CEC-43BF-90C5-CC4246894BE5}.Release|Win32.Build.0 = Release|Win32
+		{A83368AC-FC3A-42DE-BE2E-388D4CE21E32}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A83368AC-FC3A-42DE-BE2E-388D4CE21E32}.Debug|Win32.Build.0 = Debug|Win32
+		{A83368AC-FC3A-42DE-BE2E-388D4CE21E32}.Release|Win32.ActiveCfg = Release|Win32
+		{A83368AC-FC3A-42DE-BE2E-388D4CE21E32}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
