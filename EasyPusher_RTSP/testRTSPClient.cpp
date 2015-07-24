@@ -67,7 +67,7 @@ int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_fra
     else if (_state == EASY_PUSH_STATE_CONNECTED)           printf("Connected\n");
     else if (_state == EASY_PUSH_STATE_CONNECT_FAILED)      printf("Connect failed\n");
     else if (_state == EASY_PUSH_STATE_CONNECT_ABORT)       printf("Connect abort\n");
-    else if (_state == EASY_PUSH_STATE_PUSHING)             printf("Pushing...\n");
+    //else if (_state == EASY_PUSH_STATE_PUSHING)             printf("Pushing...\n");
     else if (_state == EASY_PUSH_STATE_DISCONNECTED)        printf("Disconnect.\n");
 
     return 0;
@@ -88,6 +88,8 @@ int main(int argc, char** argv) {
   mediainfo.u32VideoFps   =   25;
 
   EASY_SDK_API_StartStream(pusherHandle, "115.29.139.20", 554, "live.sdp", "admin", "admin", &mediainfo);
+  printf("*** live streaming url:rtsp://115.29.139.20:554/live.sdp ***\n");
+  
   EASY_SDK_API_SetEventCallback(pusherHandle, __EasyPusher_Callback, 0, NULL);
 
   openURL(*env, "RTSPClient", "rtsp://admin:admin@192.168.66.119/22");
