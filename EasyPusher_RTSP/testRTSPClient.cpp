@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
   mediainfo.u32VideoCodec =   EASY_SDK_VIDEO_CODEC_H264;
   mediainfo.u32VideoFps   =   25;
 
-  EASY_SDK_API_StartStream(pusherHandle, "127.0.0.1", 554, "live.sdp", "admin", "admin", &mediainfo);
+  EASY_SDK_API_StartStream(pusherHandle, "115.29.139.20", 554, "live.sdp", "admin", "admin", &mediainfo);
   EASY_SDK_API_SetEventCallback(pusherHandle, __EasyPusher_Callback, 0, NULL);
 
   openURL(*env, "RTSPClient", "rtsp://admin:admin@192.168.66.119/22");

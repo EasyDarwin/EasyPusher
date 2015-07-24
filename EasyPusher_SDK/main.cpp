@@ -15,11 +15,11 @@
 
 #define UNAME	"admin"
 #define PWORD	"admin"
-#define DHOST	"192.168.66.189"	//ping wellsen.f3322.org
-#define DPORT	80
+#define DHOST	"192.168.66.189"	//EasyCamera摄像机IP地址
+#define DPORT	80					//EasyCamera摄像机端口
 
-#define SHOST	"127.0.0.1"	
-#define SPORT	554
+#define SHOST	"115.29.139.20"		//EasyDarwin流媒体服务器地址
+#define SPORT	554					//EasyDarwin流媒体服务器端口
 
 HI_U32 u32Handle = 0;
 Easy_U32 pusherHandle = 0;
@@ -80,7 +80,7 @@ HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle, /* 句柄 */
 		if (pstruAV->u32AVFrameFlag == HI_NET_DEV_AUDIO_FRAME_FLAG)
 		{
 			//printf("Audio %u PTS: %u \n", pstruAV->u32AVFrameLen, pstruAV->u32AVFramePTS);
-//			SaveRecordFile("Video.hx", pu8Buffer, u32Length);			
+			//SaveRecordFile("Video.hx", pu8Buffer, u32Length);			
 		}
 	}
 	else

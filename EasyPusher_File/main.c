@@ -1,3 +1,9 @@
+/*
+	Copyright (c) 2013-2014 EasyDarwin.ORG.  All rights reserved.
+	Github: https://github.com/EasyDarwin
+	WEChat: EasyDarwin
+	Website: http://www.EasyDarwin.org
+*/
 #include "EasyPusherAPI.h"
 #include "trace.h"
 
@@ -12,8 +18,6 @@ int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_fra
 
     return 0;
 }
-
-
 
 int main()
 {
@@ -40,7 +44,7 @@ int main()
 
     EASY_SDK_API_SetEventCallback(pusherId, __EasyPusher_Callback, 0, NULL);
 
-    EASY_SDK_API_StartStream(pusherId, "127.0.0.1", 554, "live.sdp", "admin", "admin", &mediainfo);
+    EASY_SDK_API_StartStream(pusherId, "115.29.139.20", 554, "live.sdp", "admin", "admin", &mediainfo);
     
 	while (1)
 	{
