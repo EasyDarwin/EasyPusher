@@ -80,17 +80,17 @@ int main(int argc, char** argv) {
   TaskScheduler* scheduler = BasicTaskScheduler::createNew();
   UsageEnvironment* env = BasicUsageEnvironment::createNew(*scheduler);
 
-  pusherHandle  =   EASY_SDK_API_Create();
+  pusherHandle  =   EasyPusher_Create();
 
   EASY_MEDIA_INFO_T   mediainfo;
   memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
   mediainfo.u32VideoCodec =   EASY_SDK_VIDEO_CODEC_H264;
   mediainfo.u32VideoFps   =   25;
 
-  EASY_SDK_API_StartStream(pusherHandle, "115.29.139.20", 554, "live.sdp", "admin", "admin", &mediainfo);
+  EasyPusher_StartStream(pusherHandle, "115.29.139.20", 554, "live.sdp", "admin", "admin", &mediainfo);
   printf("*** live streaming url:rtsp://115.29.139.20:554/live.sdp ***\n");
   
-  EASY_SDK_API_SetEventCallback(pusherHandle, __EasyPusher_Callback, 0, NULL);
+  EasyPusher_SetEventCallback(pusherHandle, __EasyPusher_Callback, 0, NULL);
 
   openURL(*env, "RTSPClient", "rtsp://admin:admin@192.168.66.119/22");
 
@@ -100,7 +100,7 @@ int main(int argc, char** argv) {
 
 
 
-  //最后要调用EASY_SDK_API_StopStream    和  EASY_SDK_API_Release
+  //最后要调用EasyPusher_StopStream    和  EasyPusher_Release
 
   return 0;
 
@@ -538,7 +538,7 @@ void DummySink::afterGettingFrame(unsigned frameSize, unsigned numTruncatedBytes
         avFrame.u32AVFrameLen   =   frameSize+4;
         avFrame.pBuffer = (unsigned char*)fReceiveBuffer;
         avFrame.u32VFrameType = (naltype==0x07)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
-        EASY_SDK_API_PushFrame(pusherHandle, &avFrame);
+        EasyPusher_PushFrame(pusherHandle, &avFrame);
   }
 #else
 

@@ -1,5 +1,5 @@
-#ifndef __EASY_PUSHER_API_H__
-#define __EASY_PUSHER_API_H__
+#ifndef __EasyPusher_H__
+#define __EasyPusher_H__
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -96,29 +96,27 @@ typedef enum __EASY_PUSH_STATE_T
 
 typedef int (*EasyPusher_Callback)(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_frame, void *_userptr);
 
-
-
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
 	/* 创建推送句柄  返回为句柄值 */
-	EasyPusher_API Easy_U32 Easy_APICALL EASY_SDK_API_Create();
+	EasyPusher_API Easy_U32 Easy_APICALL EasyPusher_Create();
 	/* 释放推送句柄 */
-	EasyPusher_API Easy_U32 Easy_APICALL EASY_SDK_API_Release(Easy_U32 handle);
+	EasyPusher_API Easy_U32 Easy_APICALL EasyPusher_Release(Easy_U32 handle);
 
     /* 设置流传输事件回调  */
-    EasyPusher_API Easy_U32 Easy_APICALL EASY_SDK_API_SetEventCallback(Easy_U32 handle,  EasyPusher_Callback callback, int id, void *userptr);
+    EasyPusher_API Easy_U32 Easy_APICALL EasyPusher_SetEventCallback(Easy_U32 handle,  EasyPusher_Callback callback, int id, void *userptr);
 
 	/* 开始流传输 */
-	EasyPusher_API Easy_U32 Easy_APICALL EASY_SDK_API_StartStream(Easy_U32 handle, char* serverAddr, Easy_U16 port, char* streamName, char *username, char *password, EASY_MEDIA_INFO_T*  pstruStreamInfo);
+	EasyPusher_API Easy_U32 Easy_APICALL EasyPusher_StartStream(Easy_U32 handle, char* serverAddr, Easy_U16 port, char* streamName, char *username, char *password, EASY_MEDIA_INFO_T*  pstruStreamInfo);
 
 	/* 停止流传输  */
-	EasyPusher_API Easy_U32 Easy_APICALL EASY_SDK_API_StopStream(Easy_U32 handle);
+	EasyPusher_API Easy_U32 Easy_APICALL EasyPusher_StopStream(Easy_U32 handle);
 
-	//推流
-	EasyPusher_API Easy_U32 Easy_APICALL EASY_SDK_API_PushFrame(Easy_U32 handle, EASY_AV_Frame* frame );
+	/* 推流 */
+	EasyPusher_API Easy_U32 Easy_APICALL EasyPusher_PushFrame(Easy_U32 handle, EASY_AV_Frame* frame );
 
 #ifdef __cplusplus
 }

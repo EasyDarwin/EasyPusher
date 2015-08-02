@@ -40,11 +40,11 @@ int main()
     fES = fopen("./EasyDarwin.264", "rb");
     if (NULL == fES)        return 0;
 
-    pusherId = EASY_SDK_API_Create();
+    pusherId = EasyPusher_Create();
 
-    EASY_SDK_API_SetEventCallback(pusherId, __EasyPusher_Callback, 0, NULL);
+    EasyPusher_SetEventCallback(pusherId, __EasyPusher_Callback, 0, NULL);
 
-    EASY_SDK_API_StartStream(pusherId, "115.29.139.20", 554, "live.sdp", "admin", "admin", &mediainfo);
+    EasyPusher_StartStream(pusherId, "115.29.139.20", 554, "live.sdp", "admin", "admin", &mediainfo);
 	printf("*** live streaming url:rtsp://115.29.139.20:554/live.sdp ***\n");
 
 	while (1)
@@ -84,7 +84,7 @@ int main()
                 avFrame.u32AVFrameLen   =   framesize;
                 avFrame.pBuffer = (unsigned char*)pbuf;
 				avFrame.u32VFrameType = (naltype==0x07)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
-                EASY_SDK_API_PushFrame(pusherId, &avFrame);
+                EasyPusher_PushFrame(pusherId, &avFrame);
 
                 Sleep(30);
 
@@ -101,8 +101,8 @@ int main()
 
     _TRACE("Press Enter exit...\n");
     getchar();
-    EASY_SDK_API_StopStream(pusherId);
-    EASY_SDK_API_Release(pusherId);
+    EasyPusher_StopStream(pusherId);
+    EasyPusher_Release(pusherId);
 
 
 

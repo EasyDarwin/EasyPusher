@@ -59,7 +59,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <Profile>true</Profile>
-      <AdditionalDependencies>ws2_32.lib;wsock32.lib;winmm.lib;EasyPusher.lib;NetLib.lib</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;wsock32.lib;winmm.lib;libEasyPusher.lib;NetLib.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>../Lib/;./SDK/Lib/</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

@@ -72,7 +72,7 @@ HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle, /* ¾ä±ú */
 					avFrame.u32AVFrameLen = pstruAV->u32AVFrameLen;
 					avFrame.pBuffer = (unsigned char*)pbuf;
 					avFrame.u32VFrameType = (naltype==0x07)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
-					EASY_SDK_API_PushFrame(pusherHandle, &avFrame);
+					EasyPusher_PushFrame(pusherHandle, &avFrame);
 				}
 			}	
 		}
@@ -154,11 +154,11 @@ int main()
     memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
     mediainfo.u32VideoCodec =   0x1C;
 
-    pusherHandle = EASY_SDK_API_Create();
+    pusherHandle = EasyPusher_Create();
 
-    EASY_SDK_API_SetEventCallback(pusherHandle, __EasyPusher_Callback, 0, NULL);
+    EasyPusher_SetEventCallback(pusherHandle, __EasyPusher_Callback, 0, NULL);
 
-    EASY_SDK_API_StartStream(pusherHandle, SHOST, SPORT, "live.sdp", "admin", "admin", &mediainfo);
+    EasyPusher_StartStream(pusherHandle, SHOST, SPORT, "live.sdp", "admin", "admin", &mediainfo);
 	printf("*** live streaming url:rtsp://%s:%d/live.sdp ***\n", SHOST, SPORT);
 
 	while(1)
@@ -166,8 +166,8 @@ int main()
 		Sleep(10);	
 	};
 
-    EASY_SDK_API_StopStream(pusherHandle);
-    EASY_SDK_API_Release(pusherHandle);
+    EasyPusher_StopStream(pusherHandle);
+    EasyPusher_Release(pusherHandle);
     pusherHandle = 0;
    
     HI_NET_DEV_StopStream(u32Handle);
