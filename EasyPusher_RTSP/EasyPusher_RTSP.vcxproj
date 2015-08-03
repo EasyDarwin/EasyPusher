@@ -42,9 +42,11 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>./live/BasicUsageEnvironment/include;./live/groupsock/include;./live/liveMedia/include;./live/UsageEnvironment/include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
     <LibraryPath>./live/BasicUsageEnvironment;./live/groupsock;./live/liveMedia;./live/UsageEnvironment;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -85,7 +87,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>ws2_32.lib;wsock32.lib;winmm.lib;EasyPusher.lib</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;wsock32.lib;winmm.lib;libEasyPusher.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>../Lib/</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
