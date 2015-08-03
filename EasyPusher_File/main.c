@@ -13,7 +13,7 @@ int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_fra
     else if (_state == EASY_PUSH_STATE_CONNECTED)           printf("Connected\n");
     else if (_state == EASY_PUSH_STATE_CONNECT_FAILED)      printf("Connect failed\n");
     else if (_state == EASY_PUSH_STATE_CONNECT_ABORT)       printf("Connect abort\n");
-    //else if (_state == EASY_PUSH_STATE_PUSHING)             printf("P->");
+    else if (_state == EASY_PUSH_STATE_PUSHING)             printf("P->");
     else if (_state == EASY_PUSH_STATE_DISCONNECTED)        printf("Disconnect.\n");
 
     return 0;
@@ -44,7 +44,7 @@ int main()
 
     EasyPusher_SetEventCallback(pusherId, __EasyPusher_Callback, 0, NULL);
 
-    EasyPusher_StartStream(pusherId, "115.29.139.20", 554, "live.sdp", "admin", "admin", &mediainfo);
+    EasyPusher_StartStream(pusherId, "127.0.0.1", 554, "live.sdp", "admin", "admin", &mediainfo);
 	printf("*** live streaming url:rtsp://115.29.139.20:554/live.sdp ***\n");
 
 	while (1)
