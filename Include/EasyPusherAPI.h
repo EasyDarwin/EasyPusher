@@ -109,6 +109,7 @@ extern "C"
 
 	/* 创建推送句柄  返回为句柄值 */
 	EasyPusher_API Easy_U32 Easy_APICALL EasyPusher_Create();
+	
 	/* 释放推送句柄 */
 	EasyPusher_API Easy_U32 Easy_APICALL EasyPusher_Release(Easy_U32 handle);
 
@@ -116,7 +117,7 @@ extern "C"
     EasyPusher_API Easy_U32 Easy_APICALL EasyPusher_SetEventCallback(Easy_U32 handle,  EasyPusher_Callback callback, int id, void *userptr);
 
 	/* 开始流传输 */
-	EasyPusher_API Easy_U32 Easy_APICALL EasyPusher_StartStream(Easy_U32 handle, char* serverAddr, Easy_U16 port, char* streamName, char *username, char *password, EASY_MEDIA_INFO_T*  pstruStreamInfo);
+	EasyPusher_API Easy_U32 Easy_APICALL EasyPusher_StartStream(Easy_U32 handle, char* serverAddr, Easy_U16 port, char* streamName, char *username, char *password, EASY_MEDIA_INFO_T*  pstruStreamInfo, Easy_U32 bufferKSize);
 
 	/* 停止流传输  */
 	EasyPusher_API Easy_U32 Easy_APICALL EasyPusher_StopStream(Easy_U32 handle);
