@@ -84,7 +84,7 @@ int main()
 
     EasyPusher_SetEventCallback(pusherHandle, __EasyPusher_Callback, 0, NULL);
 
-    EasyPusher_StartStream(pusherHandle, SHOST, SPORT, "live.sdp", "admin", "admin", &mediainfo);
+    EasyPusher_StartStream(pusherHandle, SHOST, SPORT, "live.sdp", "admin", "admin", &mediainfo, 512);
 	printf("*** live streaming url:rtsp://%s:%d/live.sdp ***\n", SHOST, SPORT);
 
 	while(1)

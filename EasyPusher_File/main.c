@@ -44,7 +44,7 @@ int main()
 
     EasyPusher_SetEventCallback(pusherId, __EasyPusher_Callback, 0, NULL);
 
-    EasyPusher_StartStream(pusherId, "127.0.0.1", 554, "live.sdp", "admin", "admin", &mediainfo);
+    EasyPusher_StartStream(pusherId, "127.0.0.1", 554, "live.sdp", "admin", "admin", &mediainfo, 512);
 	printf("*** live streaming url:rtsp://115.29.139.20:554/live.sdp ***\n");
 
 	while (1)
