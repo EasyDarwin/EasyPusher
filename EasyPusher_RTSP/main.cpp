@@ -16,7 +16,7 @@
 #define SHOST	"127.0.0.1"		//EasyDarwin流媒体服务器地址115.29.139.20
 #define SPORT	554					//EasyDarwin流媒体服务器端口
 
-Easy_U32 pusherHandle = 0;
+Easy_Pusher_Handle pusherHandle = 0;
 Easy_NVS_Handle fNVSHandle = 0;
 
 /* NVSource从RTSPClient获取数据后回调给上层 */

@@ -22,7 +22,7 @@
 #define SPORT	554					//EasyDarwin流媒体服务器端口
 
 HI_U32 u32Handle = 0;
-Easy_U32 pusherHandle = 0;
+Easy_Pusher_Handle pusherHandle = 0;
 
 HI_S32 OnEventCallback(HI_U32 u32Handle, /* 句柄 */
                                 HI_U32 u32Event,      /* 事件 */

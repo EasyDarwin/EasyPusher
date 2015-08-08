@@ -22,7 +22,7 @@ int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_fra
 int main()
 {
     char szIP[16] = {0};
-    int pusherId = 0;
+    Easy_Pusher_Handle pusherId = 0;
     EASY_MEDIA_INFO_T   mediainfo;
 
     int buf_size = 1024*512;
