@@ -7,7 +7,7 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdio.h>
 #include "EasyPusherAPI.h"
-#include "EasyNVSourceAPI.h"
+#include "EasyRTSPClientAPI.h"
 #include <winsock2.h>
 
 
@@ -17,10 +17,10 @@
 #define SPORT	554					//EasyDarwin流媒体服务器端口
 
 Easy_Pusher_Handle pusherHandle = 0;
-Easy_NVS_Handle fNVSHandle = 0;
+Easy_RTSP_Handle fRTSPHandle = 0;
 
 /* NVSource从RTSPClient获取数据后回调给上层 */
-int CALLBACK __NVSourceCallBack( int _chid, int *_chPtr, int _mediatype, char *pbuf, NVS_FRAME_INFO *frameinfo)
+int CALLBACK __NVSourceCallBack( int _chid, int *_chPtr, int _mediatype, char *pbuf, RTSP_FRAME_INFO *frameinfo)
 {
 	if (NULL != frameinfo)
 	{
@@ -62,15 +62,15 @@ int main()
 {
 
 	//创建NVSource
-	EasyNVS_Init(&fNVSHandle);
+	EasyRTSP_Init(&fRTSPHandle);
 
-	if (NULL == fNVSHandle) return 0;
+	if (NULL == fRTSPHandle) return 0;
 
 	unsigned int mediaType = MEDIA_TYPE_VIDEO;
 	//mediaType |= MEDIA_TYPE_AUDIO;	//换为NVSource, 屏蔽声音
 
-	EasyNVS_SetCallback(fNVSHandle, __NVSourceCallBack);
-	EasyNVS_OpenStream(fNVSHandle, 0, RTSPURL, RTP_OVER_TCP, mediaType, 0, 0, NULL, 1000, 0);
+	EasyRTSP_SetCallback(fRTSPHandle, __NVSourceCallBack);
+	EasyRTSP_OpenStream(fRTSPHandle, 0, RTSPURL, RTP_OVER_TCP, mediaType, 0, 0, NULL, 1000, 0);
 	
 	WSADATA wsaData;
     WSAStartup(MAKEWORD(2,2), &wsaData); 
@@ -96,9 +96,9 @@ int main()
     EasyPusher_Release(pusherHandle);
     pusherHandle = 0;
    
-	EasyNVS_CloseStream(fNVSHandle);
-	EasyNVS_Deinit(&fNVSHandle);
-	fNVSHandle = NULL;
+	EasyRTSP_CloseStream(fRTSPHandle);
+	EasyRTSP_Deinit(&fRTSPHandle);
+	fRTSPHandle = NULL;
 
     return 0;
 }

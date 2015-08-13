@@ -14,7 +14,7 @@
     <ClInclude Include="..\Include\EasyPusherAPI.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="libEasyNVSource\Include\EasyNVSourceAPI.h">
+    <ClInclude Include="libEasyRTSPClient\Include\EasyRTSPClientAPI.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

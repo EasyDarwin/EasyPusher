@@ -55,14 +55,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./libEasyNVSource/Include/;../Include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./libEasyRTSPClient/Include/;../Include/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;wsock32.lib;winmm.lib;libEasyPusher.lib;libEasyNVSource.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../Lib/;./libEasyNVSource/Lib/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ws2_32.lib;wsock32.lib;winmm.lib;libEasyPusher.lib;libEasyRTSPClient.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../Lib/;./libEasyRTSPClient/Lib/</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -75,7 +75,7 @@
       </FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./libEasyNVSource/Include/;../Include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./libEasyRTSPClient/Include/;../Include/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -87,13 +87,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>ws2_32.lib;wsock32.lib;winmm.lib;libEasyPusher.lib;libEasyNVSource.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../Lib/;./libEasyNVSource/Lib/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ws2_32.lib;wsock32.lib;winmm.lib;libEasyPusher.lib;libEasyRTSPClient.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../Lib/;./libEasyRTSPClient/Lib/</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\EasyPusherAPI.h" />
-    <ClInclude Include="libEasyNVSource\Include\EasyNVSourceAPI.h" />
+    <ClInclude Include="libEasyRTSPClient\Include\EasyRTSPClientAPI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
