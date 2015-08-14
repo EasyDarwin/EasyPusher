@@ -8,7 +8,7 @@ EasyPusher是一个推送流媒体音视频给开源流媒体服务器EasyDarwin
 
 - **EasyPusher_RTSP**：将RTSP/RTP数据获取到本地，再推送到EasyDarwin；
 
-- **EasyPusher_SDK**：将自己SDK回调的数据推送给EasyDarwin，示例中的SDK是我们EasyCamera开源摄像机的配套库，EasyCamera开源摄像机硬件可以在：[https://easydarwin.taobao.com/](https://easydarwin.taobao.com/ "EasyCamera")购买，EasyCamera SDK及配套源码可在 [http://www.easydarwin.org](http://www.easydarwin.org "EasyDarwin") 或者 [https://github.com/EasyDarwin/EasyCamera](https://github.com/EasyDarwin/EasyCamera "EasyCamera")获取到；；
+- **EasyPusher_SDK**：将自己SDK回调的数据推送给EasyDarwin，示例中的SDK是我们EasyCamera开源摄像机的配套库，EasyCamera开源摄像机硬件可以在：[https://easydarwin.taobao.com/](https://easydarwin.taobao.com/ "EasyCamera")购买，EasyCamera SDK及配套源码可在 [http://www.easydarwin.org](http://www.easydarwin.org "EasyDarwin") 或者 [https://github.com/EasyDarwin/EasyCamera](https://github.com/EasyDarwin/EasyCamera "EasyCamera")获取到；
 
 
 ### 调用过程
