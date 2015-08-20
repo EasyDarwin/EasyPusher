@@ -7,7 +7,11 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdio.h>
 #include "EasyPusherAPI.h"
+#ifdef _WIN32
 #include <winsock2.h>
+#else
+#include <unistd.h>
+#endif
 #include "hi_type.h"
 #include "hi_net_dev_sdk.h"
 #include "hi_net_dev_errors.h"
@@ -15,7 +19,7 @@
 
 #define UNAME	"admin"
 #define PWORD	"admin"
-#define DHOST	"192.168.66.189"	//EasyCameraÉãÏñ»úIPµØÖ·
+#define DHOST	"127.0.0.1"	//EasyCameraÉãÏñ»úIPµØÖ·
 #define DPORT	80					//EasyCameraÉãÏñ»ú¶Ë¿Ú
 
 #define SHOST	"115.29.139.20"		//EasyDarwinÁ÷Ã½Ìå·þÎñÆ÷µØÖ·
@@ -41,7 +45,8 @@ HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle, /* ¾ä±ú */
                                 )
 {
 
-	HI_S_AVFrame* pstruAV = HI_NULL;
+	printf("enter OnStreamCallback\n");
+    HI_S_AVFrame* pstruAV = HI_NULL;
 	HI_S_SysHeader* pstruSys = HI_NULL;
 	
 
@@ -73,6 +78,7 @@ HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle, /* ¾ä±ú */
 					avFrame.pBuffer = (unsigned char*)pbuf;
 					avFrame.u32VFrameType = (naltype==0x07)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
 					EasyPusher_PushFrame(pusherHandle, &avFrame);
+                    printf("OnStreamCallback: EasyPusher_PushFrame\n");
 				}
 			}	
 		}
@@ -89,7 +95,7 @@ HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle, /* ¾ä±ú */
 		pstruSys = (HI_S_SysHeader*)pu8Buffer;
 		printf("Video W:%u H:%u Audio: %u \n", pstruSys->struVHeader.u32Width, pstruSys->struVHeader.u32Height, pstruSys->struAHeader.u32Format);
 	} 
-
+    printf("leave OnStreamCallback\n");
 	return HI_SUCCESS;
 }
 
@@ -146,9 +152,11 @@ int main()
 		return -1;
 	}    
 	
+#ifdef _WIN32
 	WSADATA wsaData;
     WSAStartup(MAKEWORD(2,2), &wsaData); 
-
+#endif
+    
     EASY_MEDIA_INFO_T mediainfo;
 
     memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
@@ -163,7 +171,11 @@ int main()
 
 	while(1)
 	{
+#ifdef _WIN32
 		Sleep(10);	
+#else
+        usleep(10*1000);
+#endif
 	};
 
     EasyPusher_StopStream(pusherHandle);
