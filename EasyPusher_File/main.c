@@ -37,7 +37,7 @@ int main()
     memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
     mediainfo.u32VideoCodec =   0x1C;
 
-    fES = fopen("./EasyDarwin.264", "rb");
+    fES = fopen("./slamtv10.264", "rb");
     if (NULL == fES)        return 0;
 
     pusherId = EasyPusher_Create();

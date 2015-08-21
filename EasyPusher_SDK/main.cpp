@@ -19,7 +19,7 @@
 
 #define UNAME	"admin"
 #define PWORD	"admin"
-#define DHOST	"127.0.0.1"	//EasyCamera摄像机IP地址
+#define DHOST	"192.168.66.189"	//EasyCamera摄像机IP地址
 #define DPORT	80					//EasyCamera摄像机端口
 
 #define SHOST	"115.29.139.20"		//EasyDarwin流媒体服务器地址
@@ -94,8 +94,7 @@ HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle, /* 句柄 */
 	{
 		pstruSys = (HI_S_SysHeader*)pu8Buffer;
 		printf("Video W:%u H:%u Audio: %u \n", pstruSys->struVHeader.u32Width, pstruSys->struVHeader.u32Height, pstruSys->struAHeader.u32Format);
-	} 
-    printf("leave OnStreamCallback\n");
+	}
 	return HI_SUCCESS;
 }
 
@@ -115,7 +114,7 @@ int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_fra
     else if (_state == EASY_PUSH_STATE_CONNECTED)           printf("Connected\n");
     else if (_state == EASY_PUSH_STATE_CONNECT_FAILED)      printf("Connect failed\n");
     else if (_state == EASY_PUSH_STATE_CONNECT_ABORT)       printf("Connect abort\n");
-    //else if (_state == EASY_PUSH_STATE_PUSHING)             printf("P->");
+    else if (_state == EASY_PUSH_STATE_PUSHING)             printf("P->");
     else if (_state == EASY_PUSH_STATE_DISCONNECTED)        printf("Disconnect.\n");
 
     return 0;
