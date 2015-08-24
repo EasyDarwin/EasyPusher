@@ -37,15 +37,15 @@ int main()
     memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
     mediainfo.u32VideoCodec =   0x1C;
 
-    fES = fopen("./slamtv10.264", "rb");
+    fES = fopen("./EasyPusher.264", "rb");
     if (NULL == fES)        return 0;
 
     pusherId = EasyPusher_Create();
 
     EasyPusher_SetEventCallback(pusherId, __EasyPusher_Callback, 0, NULL);
 
-    EasyPusher_StartStream(pusherId, "127.0.0.1", 554, "live.sdp", "admin", "admin", &mediainfo, 512);
-	printf("*** live streaming url:rtsp://115.29.139.20:554/live.sdp ***\n");
+    EasyPusher_StartStream(pusherId, "115.29.139.20", 554, "720p.sdp", "admin", "admin", &mediainfo, 2048);
+	printf("*** live streaming url:rtsp://115.29.139.20/720p.sdp ***\n");
 
 	while (1)
 	{
