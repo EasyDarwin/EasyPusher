@@ -14,14 +14,22 @@ CND_ARTIFACT_PATH_Debug=Debug/easypusher_sdk
 CND_PACKAGE_DIR_Debug=dist/Debug/GM8126-Linux-x86/package
 CND_PACKAGE_NAME_Debug=easypushersdk.tar
 CND_PACKAGE_PATH_Debug=dist/Debug/GM8126-Linux-x86/package/easypushersdk.tar
-# Release configuration
-CND_PLATFORM_Release=GM8126-Linux-x86
-CND_ARTIFACT_DIR_Release=Release
-CND_ARTIFACT_NAME_Release=easypusher_sdk
-CND_ARTIFACT_PATH_Release=Release/easypusher_sdk
-CND_PACKAGE_DIR_Release=dist/Release/GM8126-Linux-x86/package
-CND_PACKAGE_NAME_Release=easypushersdk.tar
-CND_PACKAGE_PATH_Release=dist/Release/GM8126-Linux-x86/package/easypushersdk.tar
+# i386 configuration
+CND_PLATFORM_i386=GNU-Linux-x86
+CND_ARTIFACT_DIR_i386=../i386
+CND_ARTIFACT_NAME_i386=easypusher_sdk
+CND_ARTIFACT_PATH_i386=../i386/easypusher_sdk
+CND_PACKAGE_DIR_i386=dist/i386/GNU-Linux-x86/package
+CND_PACKAGE_NAME_i386=easypushersdk.tar
+CND_PACKAGE_PATH_i386=dist/i386/GNU-Linux-x86/package/easypushersdk.tar
+# arm configuration
+CND_PLATFORM_arm=GM8126-Linux-x86
+CND_ARTIFACT_DIR_arm=../arm
+CND_ARTIFACT_NAME_arm=easypusher_sdk
+CND_ARTIFACT_PATH_arm=../arm/easypusher_sdk
+CND_PACKAGE_DIR_arm=dist/arm/GM8126-Linux-x86/package
+CND_PACKAGE_NAME_arm=easypushersdk.tar
+CND_PACKAGE_PATH_arm=dist/arm/GM8126-Linux-x86/package/easypushersdk.tar
 #
 # include compiler specific variables
 #

@@ -8,8 +8,12 @@
 #include <stdio.h>
 #include "EasyPusherAPI.h"
 #include "EasyRTSPClientAPI.h"
+#ifndef _WIN32
+#include <unistd.h>
+#define CALLBACK
+#else
 #include <winsock2.h>
-
+#endif
 
 #define RTSPURL "rtsp://admin:admin@192.168.66.189/"
 
@@ -71,10 +75,10 @@ int main()
 
 	EasyRTSP_SetCallback(fRTSPHandle, __NVSourceCallBack);
 	EasyRTSP_OpenStream(fRTSPHandle, 0, RTSPURL, RTP_OVER_TCP, mediaType, 0, 0, NULL, 1000, 0);
-	
+#ifdef _WIN32
 	WSADATA wsaData;
     WSAStartup(MAKEWORD(2,2), &wsaData); 
-
+#endif
     EASY_MEDIA_INFO_T mediainfo;
 
     memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
@@ -89,7 +93,11 @@ int main()
 
 	while(1)
 	{
-		Sleep(10);	
+#ifndef _WIN32
+        usleep(10*1000);
+#else
+        Sleep(10);
+#endif
 	};
 
     EasyPusher_StopStream(pusherHandle);

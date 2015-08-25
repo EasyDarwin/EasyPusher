@@ -30,10 +30,10 @@ int main()
     FILE *fES = NULL;
 	int position = 0;
 	int iFrameNo = 0;
-
+#ifdef _WIN32
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2,2), &wsaData);
-
+#endif
     memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
     mediainfo.u32VideoCodec =   0x1C;
 
@@ -85,9 +85,11 @@ int main()
                 avFrame.pBuffer = (unsigned char*)pbuf;
 				avFrame.u32VFrameType = (naltype==0x07)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
                 EasyPusher_PushFrame(pusherId, &avFrame);
-
+#ifndef _WIN32
+                usleep(30*1000);
+#else
                 Sleep(30);
-
+#endif
 				memmove(pbuf, pbuf+position-5, 5);
 				position = 5;
 
@@ -104,10 +106,8 @@ int main()
     EasyPusher_StopStream(pusherId);
     EasyPusher_Release(pusherId);
 
-
-
-
-
+#ifdef _WIN32
     WSACleanup();
+#endif
     return 0;
 }

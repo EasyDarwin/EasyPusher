@@ -18,61 +18,49 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>main.cpp</itemPath>
-    <itemPath>trace.h</itemPath>
+    <itemPath>main.c</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
-        <compilerSet>GM8126|GNU</compilerSet>
+        <compilerSet>default</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
-        <ccTool>
+        <cTool>
           <incDir>
-            <pElem>SDK/Include</pElem>
             <pElem>../Include</pElem>
           </incDir>
-          <preprocessorList>
-            <Elem>HI_OS_LINUX</Elem>
-          </preprocessorList>
-        </ccTool>
+        </cTool>
         <linkerTool>
-          <output>${CND_CONF}/easypusher_sdk</output>
+          <output>${CND_CONF}/easypusher_file</output>
           <linkerAddLib>
-            <pElem>../Lib/arm</pElem>
-            <pElem>SDK/Lib/arm</pElem>
+            <pElem>../Lib</pElem>
           </linkerAddLib>
-          <commandLine>-lNetLib -lEasyPusher</commandLine>
+          <commandLine>-lEasyPusher</commandLine>
         </linkerTool>
       </compileType>
-      <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="trace.h" ex="false" tool="3" flavor2="0">
+      <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
     </conf>
     <conf name="i386" type="1">
       <toolsSet>
-        <compilerSet>GNU|GNU</compilerSet>
+        <compilerSet>default</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <cTool>
           <developmentMode>5</developmentMode>
-        </cTool>
-        <ccTool>
-          <developmentMode>5</developmentMode>
           <incDir>
-            <pElem>SDK/Include</pElem>
             <pElem>../Include</pElem>
           </incDir>
           <commandLine>-m32</commandLine>
-          <preprocessorList>
-            <Elem>HI_OS_LINUX</Elem>
-          </preprocessorList>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -81,17 +69,47 @@
           <developmentMode>5</developmentMode>
         </asmTool>
         <linkerTool>
-          <output>../${CND_CONF}/easypusher_sdk</output>
+          <output>../${CND_CONF}/easypusher_file</output>
           <linkerAddLib>
             <pElem>../Lib</pElem>
-            <pElem>SDK/Lib</pElem>
           </linkerAddLib>
-          <commandLine>-lNetLib -lEasyPusher</commandLine>
+          <commandLine>-lEasyPusher -lpthread</commandLine>
         </linkerTool>
       </compileType>
-      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="trace.h" ex="false" tool="3" flavor2="0">
+    </conf>
+    <conf name="x64" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>../Include</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+        <linkerTool>
+          <output>../${CND_CONF}/easypusher_file</output>
+          <linkerAddLib>
+            <pElem>../Lib/x64</pElem>
+          </linkerAddLib>
+          <commandLine>-lEasyPusher -lpthread</commandLine>
+        </linkerTool>
+      </compileType>
+      <item path="main.c" ex="false" tool="0" flavor2="9">
       </item>
     </conf>
     <conf name="arm" type="1">
@@ -103,16 +121,12 @@
       <compileType>
         <cTool>
           <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>../Include</pElem>
+          </incDir>
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
-          <incDir>
-            <pElem>SDK/Include</pElem>
-            <pElem>../Include</pElem>
-          </incDir>
-          <preprocessorList>
-            <Elem>HI_OS_LINUX</Elem>
-          </preprocessorList>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -121,17 +135,14 @@
           <developmentMode>5</developmentMode>
         </asmTool>
         <linkerTool>
-          <output>../${CND_CONF}/easypusher_sdk</output>
+          <output>../${CND_CONF}/easypusher_file</output>
           <linkerAddLib>
             <pElem>../Lib/arm</pElem>
-            <pElem>SDK/Lib/arm</pElem>
           </linkerAddLib>
-          <commandLine>-lNetLib -lEasyPusher</commandLine>
+          <commandLine>-lEasyPusher -lpthread</commandLine>
         </linkerTool>
       </compileType>
-      <item path="main.cpp" ex="false" tool="1" flavor2="9">
-      </item>
-      <item path="trace.h" ex="false" tool="3" flavor2="0">
+      <item path="main.c" ex="false" tool="0" flavor2="9">
       </item>
     </conf>
   </confs>

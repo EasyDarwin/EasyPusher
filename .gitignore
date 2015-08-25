@@ -34,3 +34,6 @@ _ReSharper*/
 [Pp]rivate*/
 ipch/
 *.opensdf
+/EasyPusher_File/build/
+/EasyPusher_SDK/build/
+/EasyPusher_RTSP/build/

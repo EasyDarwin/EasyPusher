@@ -6,16 +6,16 @@
 
 # Macros
 TOP=`pwd`
-CND_PLATFORM=GM8126-Linux-x86
-CND_CONF=Release
+CND_PLATFORM=GNU-Linux-x86
+CND_CONF=x64
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 CND_DLIB_EXT=so
 NBTMPDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=${CND_CONF}/easypusher_sdk
-OUTPUT_BASENAME=easypusher_sdk
-PACKAGE_TOP_DIR=easypushersdk/
+OUTPUT_PATH=../${CND_CONF}/easypusher_file
+OUTPUT_BASENAME=easypusher_file
+PACKAGE_TOP_DIR=easypusherfile/
 
 # Functions
 function checkReturnCode
@@ -60,15 +60,15 @@ mkdir -p ${NBTMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory "${NBTMPDIR}/easypushersdk/bin"
+makeDirectory "${NBTMPDIR}/easypusherfile/bin"
 copyFileToTmpDir "${OUTPUT_PATH}" "${NBTMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
 
 
 # Generate tar file
 cd "${TOP}"
-rm -f ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/easypushersdk.tar
+rm -f ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/easypusherfile.tar
 cd ${NBTMPDIR}
-tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/easypushersdk.tar *
+tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/easypusherfile.tar *
 checkReturnCode
 
 # Cleanup
