@@ -23,7 +23,7 @@ AS=arm-none-linux-gnueabi-as
 # Macros
 CND_PLATFORM=GM8126-Linux-x86
 CND_DLIB_EXT=so
-CND_CONF=Debug
+CND_CONF=arm
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 
@@ -52,20 +52,20 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../Lib/arm -LSDK/Lib/arm
+LDLIBSOPTIONS=-L../Lib/arm
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_CONF}/easypusher_sdk
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ../${CND_CONF}/easypusher_file
 
-${CND_CONF}/easypusher_sdk: ${OBJECTFILES}
-	${MKDIR} -p ${CND_CONF}
-	${LINK.cc} -o ${CND_CONF}/easypusher_sdk ${OBJECTFILES} ${LDLIBSOPTIONS} -lNetLib -lEasyPusher
+../${CND_CONF}/easypusher_file: ${OBJECTFILES}
+	${MKDIR} -p ../${CND_CONF}
+	${LINK.c} -o ../${CND_CONF}/easypusher_file ${OBJECTFILES} ${LDLIBSOPTIONS} -lEasyPusher -lpthread
 
-${OBJECTDIR}/main.o: main.cpp 
+${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -DHI_OS_LINUX -ISDK/Include -I../Include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.c) -O2 -I../Include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
 
 # Subprojects
 .build-subprojects:
@@ -73,7 +73,7 @@ ${OBJECTDIR}/main.o: main.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_CONF}/easypusher_sdk
+	${RM} ../${CND_CONF}/easypusher_file
 
 # Subprojects
 .clean-subprojects:

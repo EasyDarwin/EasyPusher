@@ -24,14 +24,14 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=EasyPusher_SDK
+PROJECTNAME=EasyPusher_RTSP
 
 # Active Configuration
 DEFAULTCONF=Debug
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=Debug i386 arm 
+ALLCONFS=Debug i386 x64 arm 
 
 
 # build

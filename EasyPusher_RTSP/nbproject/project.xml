@@ -3,10 +3,10 @@
     <type>org.netbeans.modules.cnd.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>EasyPusher_SDK</name>
+            <name>EasyPusher_RTSP</name>
             <c-extensions/>
             <cpp-extensions>cpp</cpp-extensions>
-            <header-extensions>h</header-extensions>
+            <header-extensions/>
             <sourceEncoding>GB2312</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList/>
@@ -17,6 +17,10 @@
                 </confElem>
                 <confElem>
                     <name>i386</name>
+                    <type>1</type>
+                </confElem>
+                <confElem>
+                    <name>x64</name>
                     <type>1</type>
                 </confElem>
                 <confElem>
