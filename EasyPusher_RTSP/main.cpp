@@ -10,7 +10,6 @@
 #include "EasyRTSPClientAPI.h"
 #ifndef _WIN32
 #include <unistd.h>
-#define CALLBACK
 #else
 #include <winsock2.h>
 #endif
