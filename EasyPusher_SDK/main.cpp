@@ -7,11 +7,7 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdio.h>
 #include "EasyPusherAPI.h"
-#ifdef _WIN32
-#include <winsock2.h>
-#else
-#include <unistd.h>
-#endif
+
 #include "hi_type.h"
 #include "hi_net_dev_sdk.h"
 #include "hi_net_dev_errors.h"
@@ -22,11 +18,12 @@
 #define DHOST	"192.168.66.189"	//EasyCamera摄像机IP地址
 #define DPORT	80					//EasyCamera摄像机端口
 
-#define SHOST	"115.29.139.20"		//EasyDarwin流媒体服务器地址
+#define SHOST	"127.0.0.1"		//EasyDarwin流媒体服务器地址
 #define SPORT	554					//EasyDarwin流媒体服务器端口
+#define SNAME	"live.sdp"
 
 HI_U32 u32Handle = 0;
-Easy_Pusher_Handle pusherHandle = 0;
+Easy_Pusher_Handle fPusherHandle = 0;
 
 HI_S32 OnEventCallback(HI_U32 u32Handle, /* 句柄 */
                                 HI_U32 u32Event,      /* 事件 */
@@ -44,49 +41,46 @@ HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle, /* 句柄 */
                                 HI_VOID* pUserData    /* 用户数据*/
                                 )
 {
-
-	printf("enter OnStreamCallback\n");
     HI_S_AVFrame* pstruAV = HI_NULL;
 	HI_S_SysHeader* pstruSys = HI_NULL;
 	
-
 	if (u32DataType == HI_NET_DEV_AV_DATA)
 	{
 		pstruAV = (HI_S_AVFrame*)pu8Buffer;
 
 		if (pstruAV->u32AVFrameFlag == HI_NET_DEV_VIDEO_FRAME_FLAG)
 		{
-			if(pusherHandle == 0 )
-				return 0;
+			if(fPusherHandle == 0 ) return 0;
 
-			if(pstruAV->u32AVFrameLen > 5)
+			if(pstruAV->u32AVFrameLen > 0)
 			{
 				unsigned char* pbuf = (unsigned char*)(pu8Buffer+sizeof(HI_S_AVFrame));
-				unsigned char naltype = ( (unsigned char)pbuf[4] & 0x1F);
 
-				if ( (unsigned char)pbuf[0]== 0x00 && 
-						(unsigned char)pbuf[1]== 0x00 && 
-						(unsigned char)pbuf[2] == 0x00 &&
-						(unsigned char)pbuf[3] == 0x01 &&
-						(naltype==0x07 || naltype==0x01) )
-				{
-					EASY_AV_Frame  avFrame;
-
-					naltype = (unsigned char)pbuf[4] & 0x1F;
-					memset(&avFrame, 0x00, sizeof(EASY_AV_Frame));
-					avFrame.u32AVFrameLen = pstruAV->u32AVFrameLen;
-					avFrame.pBuffer = (unsigned char*)pbuf;
-					avFrame.u32VFrameType = (naltype==0x07)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
-					EasyPusher_PushFrame(pusherHandle, &avFrame);
-                    printf("OnStreamCallback: EasyPusher_PushFrame\n");
-				}
+				EASY_AV_Frame  avFrame;
+				memset(&avFrame, 0x00, sizeof(EASY_AV_Frame));
+				avFrame.u32AVFrameLen = pstruAV->u32AVFrameLen;
+				avFrame.pBuffer = (unsigned char*)pbuf;
+				avFrame.u32VFrameType = (pstruAV->u32VFrameType==HI_NET_DEV_VIDEO_FRAME_I)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
+				avFrame.u32AVFrameFlag = EASY_SDK_VIDEO_FRAME_FLAG;
+				EasyPusher_PushFrame(fPusherHandle, &avFrame);
 			}	
 		}
 		else
 		if (pstruAV->u32AVFrameFlag == HI_NET_DEV_AUDIO_FRAME_FLAG)
 		{
-			//printf("Audio %u PTS: %u \n", pstruAV->u32AVFrameLen, pstruAV->u32AVFramePTS);
-			//SaveRecordFile("Video.hx", pu8Buffer, u32Length);			
+			if(fPusherHandle == 0 ) return 0;
+
+			if(pstruAV->u32AVFrameLen > 0)
+			{
+				unsigned char* pbuf = (unsigned char*)(pu8Buffer+sizeof(HI_S_AVFrame));
+
+				EASY_AV_Frame  avFrame;
+				memset(&avFrame, 0x00, sizeof(EASY_AV_Frame));
+				avFrame.u32AVFrameLen = pstruAV->u32AVFrameLen-4;//去掉厂家自定义的4字节头
+				avFrame.pBuffer = (unsigned char*)pbuf+4;
+				avFrame.u32AVFrameFlag = EASY_SDK_AUDIO_FRAME_FLAG;
+				EasyPusher_PushFrame(fPusherHandle, &avFrame);
+			}			
 		}
 	}
 	else
@@ -108,13 +102,14 @@ HI_S32 OnDataCallback(HI_U32 u32Handle, /* 句柄 */
 	return HI_SUCCESS;
 }
 
+/* EasyPusher数据回调 */
 int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_frame, void *_userptr)
 {
     if (_state == EASY_PUSH_STATE_CONNECTING)               printf("Connecting...\n");
     else if (_state == EASY_PUSH_STATE_CONNECTED)           printf("Connected\n");
     else if (_state == EASY_PUSH_STATE_CONNECT_FAILED)      printf("Connect failed\n");
     else if (_state == EASY_PUSH_STATE_CONNECT_ABORT)       printf("Connect abort\n");
-    else if (_state == EASY_PUSH_STATE_PUSHING)             printf("P->");
+    else if (_state == EASY_PUSH_STATE_PUSHING)             printf("\r Pushing to rtsp://%s:%d/%s ...", SHOST, SPORT, SNAME);
     else if (_state == EASY_PUSH_STATE_DISCONNECTED)        printf("Disconnect.\n");
 
     return 0;
@@ -124,7 +119,6 @@ int main()
 {
     HI_S32 s32Ret = HI_SUCCESS;
     HI_S_STREAM_INFO struStreamInfo;
-    HI_U32 a;
     
     HI_NET_DEV_Init();
     
@@ -136,11 +130,11 @@ int main()
     }
     
 	//HI_NET_DEV_SetEventCallBack(u32Handle, OnEventCallback, &a);
-	HI_NET_DEV_SetStreamCallBack(u32Handle, (HI_ON_STREAM_CALLBACK)OnStreamCallback, &a);
+	HI_NET_DEV_SetStreamCallBack(u32Handle, (HI_ON_STREAM_CALLBACK)OnStreamCallback, NULL);
 	//HI_NET_DEV_SetDataCallBack(u32Handle, OnDataCallback, &a);
 
 	struStreamInfo.u32Channel = HI_NET_DEV_CHANNEL_1;
-	struStreamInfo.blFlag = HI_FALSE;//HI_FALSE;
+	struStreamInfo.blFlag = HI_TRUE;;
 	struStreamInfo.u32Mode = HI_NET_DEV_STREAM_MODE_TCP;
 	struStreamInfo.u8Type = HI_NET_DEV_STREAM_ALL;
 	s32Ret = HI_NET_DEV_StartStream(u32Handle, &struStreamInfo);
@@ -150,23 +144,16 @@ int main()
 		u32Handle = 0;
 		return -1;
 	}    
-	
-#ifdef _WIN32
-	WSADATA wsaData;
-    WSAStartup(MAKEWORD(2,2), &wsaData); 
-#endif
     
     EASY_MEDIA_INFO_T mediainfo;
-
     memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
-    mediainfo.u32VideoCodec =   0x1C;
+    mediainfo.u32VideoCodec = EASY_SDK_VIDEO_CODEC_H264;
+	mediainfo.u32AudioCodec = EASY_SDK_AUDIO_CODEC_G711A;//默认摄像机输出PCMA
+	mediainfo.u32AudioSamplerate = 8000;
 
-    pusherHandle = EasyPusher_Create();
-
-    EasyPusher_SetEventCallback(pusherHandle, __EasyPusher_Callback, 0, NULL);
-
-    EasyPusher_StartStream(pusherHandle, SHOST, SPORT, "live.sdp", "admin", "admin", &mediainfo, 512);
-	printf("*** live streaming url:rtsp://%s:%d/live.sdp ***\n", SHOST, SPORT);
+    fPusherHandle = EasyPusher_Create();
+    EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
+    EasyPusher_StartStream(fPusherHandle, SHOST, SPORT, SNAME, "admin", "admin", &mediainfo, 1024);
 
 	while(1)
 	{
@@ -177,9 +164,9 @@ int main()
 #endif
 	};
 
-    EasyPusher_StopStream(pusherHandle);
-    EasyPusher_Release(pusherHandle);
-    pusherHandle = 0;
+    EasyPusher_StopStream(fPusherHandle);
+    EasyPusher_Release(fPusherHandle);
+    fPusherHandle = 0;
    
     HI_NET_DEV_StopStream(u32Handle);
     HI_NET_DEV_Logout(u32Handle);

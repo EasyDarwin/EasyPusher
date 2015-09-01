@@ -6,6 +6,7 @@
 */
 #include "EasyPusherAPI.h"
 #include "trace.h"
+#include "stdio.h"
 
 int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_frame, void *_userptr)
 {
@@ -30,12 +31,9 @@ int main()
     FILE *fES = NULL;
 	int position = 0;
 	int iFrameNo = 0;
-#ifdef _WIN32
-    WSADATA wsaData;
-    WSAStartup(MAKEWORD(2,2), &wsaData);
-#endif
+
     memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
-    mediainfo.u32VideoCodec =   0x1C;
+    mediainfo.u32VideoCodec =   EASY_SDK_VIDEO_CODEC_H264;
 
     fES = fopen("./EasyPusher.264", "rb");
     if (NULL == fES)        return 0;
