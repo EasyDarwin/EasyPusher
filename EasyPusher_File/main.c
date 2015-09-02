@@ -8,6 +8,10 @@
 #include "trace.h"
 #include "stdio.h"
 
+#define SHOST	"127.0.0.1"			//EasyDarwin流媒体服务器地址
+#define SPORT	554					//EasyDarwin流媒体服务器端口
+#define SNAME	"live.sdp"
+
 int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_frame, void *_userptr)
 {
     if (_state == EASY_PUSH_STATE_CONNECTING)               printf("Connecting...\n");
@@ -23,7 +27,7 @@ int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_fra
 int main()
 {
     char szIP[16] = {0};
-    Easy_Pusher_Handle pusherId = 0;
+    Easy_Pusher_Handle fPusherHandle = 0;
     EASY_MEDIA_INFO_T   mediainfo;
 
     int buf_size = 1024*512;
@@ -38,12 +42,12 @@ int main()
     fES = fopen("./EasyPusher.264", "rb");
     if (NULL == fES)        return 0;
 
-    pusherId = EasyPusher_Create();
+    fPusherHandle = EasyPusher_Create();
 
-    EasyPusher_SetEventCallback(pusherId, __EasyPusher_Callback, 0, NULL);
+    EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
 
-    EasyPusher_StartStream(pusherId, "115.29.139.20", 554, "720p.sdp", "admin", "admin", &mediainfo, 2048);
-	printf("*** live streaming url:rtsp://115.29.139.20/720p.sdp ***\n");
+    EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
+    EasyPusher_StartStream(fPusherHandle, SHOST, SPORT, SNAME, "admin", "admin", &mediainfo, 1024);
 
 	while (1)
 	{
@@ -82,7 +86,8 @@ int main()
                 avFrame.u32AVFrameLen   =   framesize;
                 avFrame.pBuffer = (unsigned char*)pbuf;
 				avFrame.u32VFrameType = (naltype==0x07)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
-                EasyPusher_PushFrame(pusherId, &avFrame);
+				avFrame.u32AVFrameFlag = EASY_SDK_VIDEO_FRAME_FLAG;
+                EasyPusher_PushFrame(fPusherHandle, &avFrame);
 #ifndef _WIN32
                 usleep(30*1000);
 #else
@@ -101,8 +106,8 @@ int main()
 
     _TRACE("Press Enter exit...\n");
     getchar();
-    EasyPusher_StopStream(pusherId);
-    EasyPusher_Release(pusherId);
+    EasyPusher_StopStream(fPusherHandle);
+    EasyPusher_Release(fPusherHandle);
 
 #ifdef _WIN32
     WSACleanup();
