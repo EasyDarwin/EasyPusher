@@ -55,11 +55,12 @@ enum
 };
 typedef int Easy_Error;
 
-/* 音视频编码 */
+/* 视频编码 */
 #define EASY_SDK_VIDEO_CODEC_H264	0x01000001		/* H264  */
 #define	EASY_SDK_VIDEO_CODEC_MJPEG	0x01000002		/* MJPEG */
 #define	EASY_SDK_VIDEO_CODEC_MPEG4	0x01000004		/* MPEG4 */
 
+/* 音频编码 */
 #define EASY_SDK_AUDIO_CODEC_AAC	0x01000011		/* AAC */
 #define EASY_SDK_AUDIO_CODEC_G711A	0x01000012		/* G711 alaw*/
 #define EASY_SDK_AUDIO_CODEC_G711U	0x01000014		/* G711 ulaw*/
@@ -81,8 +82,8 @@ typedef int Easy_Error;
 /* 连接类型 */
 typedef enum __RTP_CONNECT_TYPE
 {
-	RTP_OVER_TCP	=	0x01,
-	RTP_OVER_UDP
+	RTP_OVER_TCP	=	0x01,		/* RTP Over TCP */
+	RTP_OVER_UDP					/* RTP Over UDP */
 }RTP_CONNECT_TYPE;
 
 /* 媒体信息 */
@@ -99,22 +100,25 @@ typedef struct __EASY_MEDIA_INFO_T
 /* 帧信息 */
 typedef struct 
 {
-	unsigned int	codec;			//编码格式
-	unsigned int	type;			//帧类型
-	unsigned char	fps;			//帧率
-	unsigned int	reserved1;
-	unsigned int	reserved2;
+	unsigned int	codec;			/* 音视频格式 */
 
-	unsigned short	width;			//宽
-	unsigned short  height;			//高
-	unsigned int	sample_rate;	//采样率
-	unsigned int	channels;		//声道
-	unsigned int	length;			//帧大小
-	unsigned int    timestamp_usec;	//微妙
-	unsigned int	timestamp_sec;	//秒
+	unsigned int	type;			/* 视频帧类型 */
+	unsigned char	fps;			/* 视频帧率 */
+	unsigned short	width;			/* 视频宽 */
+	unsigned short  height;			/* 视频高 */
+
+	unsigned int	reserved1;		/* 保留参数1 */
+	unsigned int	reserved2;		/* 保留参数2 */
+
+	unsigned int	sample_rate;	/* 音频采样率 */
+	unsigned int	channels;		/* 音频声道数 */
+
+	unsigned int	length;			/* 音视频帧大小 */
+	unsigned int    timestamp_usec;	/* 时间戳,微妙 */
+	unsigned int	timestamp_sec;	/* 时间戳 秒 */
 	
-	float			bitrate;
-	float			losspacket;
+	float			bitrate;		/* 比特率 */
+	float			losspacket;		/* 丢包率 */
 }RTSP_FRAME_INFO;
 
 #endif

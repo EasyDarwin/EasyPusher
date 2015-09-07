@@ -18,7 +18,7 @@
 #define DHOST	"192.168.66.189"	//EasyCamera摄像机IP地址
 #define DPORT	80					//EasyCamera摄像机端口
 
-#define SHOST	"127.0.0.1"		//EasyDarwin流媒体服务器地址
+#define SHOST	"127.0.0.1"			//EasyDarwin流媒体服务器地址
 #define SPORT	554					//EasyDarwin流媒体服务器端口
 #define SNAME	"live.sdp"
 

@@ -16,7 +16,7 @@
 
 #define RTSPURL "rtsp://admin:admin@192.168.66.189/"
 
-#define SHOST	"127.0.0.1"		//EasyDarwin流媒体服务器地址115.29.139.20
+#define SHOST	"127.0.0.1"		//EasyDarwin流媒体服务器地址
 #define SPORT	554				//EasyDarwin流媒体服务器端口
 #define SNAME	"live.sdp"
 
