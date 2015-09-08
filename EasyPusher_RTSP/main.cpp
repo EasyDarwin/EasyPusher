@@ -6,19 +6,21 @@
 */
 #define _CRTDBG_MAP_ALLOC
 #include <stdio.h>
+#include <string.h>
 #include "EasyPusherAPI.h"
 #include "EasyRTSPClientAPI.h"
 #ifndef _WIN32
 #include <unistd.h>
+#define CALLBACK
 #else
 #include <winsock2.h>
 #endif
 
-#define RTSPURL "rtsp://admin:admin@192.168.66.189/"
+#define RTSPURL "rtsp://admin:12345@192.168.70.210"
 
-#define SHOST	"127.0.0.1"		//EasyDarwin流媒体服务器地址
+#define SHOST	"115.29.139.20"		//EasyDarwin流媒体服务器地址
 #define SPORT	554				//EasyDarwin流媒体服务器端口
-#define SNAME	"live.sdp"
+#define SNAME	"jdlive.sdp"
 
 Easy_Pusher_Handle fPusherHandle = 0;
 Easy_RTSP_Handle fRTSPHandle = 0;
