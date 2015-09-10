@@ -8,9 +8,9 @@
 #include "trace.h"
 #include "stdio.h"
 
-#define SHOST	"115.29.139.20"			//EasyDarwin流媒体服务器地址
+#define SHOST	"127.0.0.1"			//EasyDarwin流媒体服务器地址
 #define SPORT	554					//EasyDarwin流媒体服务器端口
-#define SNAME	"test.sdp"
+#define SNAME	"easypusher_file.sdp"
 
 int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_frame, void *_userptr)
 {

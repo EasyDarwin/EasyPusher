@@ -18,7 +18,7 @@
 
 #define SHOST	"127.0.0.1"		//EasyDarwin流媒体服务器地址
 #define SPORT	554				//EasyDarwin流媒体服务器端口
-#define SNAME	"live.sdp"
+#define SNAME	"easypusher_rtsp.sdp"
 
 Easy_Pusher_Handle fPusherHandle = 0;
 Easy_RTSP_Handle fRTSPHandle = 0;
