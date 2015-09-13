@@ -4,14 +4,13 @@
 	WEChat: EasyDarwin
 	Website: http://www.EasyDarwin.org
 */
-#define _CRTDBG_MAP_ALLOC
 #include <stdio.h>
+#include <string.h>
 #include "EasyPusherAPI.h"
 
 #include "hi_type.h"
 #include "hi_net_dev_sdk.h"
 #include "hi_net_dev_errors.h"
-#include "trace.h"
 
 #define UNAME	"admin"
 #define PWORD	"admin"
@@ -25,8 +24,8 @@
 HI_U32 u32Handle = 0;
 Easy_Pusher_Handle fPusherHandle = 0;
 
-HI_S32 OnEventCallback(HI_U32 u32Handle, /* 句柄 */
-                                HI_U32 u32Event,      /* 事件 */
+HI_S32 OnEventCallback(HI_U32 u32Handle,			/* 句柄 */
+                                HI_U32 u32Event,	/* 事件 */
                                 HI_VOID* pUserData  /* 用户数据*/
                                 )
 {
@@ -34,11 +33,11 @@ HI_S32 OnEventCallback(HI_U32 u32Handle, /* 句柄 */
 }
 
 
-HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle, /* 句柄 */
-                                HI_U32 u32DataType,     /* 数据类型，视频或音频数据或音视频复合数据 */
-                                HI_U8*  pu8Buffer,      /* 数据包含帧头 */
-                                HI_U32 u32Length,      /* 数据长度 */
-                                HI_VOID* pUserData    /* 用户数据*/
+HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle,/* 句柄 */
+                                HI_U32 u32DataType,		/* 数据类型，视频或音频数据或音视频复合数据 */
+                                HI_U8*  pu8Buffer,		/* 数据包含帧头 */
+                                HI_U32 u32Length,		/* 数据长度 */
+                                HI_VOID* pUserData		/* 用户数据*/
                                 )
 {
     HI_S_AVFrame* pstruAV = HI_NULL;
@@ -96,11 +95,11 @@ HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle, /* 句柄 */
 	return HI_SUCCESS;
 }
 
-HI_S32 OnDataCallback(HI_U32 u32Handle, /* 句柄 */
-                                HI_U32 u32DataType,       /* 数据类型*/
+HI_S32 OnDataCallback(HI_U32 u32Handle,					/* 句柄 */
+                                HI_U32 u32DataType,		/* 数据类型*/
                                 HI_U8*  pu8Buffer,      /* 数据 */
-                                HI_U32 u32Length,      /* 数据长度 */
-                                HI_VOID* pUserData    /* 用户数据*/
+                                HI_U32 u32Length,		/* 数据长度 */
+                                HI_VOID* pUserData		/* 用户数据*/
                                 )
 {
 	return HI_SUCCESS;
@@ -159,14 +158,8 @@ int main()
     EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
     EasyPusher_StartStream(fPusherHandle, SHOST, SPORT, SNAME, "admin", "admin", &mediainfo, 1024);
 
-	while(1)
-	{
-#ifdef _WIN32
-		Sleep(10);	
-#else
-        usleep(10*1000);
-#endif
-	};
+    printf("Press Enter exit...\n");
+    getchar();
 
     EasyPusher_StopStream(fPusherHandle);
     EasyPusher_Release(fPusherHandle);

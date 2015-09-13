@@ -4,15 +4,10 @@
 	WEChat: EasyDarwin
 	Website: http://www.EasyDarwin.org
 */
-#define _CRTDBG_MAP_ALLOC
 #include <stdio.h>
+#include <string.h>
 #include "EasyPusherAPI.h"
 #include "EasyRTSPClientAPI.h"
-#ifndef _WIN32
-#include <unistd.h>
-#else
-#include <winsock2.h>
-#endif
 
 #define RTSPURL "rtsp://admin:admin@192.168.66.189/"
 
@@ -37,7 +32,7 @@ int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_fra
 }
 
 /* EasyRTSPClient数据回调 */
-int CALLBACK __RTSPSourceCallBack( int _chid, int *_chPtr, int _mediatype, char *pbuf, RTSP_FRAME_INFO *frameinfo)
+int Easy_APICALL __RTSPSourceCallBack( int _chid, int *_chPtr, int _mediatype, char *pbuf, RTSP_FRAME_INFO *frameinfo)
 {
 	if (_mediatype == EASY_SDK_VIDEO_FRAME_FLAG)
 	{
@@ -105,14 +100,8 @@ int main()
 	EasyRTSP_SetCallback(fRTSPHandle, __RTSPSourceCallBack);
 	EasyRTSP_OpenStream(fRTSPHandle, 0, RTSPURL, RTP_OVER_TCP, mediaType, 0, 0, NULL, 1000, 0);
 
-	while(1)
-	{
-#ifndef _WIN32
-        usleep(10*1000);
-#else
-        Sleep(10);
-#endif
-	};
+    printf("Press Enter exit...\n");
+    getchar();
 
 	if(fPusherHandle)
 	{

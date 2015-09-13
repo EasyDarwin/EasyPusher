@@ -69,13 +69,11 @@ int main()
 		{
 			unsigned char naltype = ( (unsigned char)pbuf[position-1] & 0x1F);
 
-			if ( (unsigned char)pbuf[position-5]== 0x00 && 
+			if (	(unsigned char)pbuf[position-5]== 0x00 && 
 					(unsigned char)pbuf[position-4]== 0x00 && 
 					(unsigned char)pbuf[position-3] == 0x00 &&
 					(unsigned char)pbuf[position-2] == 0x01 &&
-					//(((unsigned char)pbuf[position-1] == 0x61) ||
-					//((unsigned char)pbuf[position-1] == 0x67) ) )
-					(naltype==0x07||naltype==0x01) )
+					(naltype == 0x07 || naltype == 0x01 ) )
 			{
 				int framesize = position - 5;
                 EASY_AV_Frame   avFrame;
@@ -106,11 +104,9 @@ int main()
 
     _TRACE("Press Enter exit...\n");
     getchar();
+
     EasyPusher_StopStream(fPusherHandle);
     EasyPusher_Release(fPusherHandle);
-
-#ifdef _WIN32
-    WSACleanup();
-#endif
+	free(pbuf);
     return 0;
 }
