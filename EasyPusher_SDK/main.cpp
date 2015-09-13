@@ -62,6 +62,8 @@ HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle, /* 句柄 */
 				avFrame.pBuffer = (unsigned char*)pbuf;
 				avFrame.u32VFrameType = (pstruAV->u32VFrameType==HI_NET_DEV_VIDEO_FRAME_I)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
 				avFrame.u32AVFrameFlag = EASY_SDK_VIDEO_FRAME_FLAG;
+				avFrame.u32TimestampSec = pstruAV->u32AVFramePTS/1000;
+				avFrame.u32TimestampUsec = (pstruAV->u32AVFramePTS%1000)*1000;
 				EasyPusher_PushFrame(fPusherHandle, &avFrame);
 			}	
 		}
@@ -79,6 +81,8 @@ HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle, /* 句柄 */
 				avFrame.u32AVFrameLen = pstruAV->u32AVFrameLen-4;//去掉厂家自定义的4字节头
 				avFrame.pBuffer = (unsigned char*)pbuf+4;
 				avFrame.u32AVFrameFlag = EASY_SDK_AUDIO_FRAME_FLAG;
+				avFrame.u32TimestampSec = pstruAV->u32AVFramePTS/1000;
+				avFrame.u32TimestampUsec = (pstruAV->u32AVFramePTS%1000)*1000;
 				EasyPusher_PushFrame(fPusherHandle, &avFrame);
 			}			
 		}

@@ -51,6 +51,8 @@ int CALLBACK __RTSPSourceCallBack( int _chid, int *_chPtr, int _mediatype, char 
 			avFrame.pBuffer = (unsigned char*)pbuf;
 			avFrame.u32VFrameType = frameinfo->type;
 			avFrame.u32AVFrameFlag = EASY_SDK_VIDEO_FRAME_FLAG;
+			avFrame.u32TimestampSec = frameinfo->timestamp_sec;
+			avFrame.u32TimestampUsec = frameinfo->timestamp_usec;
 			EasyPusher_PushFrame(fPusherHandle, &avFrame);
 		}	
 	}
@@ -67,6 +69,8 @@ int CALLBACK __RTSPSourceCallBack( int _chid, int *_chPtr, int _mediatype, char 
 			avFrame.pBuffer = (unsigned char*)pbuf;
 			avFrame.u32VFrameType = frameinfo->type;
 			avFrame.u32AVFrameFlag = EASY_SDK_AUDIO_FRAME_FLAG;
+			avFrame.u32TimestampSec = frameinfo->timestamp_sec;
+			avFrame.u32TimestampUsec = frameinfo->timestamp_usec;
 			EasyPusher_PushFrame(fPusherHandle, &avFrame);
 		}	
 	}
