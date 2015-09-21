@@ -35,9 +35,11 @@ int main()
     FILE *fES = NULL;
 	int position = 0;
 	int iFrameNo = 0;
+	int timestamp = 0;
 
     memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
     mediainfo.u32VideoCodec =   EASY_SDK_VIDEO_CODEC_H264;
+	mediainfo.u32VideoFps = 25;
 
     fES = fopen("./EasyPusher.264", "rb");
     if (NULL == fES)        return 0;
@@ -48,6 +50,8 @@ int main()
 
     EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
     EasyPusher_StartStream(fPusherHandle, SHOST, SPORT, SNAME, "admin", "admin", &mediainfo, 1024);
+
+
 
 	while (1)
 	{
@@ -85,7 +89,11 @@ int main()
                 avFrame.pBuffer = (unsigned char*)pbuf;
 				avFrame.u32VFrameType = (naltype==0x07)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
 				avFrame.u32AVFrameFlag = EASY_SDK_VIDEO_FRAME_FLAG;
+				avFrame.u32TimestampSec = timestamp/1000;
+				avFrame.u32TimestampUsec = (timestamp%1000)*1000;
                 EasyPusher_PushFrame(fPusherHandle, &avFrame);
+				timestamp += 1000/25;
+
 #ifndef _WIN32
                 usleep(30*1000);
 #else
