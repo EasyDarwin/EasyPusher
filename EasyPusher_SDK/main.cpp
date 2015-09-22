@@ -17,7 +17,7 @@
 #define DHOST	"192.168.66.189"	//EasyCamera摄像机IP地址
 #define DPORT	80					//EasyCamera摄像机端口
 
-#define SHOST	"127.0.0.1"			//EasyDarwin流媒体服务器地址
+#define SHOST	"115.29.139.20"			//EasyDarwin流媒体服务器地址
 #define SPORT	554					//EasyDarwin流媒体服务器端口
 #define SNAME	"easypusher_sdk.sdp"
 
@@ -151,8 +151,10 @@ int main()
     EASY_MEDIA_INFO_T mediainfo;
     memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
     mediainfo.u32VideoCodec = EASY_SDK_VIDEO_CODEC_H264;
+	mediainfo.u32VideoFps = 25;
 	mediainfo.u32AudioCodec = EASY_SDK_AUDIO_CODEC_G711A;//默认摄像机输出PCMA
 	mediainfo.u32AudioSamplerate = 8000;
+	mediainfo.u32AudioChannel = 1;
 
     fPusherHandle = EasyPusher_Create();
     EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);

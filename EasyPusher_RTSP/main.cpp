@@ -9,10 +9,10 @@
 #include "EasyPusherAPI.h"
 #include "EasyRTSPClientAPI.h"
 
-#define RTSPURL "rtsp://admin:admin@192.168.66.189/"
+#define RTSPURL "rtsp://admin:admin@anfengde.f3322.org/22"
 
-#define SHOST	"127.0.0.1"		//EasyDarwin流媒体服务器地址
-#define SPORT	554				//EasyDarwin流媒体服务器端口
+#define SHOST	"115.29.139.20"			//EasyDarwin流媒体服务器地址
+#define SPORT	554						//EasyDarwin流媒体服务器端口
 #define SNAME	"easypusher_rtsp.sdp"
 
 Easy_Pusher_Handle fPusherHandle = 0;
