@@ -158,7 +158,7 @@ int main()
 
     fPusherHandle = EasyPusher_Create();
     EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
-    EasyPusher_StartStream(fPusherHandle, SHOST, SPORT, SNAME, "admin", "admin", &mediainfo, 1024);
+    EasyPusher_StartStream(fPusherHandle, SHOST, SPORT, SNAME, "admin", "admin", &mediainfo, 1024, false);
 
     printf("Press Enter exit...\n");
     getchar();

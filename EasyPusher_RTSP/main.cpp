@@ -81,7 +81,7 @@ int Easy_APICALL __RTSPSourceCallBack( int _chid, int *_chPtr, int _mediatype, c
 			fPusherHandle = EasyPusher_Create();
 			EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
 
-			EasyPusher_StartStream(fPusherHandle, SHOST, SPORT, SNAME, "admin", "admin", &mediainfo, 1024);//1M»º³åÇø
+			EasyPusher_StartStream(fPusherHandle, SHOST, SPORT, SNAME, "admin", "admin", &mediainfo, 1024, false);//1M»º³åÇø
 			printf("*** live streaming url:rtsp://%s:%d/%s ***\n", SHOST, SPORT, SNAME);
 		}
 	}
