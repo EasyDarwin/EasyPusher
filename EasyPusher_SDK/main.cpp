@@ -17,22 +17,14 @@
 #include "hi_net_dev_sdk.h"
 #include "hi_net_dev_errors.h"
 
-//#define UNAME	"admin"
-//#define PWORD	"admin"
-//#define DHOST	"192.168.66.189"	//EasyCamera摄像机IP地址
-//#define DPORT	80					//EasyCamera摄像机端口
-//
-//#define SHOST	"115.29.139.20"		//EasyDarwin流媒体服务器地址
-//#define SPORT	554					//EasyDarwin流媒体服务器端口
-//#define SNAME	"easypusher_sdk.sdp"
-char* ConfigIP="115.29.139.20";
-char* ConfigPort="554";
-char* ConfigName="easypusher_file.sdp";
-char* ConfigUName="admin";
-char* ConfigPWD="admin";
-char* ConfigDHost="192.168.66.189";
-char* ConfigDPort="80";
-char *prgname;//获取程序名称
+char* ConfigIP		= "115.29.139.20";	//Default EasyDarwin Address
+char* ConfigPort	= "554";			//Default EasyDarwin Port
+char* ConfigName	= "easypusher_sdk.sdp";//Default Push StreamName
+char* ConfigUName	= "admin";			//SDK UserName
+char* ConfigPWD		= "admin";			//SDK Password
+char* ConfigDHost	= "192.168.66.189";	//SDK Host
+char* ConfigDPort	= "80";				//SDK Port
+char *ProgName;		//Program Name
 
 HI_U32 u32Handle = 0;
 Easy_Pusher_Handle fPusherHandle = 0;
@@ -134,9 +126,9 @@ void PrintUsage()
 {
 	printf("Usage:\n");
 	printf("------------------------------------------------------\n");
-	printf("%s [-d Host -p Port -n Filename -N UName -P UPWD -H DHOST -T DPORT]\n", prgname);
-	printf("Help Mode:   %s -h \n", prgname );
-	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_file.sdp -N admin -P admin -H 192.168.66.189 -T 80\n", prgname); 
+	printf("%s [-d Host -p Port -n Filename -N UName -P UPWD -H DHOST -T DPORT]\n", ProgName);
+	printf("Help Mode:   %s -h \n", ProgName );
+	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_file.sdp -N admin -P admin -H 192.168.66.189 -T 80\n", ProgName); 
 	printf("------------------------------------------------------\n");
 }
 int main(int argc, char * argv[])
@@ -145,7 +137,9 @@ int main(int argc, char * argv[])
 	extern char* optarg;
 #endif
 	int ch;
-	prgname = argv[0];
+	ProgName = argv[0];	
+	PrintUsage();
+
 	while ((ch = getopt(argc,argv, "hd:p:n:N:P:H:T:")) != EOF) 
 	{
 		switch(ch)
@@ -214,7 +208,7 @@ int main(int argc, char * argv[])
     memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
     mediainfo.u32VideoCodec = EASY_SDK_VIDEO_CODEC_H264;
 	mediainfo.u32VideoFps = 25;
-	mediainfo.u32AudioCodec = EASY_SDK_AUDIO_CODEC_G711A;//默认摄像机输出PCMA
+	mediainfo.u32AudioCodec = EASY_SDK_AUDIO_CODEC_G711A;//SDK output Audio PCMA
 	mediainfo.u32AudioSamplerate = 8000;
 	mediainfo.u32AudioChannel = 1;
 

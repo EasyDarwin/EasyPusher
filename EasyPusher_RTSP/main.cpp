@@ -15,20 +15,16 @@
 #include "EasyPusherAPI.h"
 #include "EasyRTSPClientAPI.h"
 
-//#define RTSPURL "rtsp://admin:admin@anfengde.f3322.org/22"
-//
-//#define SHOST	"115.29.139.20"			//EasyDarwin流媒体服务器地址
-//#define SPORT	554						//EasyDarwin流媒体服务器端口
-//#define SNAME	"easypusher_rtsp.sdp"
-char* ConfigIP="115.29.139.20";
-char* ConfigPort="554";
-char *ConfigName="easypusher_file.sdp";
-char* ConfigRTSPURL="rtsp://admin:admin@anfengde.f3322.org/22";
-char *prgname;//获取程序名称
-Easy_Pusher_Handle fPusherHandle = 0;
-Easy_RTSP_Handle fRTSPHandle = 0;
+char* ConfigIP		= "115.29.139.20";		//Default EasyDarwin Address
+char* ConfigPort	= "554";				//Default EasyDarwin Port
+char* ConfigName	= "easypusher_file.sdp";//Default Stream Name
+char* ConfigRTSPURL	= "rtsp://admin:admin@anfengde.f3322.org/22";	//RTSP Source URL(With username:password@)
+char* ProgName;		//Program Name
 
-/* EasyPusher数据回调 */
+Easy_Pusher_Handle	fPusherHandle = 0;		//libEasyPusher Handle
+Easy_RTSP_Handle	fRTSPHandle = 0;		//libEasyRTSPClient Handle
+
+/* EasyPusher Callback */
 int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_frame, void *_userptr)
 {
     if (_state == EASY_PUSH_STATE_CONNECTING)               printf("Connecting...\n");
@@ -41,7 +37,7 @@ int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_fra
     return 0;
 }
 
-/* EasyRTSPClient数据回调 */
+/* EasyRTSPClient Callback */
 int Easy_APICALL __RTSPSourceCallBack( int _chid, int *_chPtr, int _mediatype, char *pbuf, RTSP_FRAME_INFO *frameinfo)
 {
 	if (_mediatype == EASY_SDK_VIDEO_FRAME_FLAG)
@@ -100,9 +96,9 @@ void PrintUsage()
 {
 	printf("Usage:\n");
 	printf("------------------------------------------------------\n");
-	printf("%s [-d Host -p Port -n Filename -u RTSPURL]\n", prgname);
-	printf("Help Mode:   %s -h \n", prgname );
-	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_file.sdp -u rtsp://admin:admin@anfengde.f3322.org/22\n", prgname); 
+	printf("%s [-d Host -p Port -n Filename -u RTSPURL]\n", ProgName);
+	printf("Help Mode:   %s -h \n", ProgName );
+	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_file.sdp -u rtsp://admin:admin@anfengde.f3322.org/22\n", ProgName); 
 	printf("------------------------------------------------------\n");
 }
 int main(int argc, char * argv[])
@@ -111,7 +107,9 @@ int main(int argc, char * argv[])
 	extern char* optarg;
 #endif
 	int ch;
-	prgname = argv[0];
+	ProgName = argv[0];
+	PrintUsage();
+
 	while ((ch = getopt(argc,argv, "hd:p:n:u:")) != EOF) 
 	{
 		switch(ch)
@@ -139,12 +137,12 @@ int main(int argc, char * argv[])
 			break;
 		}
 	}
-	//创建RTSPClient获取流媒体数据
+	//Create RTSPClient Handle
 	EasyRTSP_Init(&fRTSPHandle);
 
 	if (NULL == fRTSPHandle) return 0;
 
-	unsigned int mediaType = EASY_SDK_VIDEO_FRAME_FLAG | EASY_SDK_AUDIO_FRAME_FLAG;	//获取音/视频数据
+	unsigned int mediaType = EASY_SDK_VIDEO_FRAME_FLAG | EASY_SDK_AUDIO_FRAME_FLAG;	//Get Video & Audio
 
 	EasyRTSP_SetCallback(fRTSPHandle, __RTSPSourceCallBack);
 	EasyRTSP_OpenStream(fRTSPHandle, 0, ConfigRTSPURL, RTP_OVER_TCP, mediaType, 0, 0, NULL, 1000, 0);

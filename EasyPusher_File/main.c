@@ -12,13 +12,12 @@
 #else
 #include "unistd.h"
 #endif
-//#define SHOST	"115.29.139.20"			//EasyDarwin流媒体服务器地址
-//#define SPORT	554						//EasyDarwin流媒体服务器端口
-//#define SNAME	"easypusher_file.sdp"
-char* ConfigIP="115.29.139.20";
-char* ConfigPort="554";
-char *ConfigName="easypusher_file.sdp";
-char *prgname;//获取程序名称
+
+char* ConfigIP	=	"115.29.139.20";		//Default EasyDarwin Address
+char* ConfigPort=	"554";					//Default EasyDarwin Port
+char* ConfigName=	"easypusher_file.sdp";	//Default RTSP Push StreamName
+char* ProgName;								//Program Name
+
 int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_frame, void *_userptr)
 {
     if (_state == EASY_PUSH_STATE_CONNECTING)               printf("Connecting...\n");
@@ -34,11 +33,12 @@ void PrintUsage()
 {
 	printf("Usage:\n");
 	printf("------------------------------------------------------\n");
-	printf("%s [-d Host -p Port -n Filename]\n", prgname);
-	printf("Help Mode:   %s -h \n", prgname );
-	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_file.sdp\n", prgname); 
+	printf("%s [-d Host -p Port -n Filename]\n", ProgName);
+	printf("Help Mode:   %s -h \n", ProgName );
+	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_file.sdp\n", ProgName); 
 	printf("------------------------------------------------------\n");
 }
+
 int main(int argc, char * argv[])
 {
 #ifdef _WIN32
@@ -55,7 +55,9 @@ int main(int argc, char * argv[])
 	int position = 0;
 	int iFrameNo = 0;
 	int timestamp = 0;
-	prgname = argv[0];
+	ProgName = argv[0];
+	PrintUsage();
+
 	while ((ch = getopt(argc,argv, "hd:p:n:")) != EOF) 
 	{
 		switch(ch)
@@ -91,10 +93,7 @@ int main(int argc, char * argv[])
 
     EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
 
-    EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
-    EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 1024, 0);
-
-
+	EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 1024, 0);
 
 	while (1)
 	{
