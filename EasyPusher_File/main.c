@@ -33,7 +33,7 @@ void PrintUsage()
 {
 	printf("Usage:\n");
 	printf("------------------------------------------------------\n");
-	printf("%s [-d Host -p Port -n Filename]\n", ProgName);
+	printf("%s [-d <host> -p <port> -n <streamName>]\n", ProgName);
 	printf("Help Mode:   %s -h \n", ProgName );
 	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_file.sdp\n", ProgName); 
 	printf("------------------------------------------------------\n");

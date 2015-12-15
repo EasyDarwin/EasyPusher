@@ -126,9 +126,9 @@ void PrintUsage()
 {
 	printf("Usage:\n");
 	printf("------------------------------------------------------\n");
-	printf("%s [-d Host -p Port -n Filename -N UName -P UPWD -H DHOST -T DPORT]\n", ProgName);
+	printf("%s [-d <host> -p <port> -n <streamName> -N <Device user> -P <Device password> -H <Device host> -T <Device Port>]\n", ProgName);
 	printf("Help Mode:   %s -h \n", ProgName );
-	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_file.sdp -N admin -P admin -H 192.168.66.189 -T 80\n", ProgName); 
+	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_sdk.sdp -N admin -P admin -H 192.168.66.189 -T 80\n", ProgName); 
 	printf("------------------------------------------------------\n");
 }
 int main(int argc, char * argv[])

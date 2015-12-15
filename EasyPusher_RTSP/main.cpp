@@ -96,9 +96,9 @@ void PrintUsage()
 {
 	printf("Usage:\n");
 	printf("------------------------------------------------------\n");
-	printf("%s [-d Host -p Port -n Filename -u RTSPURL]\n", ProgName);
+	printf("%s [-d <host> -p <port> -n <streamName> -u <RTSPURL>]\n", ProgName);
 	printf("Help Mode:   %s -h \n", ProgName );
-	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_file.sdp -u rtsp://admin:admin@anfengde.f3322.org/22\n", ProgName); 
+	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_rtsp.sdp -u rtsp://admin:admin@anfengde.f3322.org/22\n", ProgName); 
 	printf("------------------------------------------------------\n");
 }
 int main(int argc, char * argv[])
