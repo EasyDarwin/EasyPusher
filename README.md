@@ -19,7 +19,7 @@ EasyPusher是一个推送流媒体音视频给开源流媒体服务器EasyDarwin
 		chmod +x ./Buildit
 		./Buildit
 
-	> 调用提示：目前的调用示例程序，还未做到接收参数，需要在代码内部修改具体的EasyDarwin流媒体服务IP、端口等信息，然后编译成可执行文件，EasyPusher_File示例需要将本地文件copy到可执行文件同目录！
+	> 调用提示：目前的调用示例程序，可以接收参数，具体参数的使用，请在调用时增加**-h**命令查阅，EasyPusher_File示例需要将本地文件copy到可执行文件同目录！
 
 
 - **我们同时提供Windows、Linux、ARM版本的libEasyPusher库**：arm版本请将交叉编译工具链发送至[support@easydarwin.org](mailto:support@easydarwin.org "EasyDarwin mail")，我们会帮您具体编译；
