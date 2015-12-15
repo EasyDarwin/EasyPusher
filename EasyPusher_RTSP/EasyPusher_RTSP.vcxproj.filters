@@ -17,9 +17,15 @@
     <ClInclude Include="libEasyRTSPClient\Include\EasyRTSPClientAPI.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="getopt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="getopt.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

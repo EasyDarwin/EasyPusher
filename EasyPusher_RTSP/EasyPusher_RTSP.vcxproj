@@ -93,9 +93,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\EasyPusherAPI.h" />
+    <ClInclude Include="getopt.h" />
     <ClInclude Include="libEasyRTSPClient\Include\EasyRTSPClientAPI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="getopt.c" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -7,19 +7,32 @@
 #include <stdio.h>
 #include <string.h>
 #include "EasyPusherAPI.h"
-
+#ifdef _WIN32
+#include "getopt.h"
+#else
+#include "unistd.h"
+#endif
+#include <stdlib.h>
 #include "hi_type.h"
 #include "hi_net_dev_sdk.h"
 #include "hi_net_dev_errors.h"
 
-#define UNAME	"admin"
-#define PWORD	"admin"
-#define DHOST	"192.168.66.189"	//EasyCamera摄像机IP地址
-#define DPORT	80					//EasyCamera摄像机端口
-
-#define SHOST	"115.29.139.20"		//EasyDarwin流媒体服务器地址
-#define SPORT	554					//EasyDarwin流媒体服务器端口
-#define SNAME	"easypusher_sdk.sdp"
+//#define UNAME	"admin"
+//#define PWORD	"admin"
+//#define DHOST	"192.168.66.189"	//EasyCamera摄像机IP地址
+//#define DPORT	80					//EasyCamera摄像机端口
+//
+//#define SHOST	"115.29.139.20"		//EasyDarwin流媒体服务器地址
+//#define SPORT	554					//EasyDarwin流媒体服务器端口
+//#define SNAME	"easypusher_sdk.sdp"
+char* ConfigIP="115.29.139.20";
+char* ConfigPort="554";
+char* ConfigName="easypusher_file.sdp";
+char* ConfigUName="admin";
+char* ConfigPWD="admin";
+char* ConfigDHost="192.168.66.189";
+char* ConfigDPort="80";
+char *prgname;//获取程序名称
 
 HI_U32 u32Handle = 0;
 Easy_Pusher_Handle fPusherHandle = 0;
@@ -112,20 +125,69 @@ int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_fra
     else if (_state == EASY_PUSH_STATE_CONNECTED)           printf("Connected\n");
     else if (_state == EASY_PUSH_STATE_CONNECT_FAILED)      printf("Connect failed\n");
     else if (_state == EASY_PUSH_STATE_CONNECT_ABORT)       printf("Connect abort\n");
-    else if (_state == EASY_PUSH_STATE_PUSHING)             printf("\r Pushing to rtsp://%s:%d/%s ...", SHOST, SPORT, SNAME);
+	else if (_state == EASY_PUSH_STATE_PUSHING)             printf("\r Pushing to rtsp://%s:%d/%s ...", ConfigIP, atoi(ConfigPort), ConfigName);
     else if (_state == EASY_PUSH_STATE_DISCONNECTED)        printf("Disconnect.\n");
 
     return 0;
 }
-
-int main()
+void PrintUsage()
 {
+	printf("Usage:\n");
+	printf("------------------------------------------------------\n");
+	printf("%s [-d Host -p Port -n Filename -N UName -P UPWD -H DHOST -T DPORT]\n", prgname);
+	printf("Help Mode:   %s -h \n", prgname );
+	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_file.sdp -N admin -P admin -H 192.168.66.189 -T 80\n", prgname); 
+	printf("------------------------------------------------------\n");
+}
+int main(int argc, char * argv[])
+{
+#ifdef _WIN32
+	extern char* optarg;
+#endif
+	int ch;
+	prgname = argv[0];
+	while ((ch = getopt(argc,argv, "hd:p:n:N:P:H:T:")) != EOF) 
+	{
+		switch(ch)
+		{
+		case 'h':
+			PrintUsage();
+			return 0;
+			break;
+		case 'd':
+			ConfigIP =optarg;
+			break;
+		case 'p':
+			ConfigPort =optarg;
+			break;
+		case 'n':
+			ConfigName =optarg;
+			break;
+		case 'N':
+			ConfigUName =optarg;
+			break;
+		case 'P':
+			ConfigPWD =optarg;
+			break;
+		case 'H':
+			ConfigDHost =optarg;
+			break;
+		case 'T':
+			ConfigDPort =optarg;
+			break;
+		case '?':
+			return 0;
+			break;
+		default:
+			break;
+		}
+	}
     HI_S32 s32Ret = HI_SUCCESS;
     HI_S_STREAM_INFO struStreamInfo;
     
     HI_NET_DEV_Init();
     
-    s32Ret = HI_NET_DEV_Login(&u32Handle, UNAME, PWORD, DHOST, DPORT);
+    s32Ret = HI_NET_DEV_Login(&u32Handle, ConfigUName, ConfigPWD, ConfigDHost, atoi(ConfigDPort));
     if (s32Ret != HI_SUCCESS)
     {
         HI_NET_DEV_DeInit();
@@ -158,8 +220,7 @@ int main()
 
     fPusherHandle = EasyPusher_Create();
     EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
-    EasyPusher_StartStream(fPusherHandle, SHOST, SPORT, SNAME, "admin", "admin", &mediainfo, 1024, false);
-
+	EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 1024, false);//1M缓冲区
     printf("Press Enter exit...\n");
     getchar();
 

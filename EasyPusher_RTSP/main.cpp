@@ -5,16 +5,26 @@
 	Website: http://www.EasyDarwin.org
 */
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#ifdef _WIN32
+#include "getopt.h"
+#else
+#include "unistd.h"
+#endif
 #include "EasyPusherAPI.h"
 #include "EasyRTSPClientAPI.h"
 
-#define RTSPURL "rtsp://admin:admin@anfengde.f3322.org/22"
-
-#define SHOST	"115.29.139.20"			//EasyDarwin流媒体服务器地址
-#define SPORT	554						//EasyDarwin流媒体服务器端口
-#define SNAME	"easypusher_rtsp.sdp"
-
+//#define RTSPURL "rtsp://admin:admin@anfengde.f3322.org/22"
+//
+//#define SHOST	"115.29.139.20"			//EasyDarwin流媒体服务器地址
+//#define SPORT	554						//EasyDarwin流媒体服务器端口
+//#define SNAME	"easypusher_rtsp.sdp"
+char* ConfigIP="115.29.139.20";
+char* ConfigPort="554";
+char *ConfigName="easypusher_file.sdp";
+char* ConfigRTSPURL="rtsp://admin:admin@anfengde.f3322.org/22";
+char *prgname;//获取程序名称
 Easy_Pusher_Handle fPusherHandle = 0;
 Easy_RTSP_Handle fRTSPHandle = 0;
 
@@ -25,7 +35,7 @@ int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_fra
     else if (_state == EASY_PUSH_STATE_CONNECTED)           printf("Connected\n");
     else if (_state == EASY_PUSH_STATE_CONNECT_FAILED)      printf("Connect failed\n");
     else if (_state == EASY_PUSH_STATE_CONNECT_ABORT)       printf("Connect abort\n");
-    else if (_state == EASY_PUSH_STATE_PUSHING)             printf("\r Pushing to rtsp://%s:%d/%s ...", SHOST, SPORT, SNAME);
+	else if (_state == EASY_PUSH_STATE_PUSHING)             printf("\r Pushing to rtsp://%s:%d/%s ...", ConfigIP, atoi(ConfigPort), ConfigName);
     else if (_state == EASY_PUSH_STATE_DISCONNECTED)        printf("Disconnect.\n");
 
     return 0;
@@ -80,16 +90,55 @@ int Easy_APICALL __RTSPSourceCallBack( int _chid, int *_chPtr, int _mediatype, c
 
 			fPusherHandle = EasyPusher_Create();
 			EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
-
-			EasyPusher_StartStream(fPusherHandle, SHOST, SPORT, SNAME, "admin", "admin", &mediainfo, 1024, false);//1M缓冲区
-			printf("*** live streaming url:rtsp://%s:%d/%s ***\n", SHOST, SPORT, SNAME);
+			EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 1024, false);//1M缓冲区
+			printf("*** live streaming url:rtsp://%s:%d/%s ***\n", ConfigIP, atoi(ConfigPort), ConfigName);
 		}
 	}
 	return 0;
 }
-
-int main()
+void PrintUsage()
 {
+	printf("Usage:\n");
+	printf("------------------------------------------------------\n");
+	printf("%s [-d Host -p Port -n Filename -u RTSPURL]\n", prgname);
+	printf("Help Mode:   %s -h \n", prgname );
+	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_file.sdp -u rtsp://admin:admin@anfengde.f3322.org/22\n", prgname); 
+	printf("------------------------------------------------------\n");
+}
+int main(int argc, char * argv[])
+{
+#ifdef _WIN32
+	extern char* optarg;
+#endif
+	int ch;
+	prgname = argv[0];
+	while ((ch = getopt(argc,argv, "hd:p:n:u:")) != EOF) 
+	{
+		switch(ch)
+		{
+		case 'h':
+			PrintUsage();
+			return 0;
+			break;
+		case 'd':
+			ConfigIP =optarg;
+			break;
+		case 'p':
+			ConfigPort =optarg;
+			break;
+		case 'n':
+			ConfigName =optarg;
+			break;
+		case 'u':
+			ConfigRTSPURL =optarg;
+			break;
+		case '?':
+			return 0;
+			break;
+		default:
+			break;
+		}
+	}
 	//创建RTSPClient获取流媒体数据
 	EasyRTSP_Init(&fRTSPHandle);
 
@@ -98,7 +147,7 @@ int main()
 	unsigned int mediaType = EASY_SDK_VIDEO_FRAME_FLAG | EASY_SDK_AUDIO_FRAME_FLAG;	//获取音/视频数据
 
 	EasyRTSP_SetCallback(fRTSPHandle, __RTSPSourceCallBack);
-	EasyRTSP_OpenStream(fRTSPHandle, 0, RTSPURL, RTP_OVER_TCP, mediaType, 0, 0, NULL, 1000, 0);
+	EasyRTSP_OpenStream(fRTSPHandle, 0, ConfigRTSPURL, RTP_OVER_TCP, mediaType, 0, 0, NULL, 1000, 0);
 
     printf("Press Enter exit...\n");
     getchar();
