@@ -11,6 +11,7 @@
 #include "getopt.h"
 #else
 #include "unistd.h"
+#include <signal.h>
 #endif
 #include <stdlib.h>
 #include "hi_type.h"
@@ -133,6 +134,10 @@ void PrintUsage()
 }
 int main(int argc, char * argv[])
 {
+#ifndef _WIN32
+   signal(SIGPIPE, SIG_IGN);
+#endif
+
 #ifdef _WIN32
 	extern char* optarg;
 #endif

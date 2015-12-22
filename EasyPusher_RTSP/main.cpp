@@ -11,6 +11,7 @@
 #include "getopt.h"
 #else
 #include "unistd.h"
+#include <signal.h>
 #endif
 #include "EasyPusherAPI.h"
 #include "EasyRTSPClientAPI.h"
@@ -103,6 +104,10 @@ void PrintUsage()
 }
 int main(int argc, char * argv[])
 {
+#ifndef _WIN32
+   signal(SIGPIPE, SIG_IGN);
+#endif
+
 #ifdef _WIN32
 	extern char* optarg;
 #endif

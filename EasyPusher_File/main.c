@@ -6,11 +6,13 @@
 */
 #include "EasyPusherAPI.h"
 #include "trace.h"
-#include "stdio.h"
+#include <stdio.h>
+
 #ifdef _WIN32
 #include "getopt.h"
 #else
 #include "unistd.h"
+#include <signal.h>
 #endif
 
 char* ConfigIP	=	"115.29.139.20";		//Default EasyDarwin Address
@@ -41,6 +43,10 @@ void PrintUsage()
 
 int main(int argc, char * argv[])
 {
+#ifndef _WIN32
+   signal(SIGPIPE, SIG_IGN);
+#endif
+
 #ifdef _WIN32
 	extern char* optarg;
 #endif
