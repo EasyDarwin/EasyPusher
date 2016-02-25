@@ -16,14 +16,16 @@
 #include "EasyPusherAPI.h"
 #include "EasyRTSPClientAPI.h"
 
-char* ConfigIP		= "115.29.139.20";		//Default EasyDarwin Address
+char* ConfigIP		= "127.0.0.1";		//Default EasyDarwin Address
 char* ConfigPort	= "554";				//Default EasyDarwin Port
-char* ConfigName	= "easypusher_file.sdp";//Default Stream Name
-char* ConfigRTSPURL	= "rtsp://admin:admin@anfengde.f3322.org/22";	//RTSP Source URL(With username:password@)
+char* ConfigName	= "easypusher_rtsp.sdp";//Default Stream Name
+char* ConfigRTSPURL	= "rtsp://admin:admin@192.168.1.189/22";	//RTSP Source URL(With username:password@)
 char* ProgName;		//Program Name
 
 Easy_Pusher_Handle	fPusherHandle = 0;		//libEasyPusher Handle
 Easy_RTSP_Handle	fRTSPHandle = 0;		//libEasyRTSPClient Handle
+
+EASY_MEDIA_INFO_T*	fSourceMediaInfo = NULL;
 
 /* EasyPusher Callback */
 int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_frame, void *_userptr)
@@ -43,7 +45,21 @@ int Easy_APICALL __RTSPSourceCallBack( int _chid, int *_chPtr, int _mediatype, c
 {
 	if (_mediatype == EASY_SDK_VIDEO_FRAME_FLAG)
 	{
-		if(fPusherHandle == 0 ) return 0;
+		if((fPusherHandle == 0) && (fSourceMediaInfo != NULL) && (frameinfo->type == EASY_SDK_VIDEO_FRAME_I))
+		{
+			EASY_MEDIA_INFO_T mediainfo;
+			memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
+			memcpy(&mediainfo, fSourceMediaInfo, sizeof(EASY_MEDIA_INFO_T));
+			mediainfo.u32H264SpsLength = frameinfo->reserved1-4;
+			mediainfo.u32H264PpsLength = frameinfo->reserved2-frameinfo->reserved1-4;
+			memcpy(mediainfo.u8H264Sps, pbuf+4, mediainfo.u32H264SpsLength);
+			memcpy(mediainfo.u8H264Pps, pbuf+4+mediainfo.u32H264SpsLength+4, mediainfo.u32H264PpsLength);
+
+			fPusherHandle = EasyPusher_Create();
+			EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
+			EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 1024, false);//1M»º³åÇø
+			printf("*** live streaming url:rtsp://%s:%d/%s ***\n", ConfigIP, atoi(ConfigPort), ConfigName);
+		}
 
 		if(frameinfo && frameinfo->length)
 		{
@@ -79,16 +95,10 @@ int Easy_APICALL __RTSPSourceCallBack( int _chid, int *_chPtr, int _mediatype, c
 
 	if (_mediatype == EASY_SDK_MEDIA_INFO_FLAG)
 	{
-		if((pbuf != NULL) && (fPusherHandle == NULL))
+		if((pbuf != NULL) && (fSourceMediaInfo == NULL))
 		{
-			EASY_MEDIA_INFO_T mediainfo;
-			memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
-			memcpy(&mediainfo, pbuf, sizeof(EASY_MEDIA_INFO_T));
-
-			fPusherHandle = EasyPusher_Create();
-			EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
-			EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 1024, false);//1M»º³åÇø
-			printf("*** live streaming url:rtsp://%s:%d/%s ***\n", ConfigIP, atoi(ConfigPort), ConfigName);
+			fSourceMediaInfo = new EASY_MEDIA_INFO_T();
+			memcpy(fSourceMediaInfo, pbuf, sizeof(EASY_MEDIA_INFO_T));
 		}
 	}
 	return 0;
