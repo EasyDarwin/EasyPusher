@@ -1,6 +1,6 @@
 # EasyPusher #
 
-EasyPusher是一个推送流媒体音视频给开源流媒体服务器EasyDarwin的推送库，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给EasyDarwin服务器进行转发和分发;
+EasyPusher是EasyDarwin开源流媒体团队成员Gavin开发的一个推送流媒体音视频给开源流媒体服务器EasyDarwin的RTSP/RTP推送库，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给EasyDarwin服务器进行转发和分发;
 
 ## 调用示例 ##
 
@@ -47,6 +47,8 @@ EasyPusher目前支持的音视频格式：
 
 WEB：[www.EasyDarwin.org](http://www.easydarwin.org)
 
-Copyright &copy; EasyDarwin.org 2012-2015
+Author：[Gavin@EasyDarwin.org](mailto:Gavin@EasyDarwin.org "EasyDarwin Gavin")
+
+Copyright &copy; EasyDarwin.org 2012-2016
 
 ![EasyDarwin](http://www.easydarwin.org/skin/easydarwin/images/wx_qrcode.jpg)
