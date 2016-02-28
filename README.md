@@ -49,6 +49,8 @@ WEB：[www.EasyDarwin.org](http://www.easydarwin.org)
 
 Author：[Gavin@EasyDarwin.org](mailto:Gavin@EasyDarwin.org "EasyDarwin Gavin")
 
+QQ交流群：[465901074](http://jq.qq.com/?_wv=1027&k=2G045mo "EasyPusher")
+
 Copyright &copy; EasyDarwin.org 2012-2016
 
 ![EasyDarwin](http://www.easydarwin.org/skin/easydarwin/images/wx_qrcode.jpg)
