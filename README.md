@@ -1,14 +1,14 @@
 # EasyPusher #
 
-EasyPusher是EasyDarwin开源流媒体团队成员Gavin开发的一个推送流媒体音视频给开源流媒体服务器EasyDarwin的RTSP/RTP推送库，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给EasyDarwin服务器进行转发和分发;
+EasyPusher是EasyDarwin开源流媒体团队成员Gavin开发的一个推送流媒体音/视频流给开源流媒体服务器EasyDarwin的标准RTSP/RTP协议推送库，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给EasyDarwin服务器进行转发和分发，EasyPusher经过一年时间的检验，稳定性非常高;
 
 ## 调用示例 ##
 
 - **EasyPusher_File**：推送本地文件到EasyDarwin流媒体服务器；
 
-- **EasyPusher_RTSP**：通过EasyRTSPClient库，将RTSP/RTP数据获取到本地，再推送到EasyDarwin；
+- **EasyPusher_RTSP**：通过EasyRTSPClient库，将RTSP/RTP数据获取到本地，再通过EasyPusher推送到EasyDarwin进行RTSP、HLS直播；
 
-- **EasyPusher_SDK**：通过调用私有SDK回调的音视频数据，进行RTSP/RTP直播推送，示例中的SDK是我们EasyDarwin开源摄像机的配套库，EasyDarwin开源摄像机硬件可以在：[https://easydarwin.taobao.com/](https://easydarwin.taobao.com/ "EasyCamera")购买，EasyCamera SDK及配套源码可在 [http://www.easydarwin.org](http://www.easydarwin.org "EasyDarwin") 或者 [https://github.com/EasyDarwin/EasyCamera](https://github.com/EasyDarwin/EasyCamera "EasyCamera") 获取到，您也可以用自己项目中用到的SDK获取音视频数据进行推送；
+- **EasyPusher_SDK**：通过调用摄像机厂家的Camera SDK回调的音视频数据，进行RTSP/RTP直播推送，示例中的SDK是我们EasyDarwin开源摄像机的配套库，EasyDarwin开源摄像机硬件可以在：[https://easydarwin.taobao.com/](https://easydarwin.taobao.com/ "EasyCamera")购买，EasyCamera SDK及配套源码可在 [http://www.easydarwin.org](http://www.easydarwin.org "EasyDarwin") 或者 [https://github.com/EasyDarwin/EasyCamera](https://github.com/EasyDarwin/EasyCamera "EasyCamera") 获取到，您也可以用自己项目中用到的SDK获取音视频数据进行推送；
 
 	Windows编译方法，
 
@@ -49,7 +49,7 @@ WEB：[www.EasyDarwin.org](http://www.easydarwin.org)
 
 Author：[Gavin@EasyDarwin.org](mailto:Gavin@EasyDarwin.org "EasyDarwin Gavin")
 
-QQ交流群：[465901074](http://jq.qq.com/?_wv=1027&k=2G045mo "EasyPusher")
+QQ交流群：[465901074](http://jq.qq.com/?_wv=1027&k=2G045mo "EasyPusher & EasyRTSPClient")
 
 Copyright &copy; EasyDarwin.org 2012-2016
 
