@@ -4,6 +4,8 @@ EasyPusher是EasyDarwin开源流媒体团队成员Gavin开发的一个推送流�
 
 ## 调用示例 ##
 
+- **EasyPusher_Android**：实时采集安卓摄像头音视频，进行H264/AAC编码后，调用EasyPusher进行直播推送；
+
 - **EasyPusher_File**：推送本地文件到EasyDarwin流媒体服务器；
 
 - **EasyPusher_RTSP**：通过EasyRTSPClient库，将RTSP/RTP数据获取到本地，再通过EasyPusher推送到EasyDarwin进行RTSP、HLS直播；
@@ -22,7 +24,7 @@ EasyPusher是EasyDarwin开源流媒体团队成员Gavin开发的一个推送流�
 	> 调用提示：目前的调用示例程序，可以接收参数，具体参数的使用，请在调用时增加**-h**命令查阅，EasyPusher_File示例需要将本地文件copy到可执行文件同目录！
 
 
-- **我们同时提供Windows、Linux、ARM版本的libEasyPusher库**：arm版本请将交叉编译工具链发送至[support@easydarwin.org](mailto:support@easydarwin.org "EasyDarwin mail")，我们会帮您具体编译；
+- **我们同时提供ARM版本的libEasyPusher库**：arm版本请将交叉编译工具链发送至[support@easydarwin.org](mailto:support@easydarwin.org "EasyDarwin mail")，我们会帮您具体编译；
 
 ## 调用过程 ##
 ![](http://www.easydarwin.org/skin/easydarwin/images/easypusher20160115.png)
