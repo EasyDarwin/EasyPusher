@@ -15,8 +15,8 @@
 #include <signal.h>
 #endif
 
-char* ConfigIP	=	"127.0.0.1";			//Default EasyDarwin Address
-char* ConfigPort=	"554";					//Default EasyDarwin Port
+char* ConfigIP	=	"127.0.0.1";			//Default EasyDarwin Address 183.220.236.189
+char* ConfigPort=	"554";					//Default EasyDarwin Port121.40.50.44
 char* ConfigName=	"easypusher_file.sdp";	//Default RTSP Push StreamName
 char* ProgName;								//Program Name
 

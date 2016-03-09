@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context="org.easydarwin.easypusher.SettingActivity">
+
+
+    <EditText
+        android:id="@+id/edt_server_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="EasyDarwin地址"
+        android:text="192.168.1.111"
+        android:textColorHint="#80000000" />
+
+    <EditText
+        android:id="@+id/edt_server_port"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="EasyDarwin端口（默认554）"
+        android:text="554"
+        android:textColorHint="#80000000" />
+
+    <EditText
+        android:id="@+id/edt_stream_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="直播流ID"
+        android:textColorHint="#80000000" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="保存" />
+
+</LinearLayout>
