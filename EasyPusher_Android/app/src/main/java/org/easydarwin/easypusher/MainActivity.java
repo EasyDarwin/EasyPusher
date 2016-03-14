@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         surfaceView.getHolder().setFixedSize(getResources().getDisplayMetrics().widthPixels,
                 getResources().getDisplayMetrics().heightPixels);
         mEasyPusher = new EasyPusher();
+
     }
 
     @Override
@@ -151,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             parameters.setPreviewSize(width, height);
             parameters.setPreviewFpsRange(max[0], max[1]);
             mCamera.setParameters(parameters);
-            mCamera.autoFocus(null);
             int displayRotation;
             displayRotation = (cameraRotationOffset - getDgree() + 360) % 360;
             mCamera.setDisplayOrientation(displayRotation);
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             byte[] dst = new byte[data.length];
             Camera.Size previewSize = mCamera.getParameters().getPreviewSize();
             if (getDgree() == 0) {
-                dst=Util.rotateNV21Degree90(data, previewSize.width, previewSize.height);
+                dst = Util.rotateNV21Degree90(data, previewSize.width, previewSize.height);
             } else {
                 dst = data;
             }
@@ -257,6 +257,13 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     public synchronized void startPreview() {
         if (mCamera != null) {
             mCamera.startPreview();
+            try {
+                mCamera.autoFocus(null);
+            } catch (Exception e) {
+                //忽略异常
+                Log.i("EasyPusher", "auto foucus fail");
+            }
+
             int previewFormat = mCamera.getParameters().getPreviewFormat();
             Camera.Size previewSize = mCamera.getParameters().getPreviewSize();
             int size = previewSize.width * previewSize.height
