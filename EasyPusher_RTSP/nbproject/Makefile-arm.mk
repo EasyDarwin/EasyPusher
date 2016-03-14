@@ -14,14 +14,14 @@ GREP=grep
 NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=arm-none-linux-gnueabi-gcc
-CCC=arm-none-linux-gnueabi-g++
-CXX=arm-none-linux-gnueabi-g++
+CC=arm-hisiv100-linux-uclibcgnueabi-gcc
+CCC=arm-hisiv100-linux-uclibcgnueabi-g++
+CXX=arm-hisiv100-linux-uclibcgnueabi-g++
 FC=gfortran
-AS=arm-none-linux-gnueabi-as
+AS=as
 
 # Macros
-CND_PLATFORM=GM8126-Linux-x86
+CND_PLATFORM=hisiv100-Linux
 CND_DLIB_EXT=so
 CND_CONF=arm
 CND_DISTDIR=dist
@@ -60,7 +60,7 @@ LDLIBSOPTIONS=-LlibEasyRTSPClient/Lib/arm -L../Lib/arm
 
 ../${CND_CONF}/easypusher_rtsp: ${OBJECTFILES}
 	${MKDIR} -p ../${CND_CONF}
-	${LINK.cc} -o ../${CND_CONF}/easypusher_rtsp ${OBJECTFILES} ${LDLIBSOPTIONS} -lEasyPusher -leasyrtspclient -lpthread
+	${LINK.cc} -o ../${CND_CONF}/easypusher_rtsp ${OBJECTFILES} ${LDLIBSOPTIONS} -leasypusher -leasyrtspclient -lpthread
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
