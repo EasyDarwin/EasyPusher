@@ -42,6 +42,8 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
 
+	static final String TAG="EasyPusher";
+
     int width = 640, height = 480;
     int framerate, bitrate;
     int mCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
@@ -235,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                         outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, 0);
                     }
                 } else {
-                    Log.e("easypusher", "No buffer available !");
+                    Log.e(TAG, "No buffer available !");
                 }
             } catch (Exception e) {
                 StringWriter sw = new StringWriter();
@@ -261,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 mCamera.autoFocus(null);
             } catch (Exception e) {
                 //忽略异常
-                Log.i("EasyPusher", "auto foucus fail");
+                Log.i(TAG, "auto foucus fail");
             }
 
             int previewFormat = mCamera.getParameters().getPreviewFormat();
