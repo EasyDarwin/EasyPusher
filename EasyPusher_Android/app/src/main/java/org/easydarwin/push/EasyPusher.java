@@ -45,13 +45,14 @@ public class EasyPusher {
     }
 
     public void initPush(final String serverIP, final String serverPort, final String streamName){
-        new Thread(new Runnable() {
+        Thread t=new Thread(new Runnable() {
             @Override
             public void run() {
                 stopPush();
                 init(serverIP,serverPort,streamName);
             }
-        }).start();
+        });
+        t.start();
     }
 
 }

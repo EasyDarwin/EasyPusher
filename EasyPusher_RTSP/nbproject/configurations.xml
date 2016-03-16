@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="95">
+<configurationDescriptor version="97">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
     </logicalFolder>
@@ -120,7 +120,7 @@
     </conf>
     <conf name="arm" type="1">
       <toolsSet>
-        <compilerSet>GM8126|GNU</compilerSet>
+        <compilerSet>hisiv100|GNU</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -147,7 +147,7 @@
             <pElem>libEasyRTSPClient/Lib/arm</pElem>
             <pElem>../Lib/arm</pElem>
           </linkerAddLib>
-          <commandLine>-lEasyPusher -leasyrtspclient -lpthread</commandLine>
+          <commandLine>-leasypusher -leasyrtspclient -lpthread</commandLine>
         </linkerTool>
       </compileType>
       <item path="main.cpp" ex="false" tool="1" flavor2="9">

@@ -42,6 +42,8 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
 
+	static final String TAG="EasyPusher";
+
     int width = 640, height = 480;
     int framerate, bitrate;
     int mCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         surfaceView.getHolder().setFixedSize(getResources().getDisplayMetrics().widthPixels,
                 getResources().getDisplayMetrics().heightPixels);
         mEasyPusher = new EasyPusher();
+
     }
 
     @Override
@@ -151,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             parameters.setPreviewSize(width, height);
             parameters.setPreviewFpsRange(max[0], max[1]);
             mCamera.setParameters(parameters);
-            mCamera.autoFocus(null);
             int displayRotation;
             displayRotation = (cameraRotationOffset - getDgree() + 360) % 360;
             mCamera.setDisplayOrientation(displayRotation);
@@ -202,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             byte[] dst = new byte[data.length];
             Camera.Size previewSize = mCamera.getParameters().getPreviewSize();
             if (getDgree() == 0) {
-                dst=Util.rotateNV21Degree90(data, previewSize.width, previewSize.height);
+                dst = Util.rotateNV21Degree90(data, previewSize.width, previewSize.height);
             } else {
                 dst = data;
             }
@@ -235,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                         outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, 0);
                     }
                 } else {
-                    Log.e("easypusher", "No buffer available !");
+                    Log.e(TAG, "No buffer available !");
                 }
             } catch (Exception e) {
                 StringWriter sw = new StringWriter();
@@ -257,6 +259,13 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     public synchronized void startPreview() {
         if (mCamera != null) {
             mCamera.startPreview();
+            try {
+                mCamera.autoFocus(null);
+            } catch (Exception e) {
+                //忽略异常
+                Log.i(TAG, "auto foucus fail");
+            }
+
             int previewFormat = mCamera.getParameters().getPreviewFormat();
             Camera.Size previewSize = mCamera.getParameters().getPreviewSize();
             int size = previewSize.width * previewSize.height
