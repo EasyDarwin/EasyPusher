@@ -1,6 +1,6 @@
 # EasyPusher #
 
-EasyPusher是EasyDarwin开源流媒体团队成员Gavin & Holo开发的一个推送流媒体音/视频流给开源流媒体服务器EasyDarwin的标准RTSP/RTP协议推送库，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给EasyDarwin服务器进行转发和分发，EasyPusher经过一年时间的检验，稳定性非常高;
+EasyPusher是EasyDarwin开源流媒体团队成员Gavin & Holo开发的一个推送流媒体音/视频流给开源流媒体服务器EasyDarwin的标准RTSP/RTP协议推送库，全平台支持(包括Windows/Linux(32 & 64)，ARM各平台，Android、IOS)，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP/RTCP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给EasyDarwin服务器进行转发和分发，EasyPusher经过长时间的企业用户检验，稳定性非常高;
 
 ## 调用示例 ##
 
@@ -49,7 +49,7 @@ EasyPusher目前支持的音视频格式：
 
 WEB：[www.EasyDarwin.org](http://www.easydarwin.org)
 
-Author：[Gavin@EasyDarwin.org](mailto:Gavin@EasyDarwin.org "EasyDarwin Gavin")
+Author：Gavin & Holo
 
 QQ交流群：[465901074](http://jq.qq.com/?_wv=1027&k=2G045mo "EasyPusher & EasyRTSPClient")
 
