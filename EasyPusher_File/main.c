@@ -10,9 +10,11 @@
 
 #ifdef _WIN32
 #include "getopt.h"
+#define KEY "6A34714D6C3469576B5A7541662F5257715174355875784659584E355548567A6147567958305A4A544555755A58686C56752B7141506A655A57467A65513D3D"
 #else
 #include "unistd.h"
 #include <signal.h>
+#define KEY "6A34714D6C3469576B5A7541662F5257715174355876426C59584E356348567A6147567958325A706247565737366F412B4E356C59584E35"
 #endif
 
 char* ConfigIP	=	"127.0.0.1";			//Default EasyDarwin Address 183.220.236.189
@@ -43,6 +45,7 @@ void PrintUsage()
 
 int main(int argc, char * argv[])
 {
+	int isActivated = 0 ;
 #ifndef _WIN32
    signal(SIGPIPE, SIG_IGN);
 #endif
@@ -63,6 +66,7 @@ int main(int argc, char * argv[])
 	int timestamp = 0;
 	ProgName = argv[0];
 	PrintUsage();
+
 
 	while ((ch = getopt(argc,argv, "hd:p:n:")) != EOF) 
 	{
@@ -95,7 +99,36 @@ int main(int argc, char * argv[])
     fES = fopen("./EasyPusher.264", "rb");
     if (NULL == fES)        return 0;
 
+	isActivated = EasyPusher_Activate(KEY);
+	switch(isActivated)
+	{
+	case EASY_ACTIVATE_INVALID_KEY:
+		printf("KEY is EASY_ACTIVATE_INVALID_KEY!\n");
+		break;
+	case EASY_ACTIVATE_TIME_ERR:
+		printf("KEY is EASY_ACTIVATE_TIME_ERR!\n");
+		break;
+	case EASY_ACTIVATE_PROCESS_NAME_LEN_ERR:
+		printf("KEY is EASY_ACTIVATE_PROCESS_NAME_LEN_ERR!\n");
+		break;
+	case EASY_ACTIVATE_PROCESS_NAME_ERR:
+		printf("KEY is EASY_ACTIVATE_PROCESS_NAME_ERR!\n");
+		break;
+	case EASY_ACTIVATE_VALIDITY_PERIOD_ERR:
+		printf("KEY is EASY_ACTIVATE_VALIDITY_PERIOD_ERR!\n");
+		break;
+	case EASY_ACTIVATE_SUCCESS:
+		printf("KEY is EASY_ACTIVATE_SUCCESS!\n");
+		break;
+	}
+
+	if(EASY_ACTIVATE_SUCCESS != isActivated)
+		return -1;
+
     fPusherHandle = EasyPusher_Create();
+
+	if(fPusherHandle == NULL)
+		return -2;
 
     EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
 

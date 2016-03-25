@@ -8,8 +8,10 @@
 #include <stdlib.h>
 #include <string.h>
 #ifdef _WIN32
+#define KEY "6A34714D6C3469576B5A7541662F5257715174355875784659584E355548567A6147567958314A55553141755A58686C56752B7141506A655A57467A65513D3D"
 #include "getopt.h"
 #else
+#define KEY "6A34714D6C3469576B5A7541662F5257715174355876426C59584E356348567A6147567958334A306333425737366F412B4E356C59584E35"
 #include "unistd.h"
 #include <signal.h>
 #endif
@@ -114,6 +116,7 @@ void PrintUsage()
 }
 int main(int argc, char * argv[])
 {
+	int isActivated = 0 ;
 #ifndef _WIN32
    signal(SIGPIPE, SIG_IGN);
 #endif
@@ -152,6 +155,33 @@ int main(int argc, char * argv[])
 			break;
 		}
 	}
+
+	isActivated = EasyPusher_Activate(KEY);
+	switch(isActivated)
+	{
+	case EASY_ACTIVATE_INVALID_KEY:
+		printf("KEY is EASY_ACTIVATE_INVALID_KEY!\n");
+		break;
+	case EASY_ACTIVATE_TIME_ERR:
+		printf("KEY is EASY_ACTIVATE_TIME_ERR!\n");
+		break;
+	case EASY_ACTIVATE_PROCESS_NAME_LEN_ERR:
+		printf("KEY is EASY_ACTIVATE_PROCESS_NAME_LEN_ERR!\n");
+		break;
+	case EASY_ACTIVATE_PROCESS_NAME_ERR:
+		printf("KEY is EASY_ACTIVATE_PROCESS_NAME_ERR!\n");
+		break;
+	case EASY_ACTIVATE_VALIDITY_PERIOD_ERR:
+		printf("KEY is EASY_ACTIVATE_VALIDITY_PERIOD_ERR!\n");
+		break;
+	case EASY_ACTIVATE_SUCCESS:
+		printf("KEY is EASY_ACTIVATE_SUCCESS!\n");
+		break;
+	}
+
+	if(EASY_ACTIVATE_SUCCESS != isActivated)
+		return -1;
+
 	//Create RTSPClient Handle
 	EasyRTSP_Init(&fRTSPHandle);
 

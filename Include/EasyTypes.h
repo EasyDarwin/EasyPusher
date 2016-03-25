@@ -20,6 +20,8 @@
 #define Easy_RTSP_Handle void*
 #define Easy_Pusher_Handle void*
 
+typedef int						Easy_I32;
+
 typedef unsigned char           Easy_U8;
 typedef unsigned char           Easy_UChar;
 typedef unsigned short          Easy_U16;
