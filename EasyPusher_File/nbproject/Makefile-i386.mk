@@ -21,7 +21,7 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-Linux-x86
+CND_PLATFORM=GNU-Linux
 CND_DLIB_EXT=so
 CND_CONF=i386
 CND_DISTDIR=dist
@@ -60,7 +60,7 @@ LDLIBSOPTIONS=-L../Lib
 
 ../${CND_CONF}/easypusher_file: ${OBJECTFILES}
 	${MKDIR} -p ../${CND_CONF}
-	${LINK.c} -o ../${CND_CONF}/easypusher_file ${OBJECTFILES} ${LDLIBSOPTIONS} -lEasyPusher -lpthread
+	${LINK.c} -o ../${CND_CONF}/easypusher_file ${OBJECTFILES} ${LDLIBSOPTIONS} -leasypusher -lpthread
 
 ${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}

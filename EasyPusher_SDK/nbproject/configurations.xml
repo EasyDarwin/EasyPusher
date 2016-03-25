@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="95">
+<configurationDescriptor version="97">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
     </logicalFolder>
@@ -45,7 +45,7 @@
             <pElem>../Lib/arm</pElem>
             <pElem>SDK/Lib/arm</pElem>
           </linkerAddLib>
-          <commandLine>-lNetLib -lEasyPusher</commandLine>
+          <commandLine>-lNetLib -leasypusher</commandLine>
         </linkerTool>
       </compileType>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
@@ -86,7 +86,7 @@
             <pElem>../Lib</pElem>
             <pElem>SDK/Lib</pElem>
           </linkerAddLib>
-          <commandLine>-lNetLib -lEasyPusher</commandLine>
+          <commandLine>-lNetLib -leasypusher</commandLine>
         </linkerTool>
       </compileType>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
@@ -126,7 +126,7 @@
             <pElem>../Lib/arm</pElem>
             <pElem>SDK/Lib/arm</pElem>
           </linkerAddLib>
-          <commandLine>-lNetLib -lEasyPusher</commandLine>
+          <commandLine>-lNetLib -leasypusher</commandLine>
         </linkerTool>
       </compileType>
       <item path="main.cpp" ex="false" tool="1" flavor2="9">

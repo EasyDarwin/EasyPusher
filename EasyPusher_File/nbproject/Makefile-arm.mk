@@ -21,7 +21,7 @@ FC=gfortran
 AS=arm-none-linux-gnueabi-as
 
 # Macros
-CND_PLATFORM=GM8126-Linux-x86
+CND_PLATFORM=GM8126-Linux
 CND_DLIB_EXT=so
 CND_CONF=arm
 CND_DISTDIR=dist
@@ -60,7 +60,7 @@ LDLIBSOPTIONS=-L../Lib/arm
 
 ../${CND_CONF}/easypusher_file: ${OBJECTFILES}
 	${MKDIR} -p ../${CND_CONF}
-	${LINK.c} -o ../${CND_CONF}/easypusher_file ${OBJECTFILES} ${LDLIBSOPTIONS} -lEasyPusher -lpthread
+	${LINK.c} -o ../${CND_CONF}/easypusher_file ${OBJECTFILES} ${LDLIBSOPTIONS} -leasypusher -lpthread
 
 ${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}

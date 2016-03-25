@@ -77,7 +77,7 @@
             <pElem>libEasyRTSPClient/Lib</pElem>
             <pElem>../Lib</pElem>
           </linkerAddLib>
-          <commandLine>-lEasyPusher -leasyrtspclient -lpthread</commandLine>
+          <commandLine>-leasypusher -leasyrtspclient -lpthread</commandLine>
         </linkerTool>
       </compileType>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
@@ -112,7 +112,7 @@
             <pElem>libEasyRTSPClient/Lib/x64</pElem>
             <pElem>../Lib/x64</pElem>
           </linkerAddLib>
-          <commandLine>-lEasyPusher -leasyrtspclient -lpthread</commandLine>
+          <commandLine>-leasypusher -leasyrtspclient -lpthread</commandLine>
         </linkerTool>
       </compileType>
       <item path="main.cpp" ex="false" tool="1" flavor2="9">
