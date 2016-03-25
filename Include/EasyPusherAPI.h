@@ -51,7 +51,7 @@ typedef int (*EasyPusher_Callback)(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Fr
 extern "C"
 {
 #endif
-
+	/* 激活推送库，成功返回0，失败查看具体错误码EASY_ACTIVATE_ERR_CODE_ENUM */
 	Easy_API Easy_I32 Easy_APICALL EasyPusher_Activate(char *license);
 
 	/* 创建推送句柄  返回为句柄值 */

@@ -27,7 +27,7 @@ EasyPusher是EasyDarwin开源流媒体团队成员Gavin & Holo开发的一个推
 - **我们同时提供ARM版本的libEasyPusher库**：arm版本请将交叉编译工具链发送至[support@easydarwin.org](mailto:support@easydarwin.org "EasyDarwin mail")，我们会帮您具体编译；
 
 ## 调用过程 ##
-![](http://www.easydarwin.org/skin/easydarwin/images/easypusher20160115.png)
+![](http://www.easydarwin.org/skin/easydarwin/images/easypusher20160325.png)
 
 
 ## 特殊说明 ##
