@@ -12,6 +12,8 @@ import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.media.MediaCodec;
 import android.media.MediaFormat;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.easydarwin.audio.AudioStream;
 import org.easydarwin.util.Util;
 import org.easydarwin.config.Config;
 import org.easydarwin.hw.EncoderDebugger;
@@ -60,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     TextView txtStreamAddress;
     String serverIP = "", serverPort = "", streamID = "";
 
+    AudioStream audioStream;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -75,8 +80,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         surfaceView.getHolder().addCallback(this);
         surfaceView.getHolder().setFixedSize(getResources().getDisplayMetrics().widthPixels,
                 getResources().getDisplayMetrics().heightPixels);
+        surfaceView.setOnClickListener(this);
         mEasyPusher = new EasyPusher();
-
+        audioStream=new AudioStream(mEasyPusher);
     }
 
     @Override
@@ -103,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
     private void initMediaCodec() {
         int dgree = getDgree();
-        framerate = 15;
+        framerate = 25;
         bitrate = 2 * width * height * framerate / 20;
         EncoderDebugger debugger = EncoderDebugger.debug(getApplicationContext(), width, height);
         mConvertor = debugger.getNV21Convertor();
@@ -213,9 +219,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 if (bufferIndex >= 0) {
                     inputBuffers[bufferIndex].clear();
                     mConvertor.convert(dst, inputBuffers[bufferIndex]);
-                    mMediaCodec.queueInputBuffer(bufferIndex, 0,
-                            inputBuffers[bufferIndex].position(),
-                            System.nanoTime() / 1000, 0);
+                    mMediaCodec.queueInputBuffer(bufferIndex, 0,inputBuffers[bufferIndex].position(),System.nanoTime() / 1000, 0);
                     MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
                     int outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, 0);
                     while (outputBufferIndex >= 0) {
@@ -232,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                             System.arraycopy(outData, 0, iframeData, mPpsSps.length, outData.length);
                             outData = iframeData;
                         }
-                        mEasyPusher.push(outData, 0);
+                        mEasyPusher.push(outData,System.currentTimeMillis(),1);
                         mMediaCodec.releaseOutputBuffer(outputBufferIndex, false);
                         outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, 0);
                     }
@@ -276,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         }
     }
 
+
     /**
      * 停止预览
      */
@@ -289,11 +294,13 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     public void startStream() {
         pushStream = true;
         btnSwitch.setText("停止");
+        audioStream.startRecord();
     }
 
     public void stopStream() {
         pushStream = false;
         btnSwitch.setText("开始");
+        audioStream.stop();
     }
 
 
@@ -345,6 +352,12 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             case R.id.btn_setting:
                 startActivity(new Intent(this, SettingActivity.class));
                 break;
+            case R.id.sv_surfaceview:
+                try{
+                    mCamera.autoFocus(null);
+                }catch (Exception e){
+                }
+                break;
         }
     }
 
@@ -356,5 +369,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         mMediaCodec.release();
         mMediaCodec = null;
         mEasyPusher.stop();
+
     }
 }

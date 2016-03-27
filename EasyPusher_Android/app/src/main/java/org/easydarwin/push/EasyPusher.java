@@ -27,7 +27,7 @@ public class EasyPusher {
      * @param data      H264数据
      * @param timestamp 时间戳，毫秒
      */
-    public native void push(byte[] data, int timestamp);
+    public native void push(byte[] data, long timestamp,int type);
 
 
     /**
