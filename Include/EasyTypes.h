@@ -19,6 +19,7 @@
 // Handle类型
 #define Easy_RTSP_Handle void*
 #define Easy_Pusher_Handle void*
+#define Easy_HLS_Handle void*
 
 typedef int						Easy_I32;
 
@@ -57,6 +58,19 @@ enum
 	Easy_SendError					= -24
 };
 typedef int Easy_Error;
+
+
+typedef enum __EASY_ACTIVATE_ERR_CODE_ENUM
+{
+	EASY_ACTIVATE_INVALID_KEY		=		-1,			//无效Key
+	EASY_ACTIVATE_TIME_ERR			=		-2,			//时间错误
+	EASY_ACTIVATE_PROCESS_NAME_LEN_ERR	=	-3,			//进程名称长度不匹配
+	EASY_ACTIVATE_PROCESS_NAME_ERR	=		-4,			//进程名称不匹配
+	EASY_ACTIVATE_VALIDITY_PERIOD_ERR=		-5,			//有效期校验不一致
+	EASY_ACTIVATE_SUCCESS			=		0,			//激活成功
+
+}EASY_ACTIVATE_ERR_CODE_ENUM;
+
 
 /* 视频编码 */
 #define EASY_SDK_VIDEO_CODEC_H264	0x1C		/* H264  */
