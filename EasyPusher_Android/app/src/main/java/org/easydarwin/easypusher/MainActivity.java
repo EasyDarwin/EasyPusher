@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     boolean pushStream = false;//是否要推送数据
     EasyPusher mEasyPusher;
     TextView txtStreamAddress;
-    String serverIP = "", serverPort = "", streamID = "";
+//    String serverIP = "", serverPort = "", streamID = "";
 
     AudioStream audioStream;
 
@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    private void initPusher(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String ip = sharedPreferences.getString(Config.SERVER_IP, Config.DEFAULT_SERVER_IP);
         String port = sharedPreferences.getString(Config.SERVER_PORT, Config.DEFAULT_SERVER_PORT);
@@ -97,12 +100,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             sharedPreferences.edit().putString(Config.STREAM_ID, id).commit();
         }
-        if (serverIP.equals(ip) && serverPort.equals(port) && id.equals(streamID)) {
-            return;
-        }
-        serverIP = ip;
-        serverPort = port;
-        streamID = id;
         txtStreamAddress.setText(String.format("rtsp://%s:%s/%s.sdp", ip, port, id));
         mEasyPusher.initPush(ip, port, String.format("%s.sdp", id));
     }
@@ -292,12 +289,14 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     }
 
     public void startStream() {
+        initPusher();
         pushStream = true;
         btnSwitch.setText("停止");
         audioStream.startRecord();
     }
 
     public void stopStream() {
+        mEasyPusher.stop();
         pushStream = false;
         btnSwitch.setText("开始");
         audioStream.stop();
@@ -369,6 +368,5 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         mMediaCodec.release();
         mMediaCodec = null;
         mEasyPusher.stop();
-
     }
 }
