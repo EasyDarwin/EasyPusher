@@ -145,7 +145,7 @@ public class AudioStream {
                         byte[] buffer = new byte[size];
                         mBuffer.get(buffer);
                         //Util.save(buffer, 0, size, path, true);
-                        easyPusher.push(buffer,System.currentTimeMillis()-1000, 0);
+                        easyPusher.push(buffer,System.currentTimeMillis(), 0);
                         if (mBuffer.position() >= size) { // read complete
                             mMediaCodec.releaseOutputBuffer(mIndex, false);
                             mBuffer = null;

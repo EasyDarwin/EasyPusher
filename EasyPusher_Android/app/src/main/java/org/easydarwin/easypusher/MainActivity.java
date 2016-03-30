@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             sharedPreferences.edit().putString(Config.STREAM_ID, id).commit();
         }
         txtStreamAddress.setText(String.format("rtsp://%s:%s/%s.sdp", ip, port, id));
-        mEasyPusher.initPush(ip, port, String.format("%s.sdp", id));
+        mEasyPusher.initPush(ip, port, String.format("%s.sdp", id),getApplicationContext());
     }
 
     private void initMediaCodec() {
