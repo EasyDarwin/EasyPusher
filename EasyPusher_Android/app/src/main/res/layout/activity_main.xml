@@ -28,6 +28,39 @@
         android:layout_marginLeft="5dp"
         android:background="@drawable/button_selector"
         android:text="设置"
+        android:visibility="gone"
+        android:textColor="#ffffff" />
+    <Button
+        android:id="@+id/btn_record"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/btn_setting"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/button_selector"
+        android:text="录像"
+        android:textColor="#ffffff" />
+    <Button
+        android:id="@+id/btn_audio"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/btn_record"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/button_selector"
+        android:text="静音"
+        android:textColor="#ffffff" />
+    <Button
+        android:id="@+id/btn_switchCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/btn_audio"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/button_selector"
+        android:text="切换"
         android:textColor="#ffffff" />
 
     <TextView
