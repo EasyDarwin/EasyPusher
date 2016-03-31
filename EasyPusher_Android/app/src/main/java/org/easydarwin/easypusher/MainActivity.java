@@ -249,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 Camera.CameraInfo camInfo = new Camera.CameraInfo();
                 Camera.getCameraInfo(mCameraId, camInfo);
                 int cameraRotationOffset = camInfo.orientation;
+                Log.e("cameraRotationOffset2",""+cameraRotationOffset);
                 if(cameraRotationOffset==0)
                     dst = data;
                 if(cameraRotationOffset==90)
@@ -256,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 if(cameraRotationOffset==180)
                     dst = Util.rotateNV21Degree90(data, previewSize.width, previewSize.height);
                 if(cameraRotationOffset==270)
-                    dst = Util.rotateNV21Degree90(data, previewSize.width, previewSize.height);
+                    dst = Util.rotateNV21Negative90(data, previewSize.width, previewSize.height);
             } else {
                 dst = data;
             }
