@@ -112,7 +112,7 @@ public class AudioStream {
             @Override
             public void run() {
                 while (!Thread.interrupted() && !stoped) {
-                    Log.i(TAG, "encode_" + Thread.currentThread().getName());
+//                    Log.i(TAG, "encode_" + Thread.currentThread().getName());
                     try {
                         if (mBuffer == null) {
                             mBuffer = ByteBuffer.allocate(10240);

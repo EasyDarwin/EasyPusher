@@ -28,7 +28,7 @@
         android:layout_marginLeft="5dp"
         android:background="@drawable/button_selector"
         android:text="设置"
-        android:visibility="gone"
+        android:visibility="visible"
         android:textColor="#ffffff" />
     <Button
         android:id="@+id/btn_record"
