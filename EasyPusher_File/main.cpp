@@ -79,12 +79,13 @@ bool  g_bThreadLiving[MAX_TRACK_NUM];
 CMp4_root_box g_root;
 FILE * g_fin = NULL; 
 Easy_Pusher_Handle g_fPusherHandle = 0;
+CRITICAL_SECTION m_cs;
 
 
 int main(int argc, char * argv[])
 {
 
-	std::string sTestFilm  = "./EFilmRecord.MP4";//[阳光电影www.ygdy8.com].港囧.HD.720p.国语中字.mp4";//6004501011.MP4";
+	std::string sTestFilm  = "./test.mp4";//[阳光电影www.ygdy8.com].港囧.HD.720p.国语中字.mp4";//6004501011.MP4";
 	//std::string sTestFilm  = "D:\\360Downloads\\EFilmRecord.MP4";//6004501011.MP4";
 
 	//Open mp4 file, acturally we just support mp4 packaged by MP4Box
@@ -148,6 +149,8 @@ int main(int argc, char * argv[])
 		g_bThreadLiving[nI] = false;
 	}
 
+	InitializeCriticalSection(&m_cs);
+
 	//视频轨存在
 	if (nVideoTrackId>-1)
 	{
@@ -164,13 +167,10 @@ int main(int argc, char * argv[])
 			memcpy(mediainfo.u8H264Pps, videoInfo.pps->pictureParameterSetNALUnit, mediainfo.u32H264PpsLength );
 		}
 
-		//Create thread to push mp4 demux data(h264)
-		//_beginthreadex(NULL,0,(CMusicStatic::RecodingThread),(void*)this,0,NULL);
-
 		g_mp4TrackThread[nVideoTrackId] = (HANDLE)_beginthreadex(NULL, 0, VideoThread, (void*)nVideoTrackId,0,0);
 		g_bThreadLiving[nVideoTrackId] = true;
-
 	}
+
 	//音频轨存在
 	if (nAudioTrackId>-1)
 	{
@@ -229,6 +229,7 @@ int main(int argc, char * argv[])
 	EasyPusher_StopStream(g_fPusherHandle);
 	EasyPusher_Release(g_fPusherHandle);
 	g_fPusherHandle = 0;
+	DeleteCriticalSection(&m_cs);
 
 	return 0;
 }
@@ -248,6 +249,7 @@ unsigned int _stdcall  VideoThread(void* lParam)
 			{
 				return 0;
 			}
+
 			//copy_sample_data(g_fin, chunk_index, name,nID,root,nSampleId);
 			_fseeki64(g_fin, g_root.co[nTrackId].chunk_offset_from_file_begin[chunk_index], SEEK_SET);
 
@@ -261,8 +263,13 @@ unsigned int _stdcall  VideoThread(void* lParam)
 				{
 					return 0;
 				}
+#ifdef _WIN32
+				DWORD dwStart = ::GetTickCount();
+#endif
 				uint32_t sample_size = get_sample_size(g_root.sz[nTrackId], sample_index_+i);//获取当前sample的大小
 				uint32_t sample_time = get_sample_time(g_root.ts[nTrackId], nSampleId );
+				double dbSampleTime = (double)sample_time/g_root.trk[nTrackId].mdia.mdhd.timescale ;
+				uint32_t uSampleTime = dbSampleTime*1000000;
 
 				_fseeki64(g_fin,cur,SEEK_SET);
 				unsigned char *ptr=new unsigned char [sample_size];
@@ -283,15 +290,23 @@ unsigned int _stdcall  VideoThread(void* lParam)
 				avFrame.u32AVFrameLen = sample_size;
 				avFrame.u32VFrameType = (naltype==0x05)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
 				avFrame.u32AVFrameFlag = EASY_SDK_VIDEO_FRAME_FLAG;
-				avFrame.u32TimestampSec = lTimeStamp/1000;
-				avFrame.u32TimestampUsec = (lTimeStamp%1000)*1000;
+				avFrame.u32TimestampSec = lTimeStamp/1000000;
+				avFrame.u32TimestampUsec = (lTimeStamp%1000000);
+
+				EnterCriticalSection(&m_cs);
 				EasyPusher_PushFrame(g_fPusherHandle, &avFrame);
-				lTimeStamp += sample_time;
+				LeaveCriticalSection(&m_cs);
+
+				lTimeStamp += uSampleTime;
+#ifdef _WIN32
+
+				DWORD dwStop = ::GetTickCount();
+#endif
 
 #ifndef _WIN32
-				usleep(sample_time*1000);
+				usleep(uSampleTime);
 #else
-				Sleep(sample_time);
+				Sleep(uSampleTime/1000-(dwStop-dwStart));
 #endif
 				delete [] ptr;
 				cur+=sample_size;
@@ -331,8 +346,14 @@ unsigned int _stdcall  AudioThread(void* lParam)
 				{
 					return 0;
 				}
+
+#ifdef _WIN32
+			DWORD dwStart = ::GetTickCount();
+#endif
 				uint32_t sample_size = get_sample_size(g_root.sz[nTrackId], sample_index_+i);//获取当前sample的大小
 				uint32_t sample_time = get_sample_time(g_root.ts[nTrackId], nSampleId );
+				double dbSampleTime = (double)sample_time/g_root.trk[nTrackId].mdia.mdhd.timescale ;
+				uint32_t uSampleTime = dbSampleTime*1000000;
 
 				_fseeki64(g_fin,cur,SEEK_SET);
 				unsigned char *ptr=new unsigned char [sample_size];
@@ -346,15 +367,20 @@ unsigned int _stdcall  AudioThread(void* lParam)
 				avFrame.pBuffer = (unsigned char*)ptr;
 				avFrame.u32AVFrameLen = sample_size;
 				avFrame.u32AVFrameFlag = EASY_SDK_AUDIO_FRAME_FLAG;
-				avFrame.u32TimestampSec = lTimeStamp/1000;
-				avFrame.u32TimestampUsec = (lTimeStamp%1000)*1000;
+				avFrame.u32TimestampSec = lTimeStamp/1000000;
+				avFrame.u32TimestampUsec = (lTimeStamp%1000000);
+				EnterCriticalSection(&m_cs);
 				EasyPusher_PushFrame(g_fPusherHandle, &avFrame);
-				lTimeStamp += sample_time;
+				LeaveCriticalSection(&m_cs);
 
+				lTimeStamp += uSampleTime;
+#ifdef _WIN32
+				DWORD dwStop = ::GetTickCount();
+#endif
 #ifndef _WIN32
-				usleep(sample_time*1000);
+				usleep(uSampleTime);
 #else
-				Sleep(sample_time);
+				Sleep(uSampleTime/1000-(dwStop-dwStart));
 #endif
 				delete [] ptr;
 				cur+=sample_size;
