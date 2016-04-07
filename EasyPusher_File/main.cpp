@@ -78,26 +78,38 @@ bool  g_bThreadLiving[MAX_TRACK_NUM];
 //获取MP4头box信息
 CMp4_root_box g_root;
 FILE * g_fin = NULL; 
+FILE* g_finA = NULL;
 Easy_Pusher_Handle g_fPusherHandle = 0;
 CRITICAL_SECTION m_cs;
-
+bool g_bVideoStart = false;
 
 int main(int argc, char * argv[])
 {
 
 	std::string sTestFilm  = "./test.mp4";//[阳光电影www.ygdy8.com].港囧.HD.720p.国语中字.mp4";//6004501011.MP4";
+	//std::string sTestFilm  = "D:\\360Downloads\\[阳光电影www.ygdy8.com].港囧.HD.720p.国语中字.mp4";//6004501011.MP4";
 	//std::string sTestFilm  = "D:\\360Downloads\\EFilmRecord.MP4";//6004501011.MP4";
 
 	//Open mp4 file, acturally we just support mp4 packaged by MP4Box
-	g_fin = fopen(sTestFilm.c_str(), "rb");	
-	if(g_fin == (FILE*)0)
-	{
-		printf("failed to open pmp4 file: %s\n", sTestFilm.c_str());
-		printf("Press Enter exit...\n");
-		getchar();
+		g_fin = _fsopen(sTestFilm.c_str(), "rb",  _SH_DENYNO );	
+		if(g_fin == (FILE*)0)
+		{
+			printf("failed to open pmp4 file: %s\n", sTestFilm.c_str());
+			printf("Press Enter exit...\n");
+			getchar();
 
-		return 0;
-	}
+			return 0;
+		}
+		g_finA = _fsopen(sTestFilm.c_str(), "rb",  _SH_DENYNO );	
+		if(g_finA == (FILE*)0)
+		{
+			printf("failed to open pmp4 file: %s\n", sTestFilm.c_str());
+			printf("Press Enter exit...\n");
+			getchar();
+
+			return 0;
+		}
+
 	unsigned int cur_pos= _ftelli64(g_fin);
 	for(;!feof(g_fin); )
 	{
@@ -234,12 +246,14 @@ int main(int argc, char * argv[])
 	return 0;
 }
 
+
 //MP4 file pusher  calllback
 unsigned int _stdcall  VideoThread(void* lParam)
 {
 	int nTrackId = (int)lParam;
 	while (g_bThreadLiving[nTrackId])
 	{
+		g_bVideoStart = true;
 		int chunk_offset_amount    = g_root.co[nTrackId].chunk_offset_amount;
 		long lTimeStamp = 0;
 		int nSampleId = 0;
@@ -263,9 +277,9 @@ unsigned int _stdcall  VideoThread(void* lParam)
 				{
 					return 0;
 				}
-#ifdef _WIN32
-				DWORD dwStart = ::GetTickCount();
-#endif
+// #ifdef _WIN32
+// 				DWORD dwStart = ::GetTickCount();
+// #endif
 				uint32_t sample_size = get_sample_size(g_root.sz[nTrackId], sample_index_+i);//获取当前sample的大小
 				uint32_t sample_time = get_sample_time(g_root.ts[nTrackId], nSampleId );
 				double dbSampleTime = (double)sample_time/g_root.trk[nTrackId].mdia.mdhd.timescale ;
@@ -293,20 +307,20 @@ unsigned int _stdcall  VideoThread(void* lParam)
 				avFrame.u32TimestampSec = lTimeStamp/1000000;
 				avFrame.u32TimestampUsec = (lTimeStamp%1000000);
 
-				EnterCriticalSection(&m_cs);
+				//EnterCriticalSection(&m_cs);
 				EasyPusher_PushFrame(g_fPusherHandle, &avFrame);
-				LeaveCriticalSection(&m_cs);
+				//LeaveCriticalSection(&m_cs);
 
 				lTimeStamp += uSampleTime;
-#ifdef _WIN32
-
-				DWORD dwStop = ::GetTickCount();
-#endif
-
+// #ifdef _WIN32
+// 
+// 				DWORD dwStop = ::GetTickCount();
+// #endif
+				//printf("Sleep=%d\r\n", uSampleTime/1000-(dwStop-dwStart));
 #ifndef _WIN32
 				usleep(uSampleTime);
 #else
-				Sleep(uSampleTime/1000-(dwStop-dwStart));
+				SleepEx(uSampleTime/1000, FALSE);
 #endif
 				delete [] ptr;
 				cur+=sample_size;
@@ -324,6 +338,12 @@ unsigned int _stdcall  AudioThread(void* lParam)
 	int nTrackId = (int)lParam;
 	while (g_bThreadLiving[nTrackId])
 	{
+		if (!g_bVideoStart)
+		{
+			Sleep(1);
+			printf("Audio Thread waiting.........\r\n");
+			continue;
+		}
 		int chunk_offset_amount    = g_root.co[nTrackId].chunk_offset_amount;
 		long lTimeStamp = 0;
 		int nSampleId = 0;
@@ -334,12 +354,12 @@ unsigned int _stdcall  AudioThread(void* lParam)
 				return 0;
 			}
 			//copy_sample_data(g_fin, chunk_index, name,nID,root,nSampleId);
-			_fseeki64(g_fin, g_root.co[nTrackId].chunk_offset_from_file_begin[chunk_index], SEEK_SET);
+			_fseeki64(g_finA, g_root.co[nTrackId].chunk_offset_from_file_begin[chunk_index], SEEK_SET);
 
 			//获取当前chunk中有多少个sample
 			uint32_t sample_num_in_cur_chunk_ = get_sample_num_in_cur_chunk(g_root.sc[nTrackId], chunk_index+1);  //@a mark获取chunk中sample的数目
 			uint32_t sample_index_ =  get_sample_index(g_root.sc[nTrackId], chunk_index+1);//chunk中第一个sample的序号
-			unsigned int cur=_ftelli64(g_fin);
+			unsigned int cur=_ftelli64(g_finA);
 			for(int i = 0; i < sample_num_in_cur_chunk_; i++)
 			{
 				if (!g_bThreadLiving[nTrackId])
@@ -347,17 +367,17 @@ unsigned int _stdcall  AudioThread(void* lParam)
 					return 0;
 				}
 
-#ifdef _WIN32
-			DWORD dwStart = ::GetTickCount();
-#endif
+// #ifdef _WIN32
+// 			DWORD dwStart = ::GetTickCount();
+// #endif
 				uint32_t sample_size = get_sample_size(g_root.sz[nTrackId], sample_index_+i);//获取当前sample的大小
 				uint32_t sample_time = get_sample_time(g_root.ts[nTrackId], nSampleId );
 				double dbSampleTime = (double)sample_time/g_root.trk[nTrackId].mdia.mdhd.timescale ;
 				uint32_t uSampleTime = dbSampleTime*1000000;
 
-				_fseeki64(g_fin,cur,SEEK_SET);
+				_fseeki64(g_finA,cur,SEEK_SET);
 				unsigned char *ptr=new unsigned char [sample_size];
-				fread(ptr, sample_size, 1, g_fin);
+				fread(ptr, sample_size, 1, g_finA);
 
 				//写一帧数据 --- 可以直接进行网络推送
 				//fwrite(ptr, sample_size, 1, fout);
@@ -369,18 +389,20 @@ unsigned int _stdcall  AudioThread(void* lParam)
 				avFrame.u32AVFrameFlag = EASY_SDK_AUDIO_FRAME_FLAG;
 				avFrame.u32TimestampSec = lTimeStamp/1000000;
 				avFrame.u32TimestampUsec = (lTimeStamp%1000000);
-				EnterCriticalSection(&m_cs);
-				EasyPusher_PushFrame(g_fPusherHandle, &avFrame);
-				LeaveCriticalSection(&m_cs);
+
+// 				EnterCriticalSection(&m_cs);
+ 				EasyPusher_PushFrame(g_fPusherHandle, &avFrame);
+// 				LeaveCriticalSection(&m_cs);
 
 				lTimeStamp += uSampleTime;
-#ifdef _WIN32
-				DWORD dwStop = ::GetTickCount();
-#endif
+// #ifdef _WIN32
+// 				DWORD dwStop = ::GetTickCount();
+// #endif
+
 #ifndef _WIN32
 				usleep(uSampleTime);
 #else
-				Sleep(uSampleTime/1000-(dwStop-dwStart));
+				SleepEx(uSampleTime/1000, FALSE);
 #endif
 				delete [] ptr;
 				cur+=sample_size;
