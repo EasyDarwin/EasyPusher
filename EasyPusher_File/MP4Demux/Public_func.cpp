@@ -142,6 +142,7 @@ uint32_t get_sample_size(CMp4_stsz_box &box,
         if(sample_index_ == i+1)																			/*改动*/
             return box.sample_size_table[i];
     }
+	return 0;
 }
 
 // 获取stts中某个sample的时间(映射下一帧到来的时间)

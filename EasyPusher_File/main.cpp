@@ -83,6 +83,79 @@ Easy_Pusher_Handle g_fPusherHandle = 0;
 CRITICAL_SECTION m_cs;
 bool g_bVideoStart = false;
 
+#define VEDIO_PUSH 0
+#define AUDIO_PUSH 1
+
+typedef struct _SYN_CLOCK_CTRL_
+{
+	unsigned long ClockBase;
+	unsigned long ClockCurr;
+	unsigned long VedioBase;
+	unsigned long AudioBase;
+
+}Sync_clock_Ctl;
+
+Sync_clock_Ctl g_clock;
+
+// Add by Ricky
+//Audio and video Sync lock
+unsigned long Sync_clock(unsigned long TimeScale, unsigned long duration, int type, unsigned long* out)
+{
+	unsigned long timebase;
+	unsigned long DiffClock;
+	double TimeCalbase;
+	double Timenext;
+	unsigned long CurrentTime;
+	unsigned long NextTime;
+	unsigned long delay;
+#ifdef _WIN32
+	if(g_clock.ClockBase == 0)
+	{
+		g_clock.ClockBase = ::GetTickCount()*1000;
+
+	}
+	g_clock.ClockCurr = ::GetTickCount()*1000;
+#else
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	g_clock.ClockCurr = (int64_t)tv.tv_sec * 1000000 + tv.tv_usec;
+	if(g_clock.ClockBase == 0)		{
+		g_clock.ClockBase = g_clock.ClockCurr;
+	}
+	
+#endif
+	if(type == VEDIO_PUSH)
+	{
+		timebase = g_clock.VedioBase;
+	}else
+	{
+		timebase = g_clock.AudioBase;	
+	}
+	
+	DiffClock = g_clock.ClockCurr - g_clock.ClockBase;//时钟的耗时间Tick数//微妙级别忽略不计	
+	TimeCalbase = (double)timebase/TimeScale;
+	Timenext = (double)(timebase+duration)/TimeScale;
+	//开始计算当前和小一个Sample的时间估计决定延迟//
+	NextTime = (unsigned long)(Timenext*1000000);	
+	CurrentTime = (unsigned long)(TimeCalbase*1000000);
+	*out = CurrentTime;
+	if(DiffClock > NextTime) //已经落后，快进
+	{
+		delay =  0;
+	}else
+	{
+		delay = (NextTime- DiffClock);//重新计算时间
+	}
+	if(type == VEDIO_PUSH)
+	{
+		g_clock.VedioBase += duration;
+	}else
+	{
+		g_clock.AudioBase  += duration;	
+	}
+	return delay;
+}
+
 int main(int argc, char * argv[])
 {
 
@@ -228,6 +301,7 @@ int main(int argc, char * argv[])
 
 	EasyPusher_SetEventCallback(g_fPusherHandle, __EasyPusher_Callback, 0, NULL);
 	EasyPusher_StartStream(g_fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 1024, 0);
+	memset(&g_clock, 0, sizeof(g_clock));
 
 	printf("Press Enter exit...\n");
 	getchar();
@@ -255,7 +329,7 @@ unsigned int _stdcall  VideoThread(void* lParam)
 	{
 		g_bVideoStart = true;
 		int chunk_offset_amount    = g_root.co[nTrackId].chunk_offset_amount;
-		long lTimeStamp = 0;
+		unsigned long lTimeStamp = 0;
 		int nSampleId = 0;
 		for(int chunk_index = 0 ; chunk_index < chunk_offset_amount; ++chunk_index)
 		{
@@ -282,8 +356,12 @@ unsigned int _stdcall  VideoThread(void* lParam)
 // #endif
 				uint32_t sample_size = get_sample_size(g_root.sz[nTrackId], sample_index_+i);//获取当前sample的大小
 				uint32_t sample_time = get_sample_time(g_root.ts[nTrackId], nSampleId );
-				double dbSampleTime = (double)sample_time/g_root.trk[nTrackId].mdia.mdhd.timescale ;
-				uint32_t uSampleTime = dbSampleTime*1000000;
+				//double dbSampleTime = (double)sample_time/g_root.trk[nTrackId].mdia.mdhd.timescale ;
+				//uint32_t uSampleTime = dbSampleTime*1000000;
+
+				EnterCriticalSection(&m_cs);
+				uint32_t uSampleTime = Sync_clock(g_root.trk[nTrackId].mdia.mdhd.timescale, sample_time,VEDIO_PUSH, &lTimeStamp);
+				LeaveCriticalSection(&m_cs);
 
 				_fseeki64(g_fin,cur,SEEK_SET);
 				unsigned char *ptr=new unsigned char [sample_size];
@@ -310,18 +388,24 @@ unsigned int _stdcall  VideoThread(void* lParam)
 				//EnterCriticalSection(&m_cs);
 				EasyPusher_PushFrame(g_fPusherHandle, &avFrame);
 				//LeaveCriticalSection(&m_cs);
+				
+			
 
-				lTimeStamp += uSampleTime;
+				//lTimeStamp += uSampleTime;
+
 // #ifdef _WIN32
 // 
 // 				DWORD dwStop = ::GetTickCount();
 // #endif
 				//printf("Sleep=%d\r\n", uSampleTime/1000-(dwStop-dwStart));
+				if(uSampleTime!=0)
+				{
 #ifndef _WIN32
 				usleep(uSampleTime);
 #else
 				SleepEx(uSampleTime/1000, FALSE);
 #endif
+				}
 				delete [] ptr;
 				cur+=sample_size;
 				nSampleId++;
@@ -345,7 +429,7 @@ unsigned int _stdcall  AudioThread(void* lParam)
 			continue;
 		}
 		int chunk_offset_amount    = g_root.co[nTrackId].chunk_offset_amount;
-		long lTimeStamp = 0;
+		unsigned long lTimeStamp = 0;
 		int nSampleId = 0;
 		for(int chunk_index = 0 ; chunk_index < chunk_offset_amount; ++chunk_index)
 		{
@@ -372,8 +456,12 @@ unsigned int _stdcall  AudioThread(void* lParam)
 // #endif
 				uint32_t sample_size = get_sample_size(g_root.sz[nTrackId], sample_index_+i);//获取当前sample的大小
 				uint32_t sample_time = get_sample_time(g_root.ts[nTrackId], nSampleId );
-				double dbSampleTime = (double)sample_time/g_root.trk[nTrackId].mdia.mdhd.timescale ;
-				uint32_t uSampleTime = dbSampleTime*1000000;
+				//double dbSampleTime = (double)sample_time/g_root.trk[nTrackId].mdia.mdhd.timescale ;
+				//uint32_t uSampleTime = dbSampleTime*1000000;
+
+				EnterCriticalSection(&m_cs);
+				uint32_t uSampleTime = Sync_clock(g_root.trk[nTrackId].mdia.mdhd.timescale, sample_time,AUDIO_PUSH, &lTimeStamp);
+				LeaveCriticalSection(&m_cs);
 
 				_fseeki64(g_finA,cur,SEEK_SET);
 				unsigned char *ptr=new unsigned char [sample_size];
@@ -394,16 +482,18 @@ unsigned int _stdcall  AudioThread(void* lParam)
  				EasyPusher_PushFrame(g_fPusherHandle, &avFrame);
 // 				LeaveCriticalSection(&m_cs);
 
-				lTimeStamp += uSampleTime;
+				//lTimeStamp += uSampleTime;
 // #ifdef _WIN32
 // 				DWORD dwStop = ::GetTickCount();
 // #endif
-
+				if(uSampleTime!=0)
+				{
 #ifndef _WIN32
 				usleep(uSampleTime);
 #else
 				SleepEx(uSampleTime/1000, FALSE);
 #endif
+				}
 				delete [] ptr;
 				cur+=sample_size;
 				nSampleId++;
