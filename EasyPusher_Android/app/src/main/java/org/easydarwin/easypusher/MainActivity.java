@@ -8,6 +8,7 @@ package org.easydarwin.easypusher;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.media.MediaCodec;
@@ -45,7 +46,7 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
 
-    static final String TAG="EasyPusher";
+    static final String TAG = "EasyPusher";
 
     int width = 640, height = 480;
     int framerate, bitrate;
@@ -57,14 +58,10 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     NV21Convertor mConvertor;
     Button btnSwitch;
     Button btnSetting;
-    //    boolean started = false;
     boolean pushStream = false;//是否要推送数据
     EasyPusher mEasyPusher;
     TextView txtStreamAddress;
-//    String serverIP = "", serverPort = "", streamID = "";
-
     AudioStream audioStream;
-
     Button btnSwitchCemera;
     private boolean isCameraBack = true;
 
@@ -78,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         btnSwitch.setOnClickListener(this);
         btnSetting = (Button) findViewById(R.id.btn_setting);
         btnSetting.setOnClickListener(this);
-        btnSwitchCemera= (Button) findViewById(R.id.btn_switchCamera);
+        btnSwitchCemera = (Button) findViewById(R.id.btn_switchCamera);
         btnSwitchCemera.setOnClickListener(this);
         txtStreamAddress = (TextView) findViewById(R.id.txt_stream_address);
         initMediaCodec();
@@ -88,8 +85,42 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 getResources().getDisplayMetrics().heightPixels);
         surfaceView.setOnClickListener(this);
         mEasyPusher = new EasyPusher();
-        audioStream=new AudioStream(mEasyPusher);
+        mEasyPusher.setOnInitPusherCallback(new EasyPusher.OnInitPusherCallback() {
+
+            @Override
+            public void onCallback(int code) {
+                switch (code) {
+                    case CODE.EASY_ACTIVATE_INVALID_KEY:
+                        Log.i(TAG, "无效Key");
+                        break;
+                    case CODE.EASY_ACTIVATE_SUCCESS:
+                        Log.e(TAG, "激活成功");
+                        break;
+                    case CODE.EASY_PUSH_STATE_CONNECTING:
+                        Log.e(TAG, "连接中");
+                        break;
+                    case CODE.EASY_PUSH_STATE_CONNECTED:
+                        Log.e(TAG, "连接成功");
+                        break;
+                    case CODE.EASY_PUSH_STATE_CONNECT_FAILED:
+                        Log.e(TAG, "连接失败");
+                        break;
+                    case CODE.EASY_PUSH_STATE_CONNECT_ABORT:
+                        Log.e(TAG, "连接异常中断");
+                        break;
+                    case CODE.EASY_PUSH_STATE_PUSHING:
+                        Log.e(TAG, "推流中");
+                        break;
+                    case CODE.EASY_PUSH_STATE_DISCONNECTED:
+                        Log.e(TAG, "断开连接");
+                        break;
+                }
+
+            }
+        });
+        audioStream = new AudioStream(mEasyPusher);
     }
+
 
     @Override
     protected void onResume() {
@@ -97,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     }
 
 
-    private void initPusher(){
+    private void initPusher() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String ip = sharedPreferences.getString(Config.SERVER_IP, Config.DEFAULT_SERVER_IP);
         String port = sharedPreferences.getString(Config.SERVER_PORT, Config.DEFAULT_SERVER_PORT);
@@ -108,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             sharedPreferences.edit().putString(Config.STREAM_ID, id).commit();
         }
         txtStreamAddress.setText(String.format("rtsp://%s:%s/%s.sdp", ip, port, id));
-        mEasyPusher.initPush(ip, port, String.format("%s.sdp", id),getApplicationContext());
+        mEasyPusher.initPush(ip, port, String.format("%s.sdp", id), getApplicationContext());
     }
 
     private void initMediaCodec() {
@@ -157,8 +188,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             Camera.CameraInfo camInfo = new Camera.CameraInfo();
             Camera.getCameraInfo(mCameraId, camInfo);
             int cameraRotationOffset = camInfo.orientation;
-            if(mCameraId== Camera.CameraInfo.CAMERA_FACING_FRONT)
-                cameraRotationOffset+=180;
+            if (mCameraId == Camera.CameraInfo.CAMERA_FACING_FRONT)
+                cameraRotationOffset += 180;
             int rotate = (360 + cameraRotationOffset - getDgree()) % 360;
             parameters.setRotation(rotate);
             parameters.setPreviewFormat(ImageFormat.NV21);
@@ -204,6 +235,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
     Camera.PreviewCallback previewCallback = new Camera.PreviewCallback() {
         byte[] mPpsSps = new byte[0];
+        ByteBuffer[] inputBuffers;
+        ByteBuffer[] outputBuffers;
+        byte[] dst;
 
         @Override
         public void onPreviewFrame(byte[] data, Camera camera) {
@@ -211,27 +245,21 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 mCamera.addCallbackBuffer(data);
                 return;
             }
-            ByteBuffer[] inputBuffers = mMediaCodec.getInputBuffers();
-            ByteBuffer[] outputBuffers = mMediaCodec.getOutputBuffers();
-            byte[] dst = new byte[data.length];
+            inputBuffers = mMediaCodec.getInputBuffers();
+            outputBuffers = mMediaCodec.getOutputBuffers();
+            dst = new byte[data.length];
             Camera.Size previewSize = mCamera.getParameters().getPreviewSize();
-//            if (getDgree() == 0) {
-//                dst = Util.rotateNV21Degree90(data, previewSize.width, previewSize.height);
-//            } else {
-//                dst = data;
-//            }
             if (getDgree() == 0) {
                 Camera.CameraInfo camInfo = new Camera.CameraInfo();
                 Camera.getCameraInfo(mCameraId, camInfo);
                 int cameraRotationOffset = camInfo.orientation;
-                Log.e("cameraRotationOffset2",""+cameraRotationOffset);
-                if(cameraRotationOffset==0)
+                if (cameraRotationOffset == 0)
                     dst = data;
-                if(cameraRotationOffset==90)
+                if (cameraRotationOffset == 90)
                     dst = Util.rotateNV21Degree90(data, previewSize.width, previewSize.height);
-                if(cameraRotationOffset==180)
+                if (cameraRotationOffset == 180)
                     dst = Util.rotateNV21Degree90(data, previewSize.width, previewSize.height);
-                if(cameraRotationOffset==270)
+                if (cameraRotationOffset == 270)
                     dst = Util.rotateNV21Negative90(data, previewSize.width, previewSize.height);
             } else {
                 dst = data;
@@ -241,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 if (bufferIndex >= 0) {
                     inputBuffers[bufferIndex].clear();
                     mConvertor.convert(dst, inputBuffers[bufferIndex]);
-                    mMediaCodec.queueInputBuffer(bufferIndex, 0,inputBuffers[bufferIndex].position(),System.nanoTime() / 1000, 0);
+                    mMediaCodec.queueInputBuffer(bufferIndex, 0, inputBuffers[bufferIndex].position(), System.nanoTime() / 1000, 0);
                     MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
                     int outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, 0);
                     while (outputBufferIndex >= 0) {
@@ -258,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                             System.arraycopy(outData, 0, iframeData, mPpsSps.length, outData.length);
                             outData = iframeData;
                         }
-                        mEasyPusher.push(outData,System.currentTimeMillis(),1);
+                        mEasyPusher.push(outData, System.currentTimeMillis(), 1);
                         mMediaCodec.releaseOutputBuffer(outputBufferIndex, false);
                         outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, 0);
                     }
@@ -377,27 +405,26 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 startActivity(new Intent(this, SettingActivity.class));
                 break;
             case R.id.sv_surfaceview:
-                try{
+                try {
                     mCamera.autoFocus(null);
-                }catch (Exception e){
+                } catch (Exception e) {
                 }
                 break;
-            case R.id.btn_switchCamera:
-            {
+            case R.id.btn_switchCamera: {
                 // TODO Auto-generated method stub
-                int cameraCount=0;
-                if(isCameraBack){
-                    isCameraBack=false;
-                }else{
-                    isCameraBack=true;
+                int cameraCount = 0;
+                if (isCameraBack) {
+                    isCameraBack = false;
+                } else {
+                    isCameraBack = true;
                 }
                 Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
                 cameraCount = Camera.getNumberOfCameras();//得到摄像头的个数
-                for(int i = 0; i < cameraCount; i++) {
+                for (int i = 0; i < cameraCount; i++) {
                     Camera.getCameraInfo(i, cameraInfo);//得到每一个摄像头的信息
-                    if(mCameraId == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                    if (mCameraId == Camera.CameraInfo.CAMERA_FACING_FRONT) {
                         //现在是后置，变更为前置
-                        if(cameraInfo.facing  == Camera.CameraInfo.CAMERA_FACING_FRONT) {//代表摄像头的方位，CAMERA_FACING_FRONT前置      CAMERA_FACING_BACK后置
+                        if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {//代表摄像头的方位，CAMERA_FACING_FRONT前置      CAMERA_FACING_BACK后置
                             mCamera.stopPreview();//停掉原来摄像头的预览
                             mCamera.release();//释放资源
                             mCamera = null;//取消原来摄像头
@@ -408,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                         }
                     } else {
                         //现在是前置， 变更为后置
-                        if(cameraInfo.facing  == Camera.CameraInfo.CAMERA_FACING_BACK) {//代表摄像头的方位，CAMERA_FACING_FRONT前置      CAMERA_FACING_BACK后置
+                        if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {//代表摄像头的方位，CAMERA_FACING_FRONT前置      CAMERA_FACING_BACK后置
                             mCamera.stopPreview();//停掉原来摄像头的预览
                             mCamera.release();//释放资源
                             mCamera = null;//取消原来摄像头
@@ -418,7 +445,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                             break;
                         }
                     }
-
                 }
             }
             break;

@@ -112,7 +112,6 @@ public class AudioStream {
             @Override
             public void run() {
                 while (!Thread.interrupted() && !stoped) {
-//                    Log.i(TAG, "encode_" + Thread.currentThread().getName());
                     try {
                         if (mBuffer == null) {
                             mBuffer = ByteBuffer.allocate(10240);
@@ -144,7 +143,6 @@ public class AudioStream {
                         int size = mBufferInfo.size + 7;
                         byte[] buffer = new byte[size];
                         mBuffer.get(buffer);
-                        //Util.save(buffer, 0, size, path, true);
                         easyPusher.push(buffer,System.currentTimeMillis(), 0);
                         if (mBuffer.position() >= size) { // read complete
                             mMediaCodec.releaseOutputBuffer(mIndex, false);
