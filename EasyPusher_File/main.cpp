@@ -161,7 +161,7 @@ int main(int argc, char * argv[])
 
 	std::string sTestFilm  = "./test.mp4";//[阳光电影www.ygdy8.com].港囧.HD.720p.国语中字.mp4";//6004501011.MP4";
 	//std::string sTestFilm  = "D:\\360Downloads\\[阳光电影www.ygdy8.com].港囧.HD.720p.国语中字.mp4";//6004501011.MP4";
-	//std::string sTestFilm  = "D:\\360Downloads\\EFilmRecord.MP4";//6004501011.MP4";
+	//std::string sTestFilm  = "D:\\360Downloads\\Test.mp4";//6004501011.MP4";
 
 	//Open mp4 file, acturally we just support mp4 packaged by MP4Box
 		g_fin = _fsopen(sTestFilm.c_str(), "rb",  _SH_DENYNO );	
@@ -206,7 +206,35 @@ int main(int argc, char * argv[])
 #ifdef _WIN32
 	extern char* optarg;
 #endif
+
 	int ch;
+	ProgName = argv[0];
+	PrintUsage();
+	while ((ch = getopt(argc,argv, "hd:p:n:")) != EOF) 
+	{
+		switch(ch)
+		{
+		case 'h':
+			PrintUsage();
+			return 0;
+			break;
+		case 'd':
+			ConfigIP =optarg;
+			break;
+		case 'p':
+			ConfigPort =optarg;
+			break;
+		case 'n':
+			ConfigName =optarg;
+			break;
+		case '?':
+			return 0;
+			break;
+		default:
+			break;
+		}
+	}
+
 	char szIP[16] = {0};
 	Easy_Pusher_Handle fPusherHandle = 0;
 	EASY_MEDIA_INFO_T   mediainfo;
@@ -389,10 +417,8 @@ unsigned int _stdcall  VideoThread(void* lParam)
 				EasyPusher_PushFrame(g_fPusherHandle, &avFrame);
 				//LeaveCriticalSection(&m_cs);
 				
-			
-
 				//lTimeStamp += uSampleTime;
-
+			
 // #ifdef _WIN32
 // 
 // 				DWORD dwStop = ::GetTickCount();
