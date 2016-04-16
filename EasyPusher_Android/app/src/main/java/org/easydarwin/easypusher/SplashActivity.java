@@ -8,15 +8,10 @@ package org.easydarwin.easypusher;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.widget.TextView;
-
-import org.easydarwin.config.Config;
 
 public class SplashActivity extends Activity {
 
@@ -29,7 +24,7 @@ public class SplashActivity extends Activity {
 
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                startActivity(new Intent(SplashActivity.this, StreameActivity.class));
                 SplashActivity.this.finish();
             }
         }, 2000);

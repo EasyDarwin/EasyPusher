@@ -25,7 +25,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +43,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
@@ -65,12 +72,56 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     Button btnSwitchCemera;
     private boolean isCameraBack = true;
 
+    Spinner spnResolution;
+    List<String> listResolution;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        spnResolution= (Spinner) findViewById(R.id.spn_resolution);
+        listResolution = new ArrayList<String>();
+        listResolution=Util.getSupportResolution(this);
+        boolean supportdefault=listResolution.contains(String.format("%dx%d",width,height));
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.spn_item,listResolution);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnResolution.setAdapter(adapter);
+        if(!supportdefault){
+            String r=listResolution.get(0);
+            String [] splitR=r.split("x");
+            width=Integer.parseInt(splitR[0]);
+            height=Integer.parseInt(splitR[1]);
+        }
+        int position=listResolution.indexOf(String.format("%dx%d",width,height));
+        spnResolution.setSelection(position);
+        spnResolution.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String r=listResolution.get(position);
+                String [] splitR=r.split("x");
+                width=Integer.parseInt(splitR[0]);
+                height=Integer.parseInt(splitR[1]);
+
+                mCamera.stopPreview();//停掉原来摄像头的预览
+
+                mMediaCodec.stop();
+                mMediaCodec.release();
+                initMediaCodec();
+
+                mCamera.release();//释放资源
+                ctreateCamera(surfaceHolder);
+
+                startPreview();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         btnSwitch = (Button) findViewById(R.id.btn_switch);
         btnSwitch.setOnClickListener(this);
         btnSetting = (Button) findViewById(R.id.btn_setting);
@@ -183,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     private boolean ctreateCamera(SurfaceHolder surfaceHolder) {
         try {
             mCamera = Camera.open(mCameraId);
+
             Camera.Parameters parameters = mCamera.getParameters();
             int[] max = determineMaximumSupportedFramerate(parameters);
             Camera.CameraInfo camInfo = new Camera.CameraInfo();
@@ -277,9 +329,10 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                         byte[] outData = new byte[bufferInfo.size];
                         outputBuffer.get(outData);
                         //记录pps和sps
-                        if (outData[0] == 0 && outData[1] == 0 && outData[2] == 0 && outData[3] == 1 && outData[4] == 103) {
+                        int type=outData[4]&0x07;
+                        if(type==7||type==8){
                             mPpsSps = outData;
-                        } else if (outData[0] == 0 && outData[1] == 0 && outData[2] == 0 && outData[3] == 1 && outData[4] == 101) {
+                        }else if(type==5){
                             //在关键帧前面加上pps和sps数据
                             byte[] iframeData = new byte[mPpsSps.length + outData.length];
                             System.arraycopy(mPpsSps, 0, iframeData, 0, mPpsSps.length);
@@ -329,7 +382,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             mCamera.setPreviewCallbackWithBuffer(previewCallback);
         }
     }
-
 
     /**
      * 停止预览

@@ -17,8 +17,10 @@ public class Config {
     public static final String SERVER_IP="serverIp";
     public static final String SERVER_PORT="serverPort";
     public static final String STREAM_ID="streamId";
-    public static final String DEFAULT_SERVER_IP="203.195.131.217";
+    public static final String DEFAULT_SERVER_IP="192.168.0.109";
     public static final String DEFAULT_SERVER_PORT="554";
     public static final String DEFAULT_STREAM_ID="100";
+    public static final String PREF_NAME="easy_pref";
+    public static final String K_RESOLUTION="k_resolution";
 
 }
