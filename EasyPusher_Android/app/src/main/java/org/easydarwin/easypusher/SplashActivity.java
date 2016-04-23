@@ -33,7 +33,6 @@ public class SplashActivity extends Activity {
         try {
             versionname = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
             versionname = getResources().getString(R.string.version);
         }
 
