@@ -70,7 +70,7 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
         setContentView(R.layout.activity_main);
         spnResolution = (Spinner) findViewById(R.id.spn_resolution);
 
-        txtStatus= (TextView) findViewById(R.id.txt_stream_status);
+        txtStatus = (TextView) findViewById(R.id.txt_stream_status);
         btnSwitch = (Button) findViewById(R.id.btn_switch);
         btnSwitch.setOnClickListener(this);
         btnSetting = (Button) findViewById(R.id.btn_setting);
@@ -129,35 +129,34 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
 
             }
         });
-        mMediaStream.initMediaCodec();
-
         initSpninner();
     }
 
-    private static final String STATE="state";
-    private static final int MSG_STATE=1;
-    private void sendMessage(String message){
-        Message msg=Message.obtain();
-        msg.what=MSG_STATE;
-        Bundle bundle=new Bundle();
-        bundle.putString(STATE,message);
+    private static final String STATE = "state";
+    private static final int MSG_STATE = 1;
+
+    private void sendMessage(String message) {
+        Message msg = Message.obtain();
+        msg.what = MSG_STATE;
+        Bundle bundle = new Bundle();
+        bundle.putString(STATE, message);
         msg.setData(bundle);
         handler.sendMessage(msg);
     }
 
-    Handler handler=new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case MSG_STATE:
-                String state=msg.getData().getString("state");
+                    String state = msg.getData().getString("state");
                     txtStatus.setText(state);
                     break;
             }
         }
     };
 
-    private void initSpninner(){
+    private void initSpninner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spn_item, listResolution);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnResolution.setAdapter(adapter);

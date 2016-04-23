@@ -8,6 +8,7 @@ import android.media.MediaFormat;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
 import org.easydarwin.audio.AudioStream;
 import org.easydarwin.hw.EncoderDebugger;
 import org.easydarwin.hw.NV21Convertor;
@@ -41,64 +42,30 @@ public class MediaStream {
     private int mDgree;
     private Context mApplicationContext;
     Thread pushThread;
-    boolean codecAvailable=false;
-
+    boolean codecAvailable = false;
 
     public MediaStream(Context context, SurfaceView mSurfaceView) {
         mApplicationContext = context;
         this.mSurfaceView = mSurfaceView;
         mSurfaceHolder = mSurfaceView.getHolder();
         mEasyPusher = new EasyPusher();
-//        mEasyPusher.setOnInitPusherCallback(onInitPusherCallback);
-//        mEasyPusher.setOnInitPusherCallback();
         audioStream = new AudioStream(mEasyPusher);
     }
 
-//    private EasyPusher.OnInitPusherCallback mCallback;
-
-    public void setCallback(EasyPusher.OnInitPusherCallback callback){
-//        this.mCallback=callback;
+    public void setCallback(EasyPusher.OnInitPusherCallback callback) {
         mEasyPusher.setOnInitPusherCallback(callback);
     }
+
     private void initPusher(String ip, String port, String id) {
         try {
             mEasyPusher.initPush(ip, port, String.format("%s.sdp", id), mApplicationContext);
-        }catch (Exception e){
-            Log.i("","");
+        } catch (Exception e) {
+            Log.i("", "");
         }
     }
 
     public void setDgree(int dgree) {
         mDgree = dgree;
-    }
-
-    /**
-     * 初始化编码器
-     */
-    public void initMediaCodec() {
-        framerate = 25;
-        bitrate = 2 * width * height * framerate / 20;
-        EncoderDebugger debugger = EncoderDebugger.debug(mApplicationContext, width, height);
-        mConvertor = debugger.getNV21Convertor();
-        try {
-            mMediaCodec = MediaCodec.createByCodecName(debugger.getEncoderName());
-            MediaFormat mediaFormat;
-            if (mDgree == 0) {
-                mediaFormat = MediaFormat.createVideoFormat("video/avc", height, width);
-            } else {
-                mediaFormat = MediaFormat.createVideoFormat("video/avc", width, height);
-            }
-            mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, bitrate);
-            mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, framerate);
-            mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT,
-                    debugger.getEncoderColorFormat());
-            mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
-            mMediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
-            mMediaCodec.start();
-            codecAvailable=true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -113,13 +80,11 @@ public class MediaStream {
      * 重新开始
      */
     public void reStartStream() {
-        if(mCamera==null)return;
+        if (mCamera == null) return;
         mCamera.stopPreview();//停掉原来摄像头的预览
-        codecAvailable=false;
-        mMediaCodec.stop();
-        mMediaCodec.release();
-        initMediaCodec();
         mCamera.release();//释放资源
+        stopMediaCodec();
+        startMediaCodec();
         createCamera();
         startPreview();
     }
@@ -208,7 +173,7 @@ public class MediaStream {
                 return;
             }
             Camera.Size previewSize = mCamera.getParameters().getPreviewSize();
-            if(data.length!=previewSize.width*previewSize.height*3/2){
+            if (data.length != previewSize.width * previewSize.height * 3 / 2) {
                 mCamera.addCallbackBuffer(data);
                 return;
             }
@@ -244,11 +209,15 @@ public class MediaStream {
                         ByteBuffer outputBuffer = outputBuffers[outputBufferIndex];
                         byte[] outData = new byte[bufferInfo.size];
                         outputBuffer.get(outData);
+
+                        String data0 = String.format("%x %x %x %x %x %x %x %x %x %x ", outData[0], outData[1], outData[2], outData[3], outData[4], outData[5], outData[6], outData[7], outData[8], outData[9]);
+                        Log.e("out_data", data0);
+
                         //记录pps和sps
-                        int type=outData[4]&0x07;
-                        if(type==7||type==8){
+                        int type = outData[4] & 0x07;
+                        if (type == 7 || type == 8) {
                             mPpsSps = outData;
-                        }else if(type==5){
+                        } else if (type == 5) {
                             //在关键帧前面加上pps和sps数据
                             byte[] iframeData = new byte[mPpsSps.length + outData.length];
                             System.arraycopy(mPpsSps, 0, iframeData, 0, mPpsSps.length);
@@ -347,6 +316,49 @@ public class MediaStream {
         }
     }
 
+    /**
+     * 初始化编码器
+     */
+    private void startMediaCodec() {
+        {
+            framerate = 25;
+            bitrate = 2 * width * height * framerate / 20;
+            EncoderDebugger debugger = EncoderDebugger.debug(mApplicationContext, width, height);
+            mConvertor = debugger.getNV21Convertor();
+            try {
+                mMediaCodec = MediaCodec.createByCodecName(debugger.getEncoderName());
+                MediaFormat mediaFormat;
+                if (mDgree == 0) {
+                    mediaFormat = MediaFormat.createVideoFormat("video/avc", height, width);
+                } else {
+                    mediaFormat = MediaFormat.createVideoFormat("video/avc", width, height);
+                }
+                mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, bitrate);
+                mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, framerate);
+                mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT,
+                        debugger.getEncoderColorFormat());
+                mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
+                mMediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
+                mMediaCodec.start();
+                codecAvailable = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 停止编码并释放编码资源占用
+     */
+    private void stopMediaCodec() {
+        if (mMediaCodec != null) {
+            codecAvailable = false;
+            mMediaCodec.stop();
+            mMediaCodec.release();
+            mMediaCodec = null;
+        }
+    }
+
     public boolean isStreaming() {
         return pushStream;
     }
@@ -355,12 +367,14 @@ public class MediaStream {
         initPusher(ip, port, id);
         pushStream = true;
         audioStream.startRecord();
+        startMediaCodec();
     }
 
     public void stopStream() {
         mEasyPusher.stop();
         pushStream = false;
         audioStream.stop();
+        stopMediaCodec();
     }
 
     public void destroyStream() {
@@ -369,10 +383,7 @@ public class MediaStream {
             pushThread.interrupt();
         }
         destroyCamera();
-        codecAvailable=false;
-        mMediaCodec.stop();
-        mMediaCodec.release();
-        mMediaCodec = null;
+        stopMediaCodec();
         mEasyPusher.stop();
     }
 
