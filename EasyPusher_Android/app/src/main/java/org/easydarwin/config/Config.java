@@ -19,7 +19,7 @@ public class Config {
     public static final String STREAM_ID="streamId";
     public static final String DEFAULT_SERVER_IP="121.40.50.44";
     public static final String DEFAULT_SERVER_PORT="554";
-    public static final String DEFAULT_STREAM_ID= String.valueOf(System.currentTimeMillis());
+    public static final String DEFAULT_STREAM_ID= String.valueOf((int)(Math.random()*1000000+100000));
     public static final String PREF_NAME="easy_pref";
     public static final String K_RESOLUTION="k_resolution";
 
