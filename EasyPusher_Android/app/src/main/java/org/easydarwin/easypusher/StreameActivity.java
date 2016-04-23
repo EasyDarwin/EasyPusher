@@ -227,12 +227,7 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     String ip = sharedPreferences.getString(Config.SERVER_IP, Config.DEFAULT_SERVER_IP);
                     String port = sharedPreferences.getString(Config.SERVER_PORT, Config.DEFAULT_SERVER_PORT);
-                    String id = sharedPreferences.getString(Config.STREAM_ID, "");
-                    if (TextUtils.isEmpty(id)) {
-                        id = String.valueOf(System.nanoTime());
-                        SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        sharedPreferences.edit().putString(Config.STREAM_ID, id).commit();
-                    }
+                    String id = sharedPreferences.getString(Config.STREAM_ID, Config.DEFAULT_STREAM_ID);
                     mMediaStream.startStream(ip, port, id);
                     btnSwitch.setText("停止");
 
