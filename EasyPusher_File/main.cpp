@@ -161,7 +161,7 @@ int main(int argc, char * argv[])
 
 	std::string sTestFilm  = "./test.mp4";//[阳光电影www.ygdy8.com].港囧.HD.720p.国语中字.mp4";//6004501011.MP4";
 	//std::string sTestFilm  = "D:\\360Downloads\\[阳光电影www.ygdy8.com].港囧.HD.720p.国语中字.mp4";//6004501011.MP4";
-	//std::string sTestFilm  = "D:\\360Downloads\\Test.mp4";//6004501011.MP4";
+	//std::string sTestFilm  = "D:\\360Downloads\\MV.mp4";//6004501011.MP4";
 
 	//Open mp4 file, acturally we just support mp4 packaged by MP4Box
 		g_fin = _fsopen(sTestFilm.c_str(), "rb",  _SH_DENYNO );	
