@@ -210,8 +210,8 @@ public class MediaStream {
                         byte[] outData = new byte[bufferInfo.size];
                         outputBuffer.get(outData);
 
-                        String data0 = String.format("%x %x %x %x %x %x %x %x %x %x ", outData[0], outData[1], outData[2], outData[3], outData[4], outData[5], outData[6], outData[7], outData[8], outData[9]);
-                        Log.e("out_data", data0);
+//                        String data0 = String.format("%x %x %x %x %x %x %x %x %x %x ", outData[0], outData[1], outData[2], outData[3], outData[4], outData[5], outData[6], outData[7], outData[8], outData[9]);
+//                        Log.e("out_data", data0);
 
                         //记录pps和sps
                         int type = outData[4] & 0x07;

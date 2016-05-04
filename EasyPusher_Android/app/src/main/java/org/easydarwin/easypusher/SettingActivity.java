@@ -7,9 +7,6 @@
 
 package org.easydarwin.easypusher;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,7 +16,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.easydarwin.config.Config;
-import org.w3c.dom.Text;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -31,10 +27,9 @@ public class SettingActivity extends AppCompatActivity {
         final EditText txtPort = (EditText) findViewById(R.id.edt_server_port);
         final EditText txtId = (EditText) findViewById(R.id.edt_stream_id);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String ip = sharedPreferences.getString(Config.SERVER_IP, Config.DEFAULT_SERVER_IP);
-        String port = sharedPreferences.getString(Config.SERVER_PORT, Config.DEFAULT_SERVER_PORT);
-        String id = sharedPreferences.getString(Config.STREAM_ID, Config.DEFAULT_STREAM_ID);
+        String ip = EasyApplication.getEasyApplication().getIp();
+        String port = EasyApplication.getEasyApplication().getPort();
+        String id = EasyApplication.getEasyApplication().getId();
 
         txtIp.setText(ip);
         txtPort.setText(port);
@@ -60,13 +55,10 @@ public class SettingActivity extends AppCompatActivity {
                     idValue = Config.DEFAULT_STREAM_ID;
                 }
 
-                SharedPreferences sharedPreferences = PreferenceManager
-                        .getDefaultSharedPreferences(SettingActivity.this);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(Config.SERVER_IP, ipValue);
-                editor.putString(Config.SERVER_PORT, portValue);
-                editor.putString(Config.STREAM_ID, idValue);
-                editor.commit();
+                EasyApplication.getEasyApplication().saveStringIntoPref(Config.SERVER_IP, ipValue);
+                EasyApplication.getEasyApplication().saveStringIntoPref(Config.SERVER_PORT, portValue);
+                EasyApplication.getEasyApplication().saveStringIntoPref(Config.STREAM_ID_PREFIX + Config.STREAM_ID, idValue);
+
                 onBackPressed();
             }
         });
