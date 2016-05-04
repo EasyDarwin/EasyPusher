@@ -57,7 +57,7 @@ public class SettingActivity extends AppCompatActivity {
 
                 EasyApplication.getEasyApplication().saveStringIntoPref(Config.SERVER_IP, ipValue);
                 EasyApplication.getEasyApplication().saveStringIntoPref(Config.SERVER_PORT, portValue);
-                EasyApplication.getEasyApplication().saveStringIntoPref(Config.STREAM_ID_PREFIX + Config.STREAM_ID, idValue);
+                EasyApplication.getEasyApplication().saveStringIntoPref(Config.STREAM_ID, idValue);
 
                 onBackPressed();
             }
