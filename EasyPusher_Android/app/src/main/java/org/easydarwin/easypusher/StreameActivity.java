@@ -7,18 +7,10 @@
 package org.easydarwin.easypusher;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.ImageFormat;
-import android.hardware.Camera;
-import android.media.MediaCodec;
-import android.media.MediaFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -29,22 +21,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.easydarwin.audio.AudioStream;
-import org.easydarwin.config.Config;
-import org.easydarwin.hw.EncoderDebugger;
-import org.easydarwin.hw.NV21Convertor;
 import org.easydarwin.push.EasyPusher;
 import org.easydarwin.push.MediaStream;
 import org.easydarwin.util.Util;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
@@ -224,10 +206,9 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
         switch (v.getId()) {
             case R.id.btn_switch:
                 if (!mMediaStream.isStreaming()) {
-                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    String ip = sharedPreferences.getString(Config.SERVER_IP, Config.DEFAULT_SERVER_IP);
-                    String port = sharedPreferences.getString(Config.SERVER_PORT, Config.DEFAULT_SERVER_PORT);
-                    String id = sharedPreferences.getString(Config.STREAM_ID, Config.DEFAULT_STREAM_ID);
+                    String ip = EasyApplication.getEasyApplication().getIp();
+                    String port = EasyApplication.getEasyApplication().getPort();
+                    String id = EasyApplication.getEasyApplication().getId();
                     mMediaStream.startStream(ip, port, id);
                     btnSwitch.setText("停止");
 
