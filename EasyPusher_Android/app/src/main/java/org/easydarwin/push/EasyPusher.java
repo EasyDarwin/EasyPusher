@@ -24,6 +24,8 @@ public class EasyPusher {
             public static final int EASY_ACTIVATE_PROCESS_NAME_LEN_ERR      =   -3;       //进程名称长度不匹配
             public static final int EASY_ACTIVATE_PROCESS_NAME_ERR          =   -4;       //进程名称不匹配
             public static final int EASY_ACTIVATE_VALIDITY_PERIOD_ERR       =   -5;       //有效期校验不一致
+            public static final int EASY_ACTIVATE_PLATFORM_ERR		        =	-6;		  //平台不匹配
+            public static final int EASY_ACTIVATE_COMPANY_ID_LEN_ERR        =	-7;		  //授权使用商不匹配
             public static final int EASY_ACTIVATE_SUCCESS                   =   0;        //激活成功
             public static final int EASY_PUSH_STATE_CONNECTING              =   1;        //连接中
             public static final int EASY_PUSH_STATE_CONNECTED               =   2;        //连接成功
@@ -77,7 +79,7 @@ public class EasyPusher {
             public void run() {
                 stopPush();
 
-                String key = "6A34714D6C3536526D343041462F74577151546E6B755A76636D63755A57467A65575268636E64706269356C59584E356348567A6147567956752B71415036535A57467A65513D3D";
+                String key = "6A34714D6C3536526D34324150455A58714C6E4345755A76636D63755A57467A65575268636E64706269356C59584E356348567A61475679567778576F50365334456468646D6C754A6B4A68596D397A595541794D4445325257467A65555268636E6470626C526C5957316C59584E35";
 
                 init(serverIP, serverPort, streamName, key, context);
             }

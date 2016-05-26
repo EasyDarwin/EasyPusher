@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -106,6 +107,15 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
                         break;
                     case CODE.EASY_PUSH_STATE_DISCONNECTED:
                         sendMessage("断开连接");
+                        break;
+                    case CODE.EASY_ACTIVATE_PLATFORM_ERR:
+                        sendMessage("平台不匹配");
+                        break;
+                    case CODE.EASY_ACTIVATE_COMPANY_ID_LEN_ERR:
+                        sendMessage("断授权使用商不匹配");
+                        break;
+                    case CODE.EASY_ACTIVATE_PROCESS_NAME_LEN_ERR:
+                        sendMessage("进程名称长度不匹配");
                         break;
                 }
 
