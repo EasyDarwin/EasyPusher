@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EasyPusher", "EasyPusher\EasyPusher.vcxproj", "{D02FAA9C-7D90-48F7-AD1B-A97DF1E75CA8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libEasyPlayer", "libEasyPlayer\libEasyPlayer.vcxproj", "{BC0300E0-E5D5-4A49-88B4-4E79DFF5F1CC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D02FAA9C-7D90-48F7-AD1B-A97DF1E75CA8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D02FAA9C-7D90-48F7-AD1B-A97DF1E75CA8}.Debug|Win32.Build.0 = Debug|Win32
+		{D02FAA9C-7D90-48F7-AD1B-A97DF1E75CA8}.Release|Win32.ActiveCfg = Release|Win32
+		{D02FAA9C-7D90-48F7-AD1B-A97DF1E75CA8}.Release|Win32.Build.0 = Release|Win32
+		{BC0300E0-E5D5-4A49-88B4-4E79DFF5F1CC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC0300E0-E5D5-4A49-88B4-4E79DFF5F1CC}.Debug|Win32.Build.0 = Debug|Win32
+		{BC0300E0-E5D5-4A49-88B4-4E79DFF5F1CC}.Release|Win32.ActiveCfg = Release|Win32
+		{BC0300E0-E5D5-4A49-88B4-4E79DFF5F1CC}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
