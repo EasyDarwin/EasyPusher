@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D02FAA9C-7D90-48F7-AD1B-A97DF1E75CA8}</ProjectGuid>
+    <RootNamespace>EasyPusher</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+    <ProjectName>EasyPusher</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\</OutDir>
+    <EmbedManifest>true</EmbedManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\</OutDir>
+    <EmbedManifest>true</EmbedManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./EasyEncoder;./EasyMP4Writer;\DShowCapture\DirectShow\Include;./;.\EasySkinUI;C:\Program Files (x86)\Visual Leak Detector\include;.\VideoSource\USBCamera\DirectShow\Include;.\DShowCapture\DirectShow;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>../bin/$(ProjectName).exe</OutputFile>
+      <AdditionalDependencies>gdiplus.lib;d3d9.lib</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <AdditionalLibraryDirectories>./EasyEncoder;./EasyMP4Writer;.\DShowCapture\DirectShow\Lib</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./EasyEncoder;./EasyMP4Writer;\DShowCapture\DirectShow\Include;./;.\EasySkinUI;C:\Program Files (x86)\Visual Leak Detector\include;.\VideoSource\USBCamera\DirectShow\Include;.\DShowCapture\DirectShow;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>../bin/$(ProjectName).exe</OutputFile>
+      <AdditionalDependencies>gdiplus.lib;d3d9.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./EasyMP4Writer;.\DShowCapture\DirectShow\Lib;./EasyEncoder</AdditionalLibraryDirectories>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="res\EasyPusher.ico" />
+    <None Include="res\EasyPusher.rc2" />
+    <None Include="res\icoPen.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AudioSource\AudioCapture.h" />
+    <ClInclude Include="AudioSource\DirectSound.h" />
+    <ClInclude Include="CaptureScreen.h" />
+    <ClInclude Include="D3DCaptureScreem.h" />
+    <ClInclude Include="DlgLocalPanel.h" />
+    <ClInclude Include="DlgPanel.h" />
+    <ClInclude Include="DlgRemotePanel.h" />
+    <ClInclude Include="DlgVideo.h" />
+    <ClInclude Include="DShowCapture\CaptureAudio.h" />
+    <ClInclude Include="DShowCapture\CaptureVideo.h" />
+    <ClInclude Include="DShowCapture\DShowCaptureAudioAndVideo_Interface.h" />
+    <ClInclude Include="DShowCapture\DshowDef.h" />
+    <ClInclude Include="DShowCapture\SampleGrabberCB.h" />
+    <ClInclude Include="EasyPusher.h" />
+    <ClInclude Include="EasyPusherDlg.h" />
+    <ClInclude Include="EasyEncoder\EasyRtmp.h" />
+    <ClInclude Include="EasyEncoder\faac.h" />
+    <ClInclude Include="EasyEncoder\faaccfg.h" />
+    <ClInclude Include="EasyEncoder\FAACEncoder.h" />
+    <ClInclude Include="EasyEncoder\H264Encoder.h" />
+    <ClInclude Include="EasyEncoder\H264EncoderManager.h" />
+    <ClInclude Include="EasyEncoder\x264.h" />
+    <ClInclude Include="EasyEncoder\x264_config.h" />
+    <ClInclude Include="EasyFileCapture.h" />
+    <ClInclude Include="EasyLinkCtrl.h" />
+    <ClInclude Include="EasyMP4Writer\EasyMP4Writer.h" />
+    <ClInclude Include="EasyPlayerManager.h" />
+    <ClInclude Include="EasyPusher\EasyPusherAPI.h" />
+    <ClInclude Include="EasySkinManager.h" />
+    <ClInclude Include="EasySkinUI\FlashControl.h" />
+    <ClInclude Include="EasySkinUI\Function.h" />
+    <ClInclude Include="EasySkinUI\GifImage.h" />
+    <ClInclude Include="EasySkinUI\ImageEx.h" />
+    <ClInclude Include="EasySkinUI\internal.h" />
+    <ClInclude Include="EasySkinUI\IEasySkinControl.h" />
+    <ClInclude Include="EasySkinUI\Macro.h" />
+    <ClInclude Include="EasySkinUI\MemoryDC.h" />
+    <ClInclude Include="EasySkinUI\RenderManager.h" />
+    <ClInclude Include="EasySkinUI\Resource.h" />
+    <ClInclude Include="EasySkinUI\EasySkinButton.h" />
+    <ClInclude Include="EasySkinUI\EasySkinComboBox.h" />
+    <ClInclude Include="EasySkinUI\EasySkinDialog.h" />
+    <ClInclude Include="EasySkinUI\EasySkinEdit.h" />
+    <ClInclude Include="EasySkinUI\EasySkinListBox.h" />
+    <ClInclude Include="EasySkinUI\EasySkinListCtrl.h" />
+    <ClInclude Include="EasySkinUI\EasySkinProgressCtrl.h" />
+    <ClInclude Include="EasySkinUI\EasySkinRichEdit.h" />
+    <ClInclude Include="EasySkinUI\EasySkinSliderCtrl.h" />
+    <ClInclude Include="EasySkinUI\EasySkinTabCtrl.h" />
+    <ClInclude Include="EasySkinUI\EasySkinToolBar.h" />
+    <ClInclude Include="EasySkinUI\EasySkinTreeCtrl.h" />
+    <ClInclude Include="EasySkinUI\EasySkinUI.h" />
+    <ClInclude Include="EasySkinUI\EasySkinUIMenu.h" />
+    <ClInclude Include="EasySkinUI\EasySkinUI_ScrollBar.h" />
+    <ClInclude Include="FlashingWnd.h" />
+    <ClInclude Include="GlobalUnits.h" />
+    <ClInclude Include="IniFileLoad.h" />
+    <ClInclude Include="mp4creator\libmp4creator.h" />
+    <ClInclude Include="MP4Demux\Base_box.h" />
+    <ClInclude Include="MP4Demux\Define_head.h" />
+    <ClInclude Include="MP4Demux\Head.h" />
+    <ClInclude Include="MP4Demux\inttype.h" />
+    <ClInclude Include="MP4Demux\Mp4_avc1_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_avcC_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_ftyp_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_hdlr_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_mdat_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_mdhd_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_mdia_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_minf_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_moov_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_mp4a_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_mvhd_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_root_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_stbl_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_stco_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_stsc_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_stsd_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_stss_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_stsz_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_stts_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_tkhd_box.h" />
+    <ClInclude Include="MP4Demux\Mp4_trak_box.h" />
+    <ClInclude Include="MP4Demux\Public_class.h" />
+    <ClInclude Include="MP4Demux\Public_func.h" />
+    <ClInclude Include="MP4Demux\read_write.h" />
+    <ClInclude Include="MP4Demux\Sample_description.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="SettingDlg.h" />
+    <ClInclude Include="SourceManager.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="trace.h" />
+    <ClInclude Include="VideoSource\USBCamera\CameraDS.h" />
+    <ClInclude Include="VideoSource\USBCamera\convert.h" />
+    <ClInclude Include="VideoSource\USBCamera\DllManager.h" />
+    <ClInclude Include="VideoSource\USBCamera\ICameraCaptuer.h" />
+    <ClInclude Include="vstime.h" />
+    <ClInclude Include="YUVTransform.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AudioSource\AudioCapture.cpp" />
+    <ClCompile Include="AudioSource\DirectSound.cpp" />
+    <ClCompile Include="CaptureScreen.cpp" />
+    <ClCompile Include="D3DCaptureScreem.cpp" />
+    <ClCompile Include="DlgLocalPanel.cpp" />
+    <ClCompile Include="DlgPanel.cpp" />
+    <ClCompile Include="DlgRemotePanel.cpp" />
+    <ClCompile Include="DlgVideo.cpp" />
+    <ClCompile Include="DShowCapture\CaptureAudio.cpp" />
+    <ClCompile Include="DShowCapture\CaptureVideo.cpp" />
+    <ClCompile Include="DShowCapture\DShowCaptureAudioAndVideo_Interface.cpp" />
+    <ClCompile Include="DShowCapture\SampleGrabberCB.cpp" />
+    <ClCompile Include="EasyPusher.cpp" />
+    <ClCompile Include="EasyPusherDlg.cpp" />
+    <ClCompile Include="EasyEncoder\EasyRtmp.cpp" />
+    <ClCompile Include="EasyEncoder\FAACEncoder.cpp" />
+    <ClCompile Include="EasyEncoder\H264Encoder.cpp" />
+    <ClCompile Include="EasyEncoder\H264EncoderManager.cpp" />
+    <ClCompile Include="EasyFileCapture.cpp" />
+    <ClCompile Include="EasyLinkCtrl.cpp" />
+    <ClCompile Include="EasyMP4Writer\EasyMP4Writer.cpp" />
+    <ClCompile Include="EasyPlayerManager.cpp" />
+    <ClCompile Include="EasySkinManager.cpp" />
+    <ClCompile Include="EasySkinUI\FlashControl.cpp" />
+    <ClCompile Include="EasySkinUI\Function.cpp" />
+    <ClCompile Include="EasySkinUI\GifImage.cpp" />
+    <ClCompile Include="EasySkinUI\ImageEx.cpp" />
+    <ClCompile Include="EasySkinUI\IEasySkinControl.cpp" />
+    <ClCompile Include="EasySkinUI\MemoryDC.cpp" />
+    <ClCompile Include="EasySkinUI\RenderManager.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinButton.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinComboBox.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinDialog.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinEdit.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinListBox.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinListCtrl.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinProgressCtrl.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinRichEdit.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinSliderCtrl.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinTabCtrl.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinToolBar.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinTreeCtrl.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinUI.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinUIMenu.cpp" />
+    <ClCompile Include="EasySkinUI\EasySkinUI_ScrollBar.cpp" />
+    <ClCompile Include="FlashingWnd.cpp" />
+    <ClCompile Include="GlobalUnits.cpp" />
+    <ClCompile Include="IniFileLoad.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_avc1_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_avcC_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_ftyp_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_hdlr_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_mdat_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_mdhd_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_mdia_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_minf_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_moov_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_mp4a_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_mvhd_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_root_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_stbl_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_stco_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_stsc_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_stsd_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_stss_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_stsz_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_stts_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_tkhd_box.cpp" />
+    <ClCompile Include="MP4Demux\Mp4_trak_box.cpp" />
+    <ClCompile Include="MP4Demux\Public_func.cpp" />
+    <ClCompile Include="MP4Demux\read_write.cpp" />
+    <ClCompile Include="SettingDlg.cpp" />
+    <ClCompile Include="SourceManager.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="trace.cpp" />
+    <ClCompile Include="VideoSource\USBCamera\CameraDS.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="VideoSource\USBCamera\convert.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="VideoSource\USBCamera\ICameraCaptuer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="vstime.cpp" />
+    <ClCompile Include="YUVTransform.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EasyPusher.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="AudioSource\dxguid.lib" />
+    <Library Include="DShowCapture\DirectShow\Lib\STRMBASE.lib" />
+    <Library Include="EasyPusher\libEasyPusher.lib" />
+    <Library Include="FFEncoder\FFEncoder.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libEasyPlayer\libEasyPlayer.vcxproj">
+      <Project>{bc0300e0-e5d5-4a49-88b4-4e79dff5f1cc}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="EasyPusher.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

@@ -1,0 +1,614 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="VideoSource">
+      <UniqueIdentifier>{4b074abe-ff4a-4259-9542-a936d470c205}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VideoSource\USBCamera">
+      <UniqueIdentifier>{51f626cf-0704-49de-8c77-6e145d056ad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EasyPusher">
+      <UniqueIdentifier>{c36fcf34-c2c4-458a-84b3-577058becdf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AudioSource">
+      <UniqueIdentifier>{bb1870c2-a382-4ca3-9716-968ad8b86e45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EasySkinUI">
+      <UniqueIdentifier>{f3d036e8-6769-4267-91d5-ff4149a05929}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DShowCapture">
+      <UniqueIdentifier>{d538fa9e-5442-43fe-98d7-f92c9451b3d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EasyMP4Writer">
+      <UniqueIdentifier>{ffc36be6-86a7-4cfd-81e7-c972ebb46eff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EasyEncoder">
+      <UniqueIdentifier>{0b4cde4e-773b-49f2-be30-f288af70be65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MP4Demux">
+      <UniqueIdentifier>{17821d34-8dfe-4156-85e1-fb123c493a95}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="res\icoPen.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\EasyPusher.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\EasyPusher.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoSource\USBCamera\CameraDS.h">
+      <Filter>VideoSource\USBCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoSource\USBCamera\convert.h">
+      <Filter>VideoSource\USBCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoSource\USBCamera\DllManager.h">
+      <Filter>VideoSource\USBCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoSource\USBCamera\ICameraCaptuer.h">
+      <Filter>VideoSource\USBCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgVideo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgLocalPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgRemotePanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyPusher\EasyPusherAPI.h">
+      <Filter>EasyPusher</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioSource\DirectSound.h">
+      <Filter>AudioSource</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioSource\AudioCapture.h">
+      <Filter>AudioSource</Filter>
+    </ClInclude>
+    <ClInclude Include="vstime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="trace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyPlayerManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\FlashControl.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\Function.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\GifImage.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\ImageEx.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\internal.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\Macro.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\MemoryDC.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\RenderManager.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\Resource.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\IEasySkinControl.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinButton.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinComboBox.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinDialog.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinEdit.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinListBox.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinListCtrl.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinProgressCtrl.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinRichEdit.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinSliderCtrl.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinTabCtrl.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinToolBar.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinTreeCtrl.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinUI.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinUI_ScrollBar.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinUI\EasySkinUIMenu.h">
+      <Filter>EasySkinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EasySkinManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalUnits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DShowCapture\DShowCaptureAudioAndVideo_Interface.h">
+      <Filter>DShowCapture</Filter>
+    </ClInclude>
+    <ClInclude Include="YUVTransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyLinkCtrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DShowCapture\CaptureAudio.h">
+      <Filter>DShowCapture</Filter>
+    </ClInclude>
+    <ClInclude Include="DShowCapture\CaptureVideo.h">
+      <Filter>DShowCapture</Filter>
+    </ClInclude>
+    <ClInclude Include="DShowCapture\DshowDef.h">
+      <Filter>DShowCapture</Filter>
+    </ClInclude>
+    <ClInclude Include="DShowCapture\SampleGrabberCB.h">
+      <Filter>DShowCapture</Filter>
+    </ClInclude>
+    <ClInclude Include="CaptureScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FlashingWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyMP4Writer\EasyMP4Writer.h">
+      <Filter>EasyMP4Writer</Filter>
+    </ClInclude>
+    <ClInclude Include="mp4creator\libmp4creator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyEncoder\EasyRtmp.h">
+      <Filter>EasyEncoder</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyEncoder\faac.h">
+      <Filter>EasyEncoder</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyEncoder\faaccfg.h">
+      <Filter>EasyEncoder</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyEncoder\FAACEncoder.h">
+      <Filter>EasyEncoder</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyEncoder\H264Encoder.h">
+      <Filter>EasyEncoder</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyEncoder\H264EncoderManager.h">
+      <Filter>EasyEncoder</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyEncoder\x264.h">
+      <Filter>EasyEncoder</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyEncoder\x264_config.h">
+      <Filter>EasyEncoder</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DCaptureScreem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Base_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Define_head.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Head.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\inttype.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_avc1_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_avcC_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_ftyp_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_hdlr_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_mdat_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_mdhd_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_mdia_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_minf_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_moov_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_mp4a_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_mvhd_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_root_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_stbl_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_stco_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_stsc_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_stsd_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_stss_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_stsz_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_stts_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_tkhd_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Mp4_trak_box.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Public_class.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Public_func.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\read_write.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="MP4Demux\Sample_description.h">
+      <Filter>MP4Demux</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyFileCapture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyPusher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyPusherDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IniFileLoad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoSource\USBCamera\CameraDS.cpp">
+      <Filter>VideoSource\USBCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoSource\USBCamera\convert.cpp">
+      <Filter>VideoSource\USBCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoSource\USBCamera\ICameraCaptuer.cpp">
+      <Filter>VideoSource\USBCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgVideo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgLocalPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgRemotePanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSource\DirectSound.cpp">
+      <Filter>AudioSource</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSource\AudioCapture.cpp">
+      <Filter>AudioSource</Filter>
+    </ClCompile>
+    <ClCompile Include="vstime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="trace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyPlayerManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\FlashControl.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\Function.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\GifImage.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\ImageEx.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\MemoryDC.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\RenderManager.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\IEasySkinControl.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinButton.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinComboBox.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinDialog.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinEdit.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinListBox.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinListCtrl.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinProgressCtrl.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinRichEdit.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinSliderCtrl.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinTabCtrl.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinToolBar.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinTreeCtrl.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinUI.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinUI_ScrollBar.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinUI\EasySkinUIMenu.cpp">
+      <Filter>EasySkinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EasySkinManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalUnits.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="YUVTransform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyLinkCtrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DShowCapture\CaptureAudio.cpp">
+      <Filter>DShowCapture</Filter>
+    </ClCompile>
+    <ClCompile Include="DShowCapture\CaptureVideo.cpp">
+      <Filter>DShowCapture</Filter>
+    </ClCompile>
+    <ClCompile Include="DShowCapture\SampleGrabberCB.cpp">
+      <Filter>DShowCapture</Filter>
+    </ClCompile>
+    <ClCompile Include="DShowCapture\DShowCaptureAudioAndVideo_Interface.cpp">
+      <Filter>DShowCapture</Filter>
+    </ClCompile>
+    <ClCompile Include="CaptureScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FlashingWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyMP4Writer\EasyMP4Writer.cpp">
+      <Filter>EasyMP4Writer</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyEncoder\EasyRtmp.cpp">
+      <Filter>EasyEncoder</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyEncoder\FAACEncoder.cpp">
+      <Filter>EasyEncoder</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyEncoder\H264Encoder.cpp">
+      <Filter>EasyEncoder</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyEncoder\H264EncoderManager.cpp">
+      <Filter>EasyEncoder</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DCaptureScreem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_avc1_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_avcC_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_ftyp_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_hdlr_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_mdat_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_mdhd_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_mdia_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_minf_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_moov_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_mp4a_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_mvhd_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_root_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_stbl_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_stco_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_stsc_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_stsd_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_stss_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_stsz_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_stts_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_tkhd_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Mp4_trak_box.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\Public_func.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="MP4Demux\read_write.cpp">
+      <Filter>MP4Demux</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyFileCapture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyPusher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyPusherDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IniFileLoad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="EasyPusher\libEasyPusher.lib">
+      <Filter>EasyPusher</Filter>
+    </Library>
+    <Library Include="FFEncoder\FFEncoder.lib" />
+    <Library Include="AudioSource\dxguid.lib">
+      <Filter>AudioSource</Filter>
+    </Library>
+    <Library Include="DShowCapture\DirectShow\Lib\STRMBASE.lib">
+      <Filter>DShowCapture</Filter>
+    </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EasyPusher.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
