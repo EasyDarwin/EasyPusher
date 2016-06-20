@@ -53,7 +53,8 @@ unsigned long CEasyFileCapture::Sync_clock(unsigned long TimeScale, unsigned lon
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
 	g_clock.ClockCurr = (int64_t)tv.tv_sec * 1000000 + tv.tv_usec;
-	if(g_clock.ClockBase == 0)		{
+	if(g_clock.ClockBase == 0)	
+	{
 		g_clock.ClockBase = g_clock.ClockCurr;
 	}
 
@@ -133,6 +134,8 @@ int CEasyFileCapture::InitMP4FileCapture(char* sPath, int nStartTime, int nStopT
 	m_nVideoTrackId = get_video_info_in_moov(m_root,  m_videoInfo );
 	m_nAudioTrackId = get_audio_info_in_moov(m_root,  m_audioInfo );
 
+	//m_audioInfo.samplerate = 44100;
+
 	double dbTimeDuration = (double)m_root.moov.mvhd.duration;
 	double dbTimeScale = (double)m_root.moov.mvhd.timescale;
 
@@ -206,18 +209,18 @@ void CEasyFileCapture::StopMP4FileCapture()
 	{
 		m_mp4TrackThread[nI] = 0;
 		m_bThreadLiving[nI] = false;
-	}
+	} 
 	//等待线程结束
 	Sleep(300);
 	//获取线程结束代码 ,如果线程还在运行就等她结束
-	// 	DWORD dwExitCode ;
-	// 	::GetExitCodeThread(m_hScreenCaptureThread,&dwExitCode);
-	// 	if(dwExitCode == STILL_ACTIVE)
-	// 	{
-	// 		WaitForSingleObject(m_hScreenCaptureThread, INFINITE); 
-	// 		CloseHandle(m_hScreenCaptureThread);
-	// 		m_hScreenCaptureThread = INVALID_HANDLE_VALUE;
-	// 	}
+// 	DWORD dwExitCode ;
+// 	::GetExitCodeThread(m_hScreenCaptureThread,&dwExitCode);
+// 	if(dwExitCode == STILL_ACTIVE)
+// 	{
+// 		WaitForSingleObject(m_hScreenCaptureThread, INFINITE); 
+// 		CloseHandle(m_hScreenCaptureThread);
+// 		m_hScreenCaptureThread = INVALID_HANDLE_VALUE;
+// 	}
 }
 
 //MP4 file pusher  calllback
@@ -281,14 +284,14 @@ int CEasyFileCapture::VideoProcess()
 				// #endif
 				uint32_t sample_size = get_sample_size(m_root.sz[m_nVideoTrackId], sample_index_+i);//获取当前sample的大小
 				uint32_t sample_time = get_sample_time(m_root.ts[m_nVideoTrackId], nSampleId );
-				double dbSampleTime = (double)sample_time/m_root.trk[m_nVideoTrackId].mdia.mdhd.timescale ;
-				uint32_t uSampleTimeTicket = dbSampleTime*1000000;
+// 				double dbSampleTime = (double)sample_time/m_root.trk[m_nVideoTrackId].mdia.mdhd.timescale ;
+// 				uint32_t uSampleTimeTicket = dbSampleTime*1000000;
 
 				_fseeki64(m_fin,cur,SEEK_SET);
 				cur+=sample_size;
 				nSampleId++;
 
-#if 0
+#if 1
 				EnterCriticalSection(&m_cs);
 				uint32_t uSampleTime = Sync_clock(m_root.trk[m_nVideoTrackId].mdia.mdhd.timescale, sample_time,VEDIO_PUSH, &lTimeStamp);
 				LeaveCriticalSection(&m_cs);
@@ -302,28 +305,24 @@ int CEasyFileCapture::VideoProcess()
 				memset(&avFrame, 0x00, sizeof(EASY_AV_Frame));
 
 				unsigned char* pFrame = ptr;
+				uint32_t nFrameLength = sample_size;
 				unsigned char naltype = ( (unsigned char)pFrame[4] & 0x1F);
 				// 判断I帧带SPS和PPS头的情况 [6/13/2016 SwordTwelve]
-				if (naltype == 0x07)
-				{
-					int nHeaderLen = 4+m_videoInfo.sps->sequenceParameterSetLength+4+m_videoInfo.pps->pictureParameterSetLength;
-					pFrame = ptr + nHeaderLen;
-					sample_size -= nHeaderLen;
-				}
-
-				AvcToH264Frame(pFrame, sample_size );
-
-// 				pFrame[0] = 0x00;
-// 				pFrame[1] = 0x00;
-// 				pFrame[2] = 0x00;
-// 				pFrame[3] = 0x01;
+// 				if (naltype == 0x07)
+// 				{
+// 					int nHeaderLen = 4+m_videoInfo.sps->sequenceParameterSetLength+4+m_videoInfo.pps->pictureParameterSetLength;
+// 					pFrame = ptr + nHeaderLen;
+// 					nFrameLength -= nHeaderLen;
+// 				}
+				bool bKeyFrame = false;
+				AvcToH264Frame(ptr, sample_size, bKeyFrame, &pFrame, nFrameLength );
 
 				avFrame.pBuffer = (unsigned char*)pFrame;
-				avFrame.u32AVFrameLen = sample_size;
-				avFrame.u32VFrameType = (naltype==0x05)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
+				avFrame.u32AVFrameLen = nFrameLength;
+				avFrame.u32VFrameType = (bKeyFrame==true)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
 				avFrame.u32AVFrameFlag = EASY_SDK_VIDEO_FRAME_FLAG;
-				avFrame.u32TimestampSec = lTimeCount/1000000;
-				avFrame.u32TimestampUsec = (lTimeCount%1000000);
+				avFrame.u32TimestampSec = lTimeStamp/1000000;
+				avFrame.u32TimestampUsec = (lTimeStamp%1000000);
 
 				//EasyPusher_PushFrame(g_fPusherHandle, &avFrame);
 				//数据回调
@@ -339,14 +338,14 @@ int CEasyFileCapture::VideoProcess()
 				// #endif
 				//printf("Sleep=%d\r\n", uSampleTime/1000-(dwStop-dwStart));
 				
-				lTimeCount += 30000;//uSampleTimeTicket;
-
-				if(uSampleTimeTicket!=0)//uSampleTime
+				//lTimeCount += uSampleTimeTicket;
+				lTimeStamp += uSampleTime;
+				if(!uSampleTime==0)//uSampleTime uSampleTimeTicket
 				{
 #ifndef _WIN32
-					usleep(uSampleTimeTicket);
+					usleep(uSampleTime);
 #else
-					SleepEx(/*uSampleTimeTicket/1000*/30, FALSE);
+					SleepEx(uSampleTime/1000, FALSE);
 #endif
 				}
 				delete [] ptr;
@@ -372,6 +371,9 @@ int CEasyFileCapture::AudioProcess()
 			//printf("Audio Thread waiting.........\r\n");
 			continue;
 		}
+
+		//FILE* pAACFile = fopen("./test.aac", "wb");
+
 		int chunk_offset_amount    = m_root.co[m_nAudioTrackId].chunk_offset_amount;
 		unsigned long lTimeStamp = 0;
 		unsigned long lTimeCount = 0;   
@@ -402,19 +404,72 @@ int CEasyFileCapture::AudioProcess()
 				// #endif
 				uint32_t sample_size = get_sample_size(m_root.sz[m_nAudioTrackId], sample_index_+i);//获取当前sample的大小
 				uint32_t sample_time = get_sample_time(m_root.ts[m_nAudioTrackId], nSampleId );
-				double dbSampleTime = (double)sample_time/m_root.trk[m_nAudioTrackId].mdia.mdhd.timescale ;
-				uint32_t uSampleTimeTicket = dbSampleTime*1000000;
+// 				double dbSampleTime = (double)sample_time/m_root.trk[m_nAudioTrackId].mdia.mdhd.timescale ;
+// 				uint32_t uSampleTimeTicket = dbSampleTime*1000000;
 
 				_fseeki64(m_finA,cur,SEEK_SET);
 				cur+=sample_size;
 				nSampleId++;
-#if 0
+#if 1
 				EnterCriticalSection(&m_cs);
 				uint32_t uSampleTime = Sync_clock(m_root.trk[m_nAudioTrackId].mdia.mdhd.timescale, sample_time,AUDIO_PUSH, &lTimeStamp);
 				LeaveCriticalSection(&m_cs);
 #endif
-				unsigned char *ptr=new unsigned char [sample_size];
+				unsigned char *ptr=new unsigned char [sample_size+7];
 				fread(ptr, sample_size, 1, m_finA);
+
+#if 0
+				fwrite(ptr, sample_size, 1, pAACFile);
+				fflush(pAACFile);
+#endif		
+				uint32_t uSampleSize = sample_size;
+				if (ptr[0] == 0xFF && ptr[1]&0xF0 == 0xF0)
+				{
+				}
+				else//if there is not adt , I will try to  add adts header
+				{
+				static unsigned long tnsSupportedSamplingRates[16] = //音频采样率标准，下表为写入标志
+				{ 96000, 88200,64000,48000,44100,32000,24000,22050,16000,12000,11025,8000,7350,0,0,0 };
+				unsigned char  adts_header[7] ;
+				memset(adts_header, 0x00, 7*sizeof(unsigned char));
+				adts_header[0] = 0xFF;
+				adts_header[1] = 0xF1;//MPEG4(0) ==0xF1   MPEG2(1) == 0xF9
+				unsigned char samplerate_t = 0;
+				unsigned char channelcount_t = 0;
+				unsigned int  aac_frame_length = sample_size + 7;
+				unsigned int num_data_block = sample_size/1024;
+				unsigned int sample_rate_index = 0xc;//Reserved
+				unsigned int channels = m_audioInfo.channelcount;
+
+				// 注意：因为我还没法获取到AAC编码的等级，所以这里默认为AAC-LC，也许你应该知道这个值是多少，从而填在这里--! [4/10/2016 SwordTwelve]
+				//obj_type,   4种(0~3对应实际MAIN(1) LOW(2) SSR(3) LTP(4))
+				unsigned int obj_type = 1;
+				int nI= 0;
+				for ( nI = 0; nI<13; nI++)
+				{
+					if (tnsSupportedSamplingRates[nI] == m_audioInfo.samplerate )
+					{
+						sample_rate_index =nI; 
+						break;
+					}
+				}
+
+				/* Object type over first 2 bits */
+				adts_header[2] = obj_type << 6;//
+				/* rate index over next 4 bits */
+				adts_header[2] |= (sample_rate_index << 2);
+				/* channels over last 2 bits */
+				adts_header[2] |= (channels & 0x4) >> 2;
+				adts_header[3] = (channels & 0x3) << 6;
+				adts_header[3] |= (aac_frame_length & 0x1800) >> 11;
+				adts_header[4] = (aac_frame_length & 0x7F8) >> 3;
+				adts_header[5] = (aac_frame_length & 0x7) << 5  |  0x1F;
+				adts_header[6] = 0xFC  | num_data_block & 0x03; //Set raw Data blocks.;
+
+				 uSampleSize = sample_size+7;
+				memmove(ptr+7, ptr, sample_size);
+				memcpy(ptr, adts_header, 7 );
+				}
 
 				//写一帧数据 --- 可以直接进行网络推送
 				//fwrite(ptr, sample_size, 1, fout);
@@ -422,10 +477,10 @@ int CEasyFileCapture::AudioProcess()
 				memset(&avFrame, 0x00, sizeof(EASY_AV_Frame));
 
 				avFrame.pBuffer = (unsigned char*)ptr;
-				avFrame.u32AVFrameLen = sample_size;
+				avFrame.u32AVFrameLen = uSampleSize;
 				avFrame.u32AVFrameFlag = EASY_SDK_AUDIO_FRAME_FLAG;
-				avFrame.u32TimestampSec = lTimeCount/1000000;
-				avFrame.u32TimestampUsec = (lTimeCount%1000000);
+				avFrame.u32TimestampSec = uSampleTime/1000000;
+				avFrame.u32TimestampUsec = (uSampleTime%1000000);
 
 				//EasyPusher_PushFrame(g_fPusherHandle, &avFrame);
 				//数据回调
@@ -435,24 +490,26 @@ int CEasyFileCapture::AudioProcess()
 					//TRACE("Audio:  sample_size = %d\n", sample_size);
 				}
 
-				//lTimeStamp += uSampleTime;
-				lTimeCount += uSampleTimeTicket;
+				lTimeStamp += uSampleTime;
+				//lTimeCount += uSampleTimeTicket;
 
 				// #ifdef _WIN32
 				// 				DWORD dwStop = ::GetTickCount();
 				// #endif
-				if(uSampleTimeTicket!=0)//uSampleTime
+				if(uSampleTime!=0)//uSampleTimeTicket
 				{
 #ifndef _WIN32
-					usleep(uSampleTimeTicket);
+					usleep(uSampleTime);
 #else
-					SleepEx(uSampleTimeTicket/1000, FALSE);
+					SleepEx(uSampleTime/1000, FALSE);
 #endif
 				}
 				delete [] ptr;
 			}
 		}
+		//fclose(pAACFile);
 	}
+
 	return 0;
 }
 
@@ -486,25 +543,26 @@ void CEasyFileCapture::GetMediaInfo(EASY_MEDIA_INFO_T& mediainfo)
 			}
 		}
 		//音频轨存在
-// 		if (m_nAudioTrackId>-1)
-// 		{
-// 			mediainfo.u32AudioCodec =   EASY_SDK_AUDIO_CODEC_AAC;
-// 			mediainfo.u32AudioSamplerate = m_audioInfo.samplerate;
-// 			mediainfo.u32AudioChannel = m_audioInfo.channelcount;
-// 			mediainfo.u32AudioBitsPerSample = m_audioInfo.samplesize;
-// 		}
+		if (m_nAudioTrackId>-1)
+		{
+			mediainfo.u32AudioCodec =   EASY_SDK_AUDIO_CODEC_AAC;
+			mediainfo.u32AudioSamplerate = m_audioInfo.samplerate;
+			mediainfo.u32AudioChannel = m_audioInfo.channelcount;
+			mediainfo.u32AudioBitsPerSample = m_audioInfo.samplesize;
+		}
 }
 
-int CEasyFileCapture::AvcToH264Frame(unsigned char* pFrame, uint32_t nFrameLen)
+int CEasyFileCapture::AvcToH264Frame(unsigned char* pFrame, uint32_t nFrameLen,  bool& bKeyFrame, unsigned char** pOutBuffer, uint32_t& nFrameLength)
 {
 	if ( !pFrame )
 	{
 		return -1;
 	}
-	
+	bKeyFrame = false;
 	uint32_t nNalCount = 0;
 	//第一个nal的大小s
 	uint32_t nFirstNalSize = 0;
+	bool bFindPFrame = false;
 	while (nNalCount < nFrameLen)
 	{
 		unsigned char ucHeader[4];
@@ -517,6 +575,20 @@ int CEasyFileCapture::AvcToH264Frame(unsigned char* pFrame, uint32_t nFrameLen)
 		(pFrame+nNalCount)[1] = 0x00;
 		(pFrame+nNalCount)[2] = 0x00;
 		(pFrame+nNalCount)[3] = 0x01;
+
+		unsigned char naltype =  (unsigned char)((pFrame+nNalCount)[4] & 0x1F);
+		if (naltype==0x05&&bKeyFrame == false)//I
+		{
+			bKeyFrame = true;
+			*pOutBuffer = pFrame+nNalCount;
+			nFrameLength = nFrameLen-nNalCount;
+		}
+		if (naltype==0x01&&bFindPFrame == false)//P/B
+		{
+			bFindPFrame = true;
+			*pOutBuffer = pFrame+nNalCount;
+			nFrameLength = nFrameLen-nNalCount;
+		}
 
 		nNalCount += nFirstNalSize+4;
 	}

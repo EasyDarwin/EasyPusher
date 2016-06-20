@@ -139,7 +139,7 @@ int CEasyPusherDlg::ReadSourceConfigInfo()
 		m_pConfigInfo[nI].nStartTime		   = _ttoi(ReadKeyValueFromS(_T("nStartTime"), strDevValue)); 
 		m_pConfigInfo[nI].nEndTime 		   = _ttoi(ReadKeyValueFromS(_T("nEndTime"), strDevValue)); 
 
-		CString strFilePath = ReadKeyValueFromS(_T("strFilePath"),strDevValue);
+		CString strFilePath = ReadKeyValueFromS(_T("strPlanOrder"),strDevValue);
 
 		__WCharToMByte( strFilePath.GetBuffer(strFilePath.GetLength()), m_pConfigInfo[nI].strFilePath, sizeof(m_pConfigInfo[nI].strFilePath)/sizeof(m_pConfigInfo[nI].strFilePath[0]));
 
@@ -432,6 +432,12 @@ BOOL CEasyPusherDlg::DestroyWindow()
 	{
 		m_pManager->UnInstance();
 		m_pManager = NULL;
+	}
+
+	if (m_pConfigInfo)
+	{
+		delete m_pConfigInfo;
+		m_pConfigInfo = NULL;
 	}
 
 	//Delete Video Wnd
@@ -745,9 +751,20 @@ void CEasyPusherDlg::DrawClientArea( CDC*pDC,int nWidth,int nHeight )
 
 	//绘制静态文本 （有没有更好的方法呢？？？--!）
 	//左部分	
-	CFont *pOldFont=pDC->SelectObject(&m_ftSaticDefault);
-
 	CRect rcPosition;
+
+	CFont *pOldFont=pDC->SelectObject(&m_ftSaticTittle);
+	//Tittle
+	rcPosition.SetRect(35 , 1, 135, 30 );
+	CString strTittle = _T("EasyPusher");
+	pDC->SetTextColor(RGB(255,255,255));
+	pDC->DrawText(strTittle,rcPosition,DT_CENTER| DT_VCENTER |DT_SINGLELINE|DT_END_ELLIPSIS);
+
+	pDC->SelectObject(pOldFont);  
+
+	pOldFont=pDC->SelectObject(&m_ftSaticDefault);
+	pDC->SetTextColor(RGB(0,0,0));
+
 	rcPosition.SetRect(20 , 39, 20 + 67, 58 );
 	CString strWndMode = _T("窗口模式");
 	pDC->DrawText(strWndMode,rcPosition,DT_CENTER| DT_VCENTER |DT_SINGLELINE|DT_END_ELLIPSIS);
@@ -778,7 +795,7 @@ void CEasyPusherDlg::DrawClientArea( CDC*pDC,int nWidth,int nHeight )
 	rcPosition.SetRect(10, nHeight-250+24+25+20, 70, nHeight-250+24+25+20+24 );
 	pDC->DrawText(strDebugInfo,rcPosition,DT_CENTER| DT_VCENTER |DT_SINGLELINE|DT_END_ELLIPSIS);
 
-	CString strVersionInfo = EasyClent_VersionInfo;
+	CString strVersionInfo = EasyPusher_VersionInfo;
 	rcPosition.SetRect(nWidth-810 , nHeight-25,  nWidth, nHeight );
 	pDC->DrawText(strVersionInfo,rcPosition,DT_CENTER| DT_VCENTER |DT_SINGLELINE|DT_END_ELLIPSIS);
 
@@ -795,17 +812,18 @@ void CEasyPusherDlg::UpdataResource()
 	SetExtrude(true);
 	//显示Logo
 	m_bShowLogo = true;
-
+	m_bShowTittle = false;
 	HDC hParentDC = GetBackDC();
 
 	CRect rcClient;
 	GetClientRect(&rcClient);
 
 	m_ftSaticDefault.CreateFont(18,0,0,0,FW_NORMAL,0,FALSE,0,0,0,0,0,0,TEXT("微软雅黑"));
-
+	m_ftSaticTittle.CreateFont(24,0,0,0,FW_NORMAL,0,FALSE,0,0,0,0,0,0,TEXT("微软雅黑"));
 // 	m_btnLocalView;
 // 	m_btnPush;
 // 	m_btnLiveView;
+
 	//贴图
 	m_btnLocalView.SetBackImage(TEXT("SkinUI\\图标\\按钮常规.png"),
 		TEXT("SkinUI\\图标\\按钮选中.png"),TEXT("SkinUI\\图标\\按钮选中-2.png"),TEXT("SkinUI\\图标\\按钮常规.png"), &CRect(3,3,3,3));

@@ -70,7 +70,7 @@ public:
 	int AudioProcess();
 	//Audio and video Sync lock [Add by Ricky]
 	unsigned long Sync_clock(unsigned long TimeScale, unsigned long duration, int type, unsigned long* out);
-	int AvcToH264Frame(unsigned char* pFrame, uint32_t nFrameLen);
+	int AvcToH264Frame(unsigned char* pFrame, uint32_t nFrameLen, bool& bKeyFrame, unsigned char** pOutBuffer, uint32_t& nFrameLength );
 
 	//Member var
 private:

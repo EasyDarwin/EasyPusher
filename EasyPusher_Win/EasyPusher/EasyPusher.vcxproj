@@ -202,6 +202,7 @@
     <ClInclude Include="MP4Demux\Public_func.h" />
     <ClInclude Include="MP4Demux\read_write.h" />
     <ClInclude Include="MP4Demux\Sample_description.h" />
+    <ClInclude Include="OrderRecord.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SettingDlg.h" />
     <ClInclude Include="SourceManager.h" />
@@ -287,6 +288,7 @@
     <ClCompile Include="MP4Demux\Mp4_trak_box.cpp" />
     <ClCompile Include="MP4Demux\Public_func.cpp" />
     <ClCompile Include="MP4Demux\read_write.cpp" />
+    <ClCompile Include="OrderRecord.cpp" />
     <ClCompile Include="SettingDlg.cpp" />
     <ClCompile Include="SourceManager.cpp" />
     <ClCompile Include="stdafx.cpp">

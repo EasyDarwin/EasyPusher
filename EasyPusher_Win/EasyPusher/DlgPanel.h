@@ -10,6 +10,9 @@
 #include "SourceManager.h"
 #include "afxwin.h"
 #include "SettingDlg.h"
+#include "OrderRecord.h"
+
+#define MSG_ORDER_RUN WM_USER+1001
 
 // CDlgPanel 对话框
 class CEasyPusherDlg;
@@ -30,13 +33,11 @@ protected:
 	CEdit	*m_pEdtServerIP;		
 	CEdit	*m_pEdtServerPort;		
 	CEdit	*m_pEdtServerStream;		
-
 	CComboBox* m_pCmbType;//直播/推送切选
 	CComboBox* m_pCmbSourceType;//源类型选择
 	CComboBox* m_pCmbCamera;
 	CComboBox* m_pCmbMic;
 	CComboBox* m_pCmbScreenMode;
-	
 	CEdit*	m_pEdtRtspStream;		
 	CEdit*	m_pEditStartTime;
 	CEdit*	m_pEditEndTime;
@@ -75,13 +76,24 @@ public:
 	CString OpenMp4File();
 	//加载界面配置信息
 	void LoadSourceConfigInfo( SourceConfigInfo*  pSourceInfo );
+	
+	// 计划相关函数 [6/15/2016 SwordTwelve]
+	// 函数:LoadOrderRecordInfo
+	// 功能:载入定时控制信息
+	void LoadOrderRecordInfo(CString strOrderRcPath);
+	//检测计划列表
+	void CheckOrderList();
 
 private:
 	int m_nWndId;//自己的窗口Id
 	CFont	m_ftSaticDefault;
 	SourceConfigInfo  m_sSourceInfo;
-
+	COrderRecord* m_pOrderRecord;
 public:
 	CSourceManager* m_pManager;
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnDestroy();
+	afx_msg LRESULT OnOrderRun(WPARAM wparam, LPARAM lparam) ; 
+
 };
 

@@ -26,6 +26,7 @@ CEasySkinManager::CEasySkinManager(UINT nIDTemplate,CWnd* pParent /*=NULL*/,AFX_
 	m_enWndStyle = Style;
 	m_bIsZoomed = false;
 	m_bShowLogo = true;
+	m_bShowTittle = false;
 }
 
 CEasySkinManager::~CEasySkinManager()
@@ -72,8 +73,12 @@ void CEasySkinManager::DrawClientArea( CDC*pDC,int nWidth,int nHeight )
 		if ( m_pImageLogo != NULL && !m_pImageLogo->IsNull() )
 			m_pImageLogo->DrawImage(pDC,4,1);
 	}
+	if (m_bShowTittle)
+	{
 		if ( m_pImageTitle != NULL && !m_pImageTitle->IsNull() )
 			m_pImageTitle->DrawImage(pDC,38,9);	
+
+	}
 }
 
 BOOL CEasySkinManager::OnInitDialog()

@@ -351,6 +351,9 @@
     <ClInclude Include="IniFileLoad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OrderRecord.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -591,6 +594,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IniFileLoad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OrderRecord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

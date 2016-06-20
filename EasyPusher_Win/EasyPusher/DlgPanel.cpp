@@ -44,6 +44,7 @@ CDlgPanel::CDlgPanel(CWnd* pParent /*=NULL*/)
 	m_sAVCapParamInfo.nASampleRate = 44100;
 	m_sAVCapParamInfo.nAChannels = 2;
 	memset(&m_sSourceInfo, 0x00, sizeof(SourceConfigInfo));
+	m_pOrderRecord = NULL;
 }
 
 CDlgPanel::~CDlgPanel()
@@ -77,6 +78,9 @@ BEGIN_MESSAGE_MAP(CDlgPanel, CEasySkinDialog)
 	ON_WM_ERASEBKGND()
 	ON_CBN_SELCHANGE(IDC_COMBO_CAPSCREEN_MODE, &CDlgPanel::OnCbnSelchangeComboCapscreenMode)
 	ON_WM_RBUTTONUP()
+	ON_WM_TIMER()
+	ON_WM_DESTROY()
+	ON_MESSAGE(MSG_ORDER_RUN, OnOrderRun)
 END_MESSAGE_MAP()
 
 
@@ -108,6 +112,7 @@ BOOL CDlgPanel::OnInitDialog()
 	//更新皮肤
 	UpdataResource();
 
+	CString strIniPath = (CString)m_sSourceInfo.strFilePath;
 	if (m_pEditStartTime)
 	{
 		CString strStartTime = _T("");
@@ -124,7 +129,7 @@ BOOL CDlgPanel::OnInitDialog()
 	if (NULL != m_pEdtRtspStream)
 	{
 		CString strPath = _T("");
-		strPath = 	m_sSourceInfo.strFilePath;
+		//strPath = 	m_sSourceInfo.strFilePath;
 		m_pEdtRtspStream->SetWindowTextW(strPath);
 	}
 	if (m_pEdtServerIP)
@@ -248,6 +253,7 @@ BOOL CDlgPanel::OnInitDialog()
 		m_pEditStartTime->ShowWindow(SW_HIDE);
 		m_pEditEndTime->ShowWindow(SW_HIDE);
 	}
+	LoadOrderRecordInfo(strIniPath);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常: OCX 属性页应返回 FALSE
@@ -406,8 +412,7 @@ void CDlgPanel::OnBnClickedButtonStart()
 							__WCharToMByte(wszEndTime, szEndTime, sizeof(szEndTime)/sizeof(szEndTime[0]));
 							nStopTime = atoi( szEndTime );
 						}
-					} 
-					
+					} 				
 				}
 				else
 				{
@@ -428,7 +433,7 @@ void CDlgPanel::OnBnClickedButtonStart()
 					strTemp = _T("网络音视频流采集");
 				}
 
-				int nRet = m_pManager->StartCapture( eType,  nCamId, nAudioId, pCapWnd->GetSafeHwnd(),  szFilePath, nStartTime, nStopTime, bAutoLoop, szURL, nWidth, nHeight, nFps,nBitrate, szDataType, nASampleRate , nAChannels );
+				int nRet = m_pManager->StartCapture( eType,  nCamId, nAudioId, pCapWnd->GetSafeHwnd(),  szFilePath, -1, -1, bAutoLoop, szURL, nWidth, nHeight, nFps,nBitrate, szDataType, nASampleRate , nAChannels );
 				if (nRet>0)
 				{
 					strTemp +=_T("成功！"); 
@@ -985,4 +990,187 @@ CString CDlgPanel::OpenMp4File()
 		return strFileName;
 	}
 	return _T("");
+}
+
+// 函数:LoadOrderRecordInfo
+// 功能:载入定时控制信息
+void CDlgPanel::LoadOrderRecordInfo(CString strOrderRcPath)
+{	
+	if(m_pOrderRecord!=NULL)
+	{
+		delete m_pOrderRecord;
+		m_pOrderRecord=NULL;
+	}
+	m_pOrderRecord = new COrderRecord();
+	if(m_pOrderRecord)
+	{
+		BOOL bUse= m_pOrderRecord->LoadOrderRecordData(strOrderRcPath);
+		if(bUse==FALSE)
+		{
+			delete m_pOrderRecord;
+			m_pOrderRecord=NULL;
+			return ;
+		}
+		if(m_pOrderRecord->m_bStartLoadList==TRUE&&m_pOrderRecord->m_bUserOrderRecord==TRUE)
+		{
+			CString strPath=m_pOrderRecord->m_strOrderInfoPath;
+			m_pOrderRecord->LoadOrderRecordList(strPath);
+			int nCheckTimer=m_pOrderRecord->m_nCheckTimer;
+			if(nCheckTimer>0)
+			{
+				SetTimer(4,nCheckTimer,NULL);
+			}
+		}
+	}	
+}
+
+//检测计划列表
+void CDlgPanel::CheckOrderList()
+{
+	if(m_pOrderRecord)
+	{
+		BOOL bInCap = m_pManager->IsInCapture();//0=结束 1=开启
+		int nActiveOrderId = -1;
+		int nCheck = m_pOrderRecord->CheckIsListFlag(bInCap, nActiveOrderId);
+		int nRet = -1;
+		if(nCheck==1)//开始推送
+		{
+			CString sName;
+			CString sStartTime;
+			CString sEndTime ;
+			CString strPath1(_T("")),strPath2(_T("")),strPath3(_T(""));
+			nRet = m_pOrderRecord->GetCurOrderPlanInfo(sName, sStartTime, sEndTime, strPath1, strPath2, strPath3);
+			//界面显示推送文件的路径信息
+			CString strLog = _T("");
+			strLog.Format(_T("检测到推送计划  name=%s start=%s  end=%s path=%s！\r\n"), sName, sStartTime, sEndTime, strPath1 );
+			m_pManager->LogErr( strLog );
+			if (m_pEditStartTime)
+			{
+				CString strStartTime = _T("");
+				strStartTime.Format(_T("%s"), sStartTime );
+				m_pEditStartTime->SetWindowTextW( strStartTime );
+			}
+			if (m_pEditEndTime)
+			{
+				CString strEndTime = _T("");
+				strEndTime.Format(_T("%s"), sEndTime );
+				m_pEditEndTime->SetWindowTextW( strEndTime );
+			}
+			//初始化控件参数
+			if (NULL != m_pEdtRtspStream)
+			{
+				CString strPath = _T("");
+				strPath = 	strPath1;
+				m_pEdtRtspStream->SetWindowTextW(strPath);
+			}
+			//调用命令
+			//OnBnClickedButtonStart();
+			PostMessage(MSG_ORDER_RUN);
+
+// 			if (nActiveOrderId>-1)
+// 			{	
+// 				//发送计划运行开始命令，置为运行中状态
+// 				COrderRecordInfo tOrderRecordInfo;
+// 				nRet = m_pOrderRecord->GetOrderRecInfoById(nActiveOrderId, tOrderRecordInfo);
+// 				CString strCmdString = _T("");
+// 				CString strName = tOrderRecordInfo.name;
+// 				CString strproperty1 = tOrderRecordInfo.property1;
+// 				CString strproperty2 = tOrderRecordInfo.property2;
+// 				CString strproperty3 = tOrderRecordInfo.property3;
+// 
+// 				CString strBeginTime = tOrderRecordInfo.starttime.Format("%Y-%m-%d %H:%M:%S");
+// 				CString strEndTime = tOrderRecordInfo.endtime.Format("%Y-%m-%d %H:%M:%S");
+// 				if(tOrderRecordInfo.nState==1)
+// 				{
+// 					strBeginTime = tOrderRecordInfo.starttime.Format("%H:%M:%S");
+// 					strEndTime = tOrderRecordInfo.endtime.Format("%H:%M:%S");
+// 				}				
+// 				CString strKeyValue = _T("");
+// 				strKeyValue.Format(_T("%d@%s@%s@%s@%s@%s@%s@%d@%d"),tOrderRecordInfo.id, strName, strBeginTime, 
+// 					strEndTime, strproperty1, strproperty2, strproperty3, tOrderRecordInfo.nState, tOrderRecordInfo.nRunState);
+// 
+// 				CString strKeyItem = _T("");
+// 				strKeyItem.Format(_T("LB_OrderRecord_Plan%d"), 0);
+// 				PackageStringCMD(strCmdString, _T("LB_OrderRecord_OptType"), 0);//刷新列表
+// 				PackageStringCMD(strCmdString, _T("LB_OrderRecord_Count"), 1);
+// 				PackageStringCMD(strCmdString, strKeyItem, strKeyValue);
+// 				SendIOCPNetCmd(0x03, Actor_User, 0x04, 0x26, strCmdString, 
+// 					strCmdString.GetLength(), 0);//广播状态信息
+//			}		
+		}
+		else if(nCheck==2)//停止录像
+		{
+			//界面显示推送文件的路径信息
+			CString strLog = _T("检测到推送计划 停止！\r\n");
+
+			m_pManager->LogErr( strLog );
+			//调用命令
+			BOOL bInCap = m_pManager->IsInCapture();//0=结束 1=开启
+			if(bInCap)
+			{
+				//OnBnClickedButtonStart();
+				PostMessage(MSG_ORDER_RUN);
+			}
+
+			//发送计划停止命令，置为已完成状态；
+			//发送计划运行开始命令，置为运行中状态
+// 			COrderRecordInfo tOrderRecordInfo;
+// 			nRet = m_pOrderRecord->GetOrderRecInfoById(nActiveOrderId, tOrderRecordInfo);
+// 			CString strCmdString = _T("");
+// 			CString strName = tOrderRecordInfo.name;
+// 			CString strproperty1 = tOrderRecordInfo.property1;
+// 			CString strproperty2 = tOrderRecordInfo.property2;
+// 			CString strproperty3 = tOrderRecordInfo.property3;
+// 
+// 			CString strBeginTime = tOrderRecordInfo.starttime.Format("%Y-%m-%d %H:%M:%S");
+// 			CString strEndTime = tOrderRecordInfo.endtime.Format("%Y-%m-%d %H:%M:%S");
+// 			if(tOrderRecordInfo.nState==1)
+// 			{
+// 				strBeginTime = tOrderRecordInfo.starttime.Format("%H:%M:%S");
+// 				strEndTime = tOrderRecordInfo.endtime.Format("%H:%M:%S");
+// 			}				
+
+// 			CString strKeyValue = _T("");
+// 			strKeyValue.Format(_T("%d@%s@%s@%s@%s@%s@%s@%d@%d"),tOrderRecordInfo.id, strName, strBeginTime, 
+// 				strEndTime, strproperty1, strproperty2, strproperty3, tOrderRecordInfo.nState, tOrderRecordInfo.nRunState);
+// 
+// 			CString strKeyItem = _T("");
+// 			strKeyItem.Format(_T("LB_OrderRecord_Plan%d"), 0);
+// 			PackageStringCMD(strCmdString, _T("LB_OrderRecord_OptType"), 0);//刷新列表
+// 			PackageStringCMD(strCmdString, _T("LB_OrderRecord_Count"), 1);
+// 			PackageStringCMD(strCmdString, strKeyItem, strKeyValue);
+// 			SendIOCPNetCmd(0x03, Actor_User, 0x04, 0x26, strCmdString, 
+// 				strCmdString.GetLength(), 0);//广播状态信息
+		}
+	}
+}
+
+
+void CDlgPanel::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: Add your message handler code here and/or call default
+	//录制计划定时器
+	if(nIDEvent==4)
+	{
+		CheckOrderList();
+	}
+	CEasySkinDialog::OnTimer(nIDEvent);
+}
+
+
+void CDlgPanel::OnDestroy()
+{
+	CEasySkinDialog::OnDestroy();
+
+	if(m_pOrderRecord!=NULL)
+	{
+		delete m_pOrderRecord;
+		m_pOrderRecord=NULL;
+	}	
+}
+
+LRESULT CDlgPanel::OnOrderRun(WPARAM wparam, LPARAM lparam)
+{
+	OnBnClickedButtonStart();
+	return 0;
 }
