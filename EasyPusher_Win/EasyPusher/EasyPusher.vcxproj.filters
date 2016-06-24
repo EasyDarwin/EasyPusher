@@ -40,6 +40,9 @@
     <Filter Include="MP4Demux">
       <UniqueIdentifier>{17821d34-8dfe-4156-85e1-fb123c493a95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TSDemux">
+      <UniqueIdentifier>{6c091c6c-e122-4743-9ae0-735fd97d04e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -354,6 +357,18 @@
     <ClInclude Include="OrderRecord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TSDemux\common.h">
+      <Filter>TSDemux</Filter>
+    </ClInclude>
+    <ClInclude Include="TSDemux\ts.h">
+      <Filter>TSDemux</Filter>
+    </ClInclude>
+    <ClInclude Include="TSDemux\ac3.h">
+      <Filter>TSDemux</Filter>
+    </ClInclude>
+    <ClInclude Include="TSDemux\h264.h">
+      <Filter>TSDemux</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -598,6 +613,9 @@
     </ClCompile>
     <ClCompile Include="OrderRecord.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TSDemux\ts.cpp">
+      <Filter>TSDemux</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,7 @@
 #include <process.h>
 using namespace std;
 #include "EasyPusher\EasyPusherAPI.h"
+#include "TSDemux\ts.h"
 
 #ifndef HANDLE
 #define HANDLE void*
@@ -44,6 +45,15 @@ typedef struct tagMediaInfo
 	
 }MediaInfo;
 
+typedef enum tagFILE_TYPE
+{
+	FILE_MP4 = 0,
+	FILE_TS = 1
+	//OTHER FILE TYPES
+	//....
+
+}FILE_TYPE;
+
 typedef int (WINAPI *CaptureFileCallback)(int nDevId, EASY_AV_Frame* frameInfo, void* pMaster);
 
 class CEasyFileCapture
@@ -55,12 +65,11 @@ public:
 	//Member function
 public:
 	//Interface function
-	int InitMP4FileCapture(char* sPath, int nStartTime, int nStopTime, bool bAutoLoop);
-	void StartMP4FileCapture();
-	void StopMP4FileCapture();
+	int InitFileCapture( char* sPath, int nStartTime, int nStopTime, bool bAutoLoop);
+	void StartFileCapture();
+	void StopFileCapture();
 	//设置捕获数据回调函数
 	void SetCaptureFileCallback(CaptureFileCallback callBack, void * pMaster);
-	void GetMP4FileInfo(MediaInfo* pMediaInfo);
 	void GetMediaInfo(EASY_MEDIA_INFO_T& mediaInfo);
 
 	//Globle Func for thread callback
@@ -100,5 +109,11 @@ private:
 	CaptureFileCallback m_pCallback;
 	void* m_pMaster;
 	MediaInfo m_mediaInfo;
+	ts::demuxer* m_pTSDemuxer;
+	FILE_TYPE m_fileType;
+	std::string m_sFilmPath;
+	ts::demuxer tsDemuxerVideo;
+	ts::demuxer tsDemuxerAudio;
+
 };
 

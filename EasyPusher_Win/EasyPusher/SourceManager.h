@@ -8,7 +8,7 @@
 // Add by SwordTwelve
 #pragma once
 
-#define EasyPusher_VersionInfo _T("Version:1.0.0.9 Powered By SwordTwelve/Gavin/Arno")
+#define EasyPusher_VersionInfo _T("Version:1.0.1.3 Powered By SwordTwelve/Gavin/Arno")
 
 // //±æµÿ“Ù∆µ≤∂ªÒ
 #include "AudioSource\DirectSound.h"

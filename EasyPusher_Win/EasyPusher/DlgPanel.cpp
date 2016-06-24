@@ -982,7 +982,7 @@ void CDlgPanel::ProcessVideoWndMenuMsg(int nId)
 //打开MP4文件
 CString CDlgPanel::OpenMp4File()
 {
-	CFileDialog dlg(TRUE,NULL,NULL,OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,TEXT("mp4文件|*.mp4||"));
+	CFileDialog dlg(TRUE,NULL,NULL,OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,TEXT("mp4文件;ts文件|*.mp4;*.ts||"));
 	if ( dlg.DoModal() == IDOK )
 	{
 		CString strFileName = dlg.GetPathName();

@@ -30,6 +30,12 @@ EasyPusher是EasyDarwin开源流媒体团队成员Gavin & Holo开发的一个推
 
 ##更新记录##
 
+### EasyPusher_Win(Windows) v1.0.1.3 (2016-6-24)
+
+* 增加ts文件解析TSDemuxer，支持数据源为h264和aac的ts文件解析推送EasyDarwin服务器；
+* 自适应MP4和ts文件推送，详见CEasyFileCapture类；
+
+
 ### EasyPusher_Win(Windows) v1.0.0.9 (2016-6-20)
 
 * 支持本地摄像头和声卡、RTSP流、屏幕捕获、MP4文件推送EasyDarwin服务器；
