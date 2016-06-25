@@ -1,4 +1,4 @@
-# EasyPusher #
+﻿# EasyPusher #
 
 EasyPusher是EasyDarwin开源流媒体团队成员Gavin & Holo开发的一个推送流媒体音/视频流给开源流媒体服务器EasyDarwin的标准RTSP/RTP协议推送库，全平台支持(包括Windows/Linux(32 & 64)，ARM各平台，Android、IOS)，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP/RTCP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给EasyDarwin服务器进行转发和分发，EasyPusher经过长时间的企业用户检验，稳定性非常高;
 
@@ -26,19 +26,35 @@ EasyPusher是EasyDarwin开源流媒体团队成员Gavin & Holo开发的一个推
 
 - **我们同时提供Windows、Linux、ARM、Android、IOS版本的libEasyPusher库**：EasyPusher SDK商业使用需要经过授权才能使用，商业授权方案： [http://www.easydss.com/EasyPusher.html](http://www.easydss.com/EasyPusher.html "EasyPusher授权")；个人及非商业用途可通过邮件发送至[support@easydarwin.org](mailto:support@easydarwin.org "EasyDarwin support mail")进行申请，注意ARM版本需要附上交叉编译工具链，我们会帮您具体编译；
 
-	<table>
-	<tr><td><b>支持平台</b></td><td><b>芯片</b></td><td><b>目录位置</b></td></tr>
+- **EasyPusher_Win**：支持本地摄像头和声卡、RTSP流、屏幕捕获、MP4文件通过EasyPusher推送到EasyDarwin进行RTSP、HLS直播；
+	<tr><td><b>鏀寔骞冲彴</b></td><td><b>鑺墖</b></td><td><b>鐩綍浣嶇疆</b></td></tr>
 	<tr><td>Windows</td><td>x86</td><td>./Lib/</td></tr>
 	<tr><td>Windows</td><td>x64</td><td>./Lib/x64/</td></tr>
 	<tr><td>Linux</td><td>x86</td><td>./Lib/</td></tr>
 	<tr><td>Linux</td><td>x64</td><td>./Lib/x64/</td></tr>
-	<tr><td>海思</td><td>arm-hisiv100-linux</td><td>./Lib/hisiv100/</td></tr>
-	<tr><td>海思</td><td>arm-hisiv200-linux</td><td>./Lib/hisiv200/</td></tr>
+	<tr><td>娴锋€/td><td>arm-hisiv100-linux</td><td>./Lib/hisiv100/</td></tr>
+	<tr><td>娴锋€/td><td>arm-hisiv200-linux</td><td>./Lib/hisiv200/</td></tr>
 	<tr><td>Android</td><td>armeabi</td><td>armeabi libeasypusher.so</td></tr>
 	<tr><td>Android</td><td>armeabi-v7a</td><td>libeasypusher.so</td></tr>
 	<tr><td>Android</td><td>arm64-v8a</td><td>libeasypusher.so</td></tr>
-	<tr><td colspan="3"><center>邮件获取更多平台版本</center></td></tr>
+	<tr><td colspan="3"><center>閭欢鑾峰彇鏇村骞冲彴鐗堟湰</center></td></tr>
 	</table>
+
+
+##更新记录##
+
+### EasyPusher_Win(Windows) v1.0.1.3 (2016-6-24)
+
+* 增加ts文件解析TSDemuxer，支持数据源为h264和aac的ts文件解析推送EasyDarwin服务器；
+* 自适应MP4和ts文件推送，详见CEasyFileCapture类；
+
+
+### EasyPusher_Win(Windows) v1.0.0.9 (2016-6-20)
+
+* 支持本地摄像头和声卡、RTSP流、屏幕捕获、MP4文件推送EasyDarwin服务器；
+* 修复MP4文件部分封装的H264解析不正常的问题；
+* 修复MP4文件部分封装的aac解析不正常的问题，修复文件推送后进行HLS切片音频播放不出声的问题；
+* 增加推送计划（定时推送)，在配置文件ini下进行窗口和计划配置，详见计划模板.ini；
 
 
 ## 调用过程 ##
