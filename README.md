@@ -26,6 +26,20 @@ EasyPusher是EasyDarwin开源流媒体团队成员Gavin & Holo开发的一个推
 
 - **我们同时提供Windows、Linux、ARM、Android、IOS版本的libEasyPusher库**：EasyPusher SDK商业使用需要经过授权才能使用，商业授权方案： [http://www.easydss.com/EasyPusher.html](http://www.easydss.com/EasyPusher.html "EasyPusher授权")；个人及非商业用途可通过邮件发送至[support@easydarwin.org](mailto:support@easydarwin.org "EasyDarwin support mail")进行申请，注意ARM版本需要附上交叉编译工具链，我们会帮您具体编译；
 
+	<table>
+	<tr><td><b>支持平台</b></td><td><b>芯片</b></td><td><b>目录位置</b></td></tr>
+	<tr><td>Windows</td><td>x86</td><td>./Lib/</td></tr>
+	<tr><td>Windows</td><td>x64</td><td>./Lib/x64/</td></tr>
+	<tr><td>Linux</td><td>x86</td><td>./Lib/</td></tr>
+	<tr><td>Linux</td><td>x64</td><td>./Lib/x64/</td></tr>
+	<tr><td>海思</td><td>arm-hisiv100-linux</td><td>./Lib/hisiv100/</td></tr>
+	<tr><td>海思</td><td>arm-hisiv200-linux</td><td>./Lib/hisiv200/</td></tr>
+	<tr><td>Android</td><td>armeabi</td><td>armeabi libeasypusher.so</td></tr>
+	<tr><td>Android</td><td>armeabi-v7a</td><td>libeasypusher.so</td></tr>
+	<tr><td>Android</td><td>arm64-v8a</td><td>libeasypusher.so</td></tr>
+	<tr><td colspan="3"><center>邮件获取更多平台版本</center></td></tr>
+	</table>
+
 
 ## 调用过程 ##
 ![](http://www.easydarwin.org/skin/easydarwin/images/easypusher20160325.png)
