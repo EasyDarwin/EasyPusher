@@ -202,12 +202,17 @@
     <ClInclude Include="MP4Demux\Public_func.h" />
     <ClInclude Include="MP4Demux\read_write.h" />
     <ClInclude Include="MP4Demux\Sample_description.h" />
+    <ClInclude Include="OrderRecord.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SettingDlg.h" />
     <ClInclude Include="SourceManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="trace.h" />
+    <ClInclude Include="TSDemux\ac3.h" />
+    <ClInclude Include="TSDemux\common.h" />
+    <ClInclude Include="TSDemux\h264.h" />
+    <ClInclude Include="TSDemux\ts.h" />
     <ClInclude Include="VideoSource\USBCamera\CameraDS.h" />
     <ClInclude Include="VideoSource\USBCamera\convert.h" />
     <ClInclude Include="VideoSource\USBCamera\DllManager.h" />
@@ -287,6 +292,7 @@
     <ClCompile Include="MP4Demux\Mp4_trak_box.cpp" />
     <ClCompile Include="MP4Demux\Public_func.cpp" />
     <ClCompile Include="MP4Demux\read_write.cpp" />
+    <ClCompile Include="OrderRecord.cpp" />
     <ClCompile Include="SettingDlg.cpp" />
     <ClCompile Include="SourceManager.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -294,6 +300,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="trace.cpp" />
+    <ClCompile Include="TSDemux\ts.cpp" />
     <ClCompile Include="VideoSource\USBCamera\CameraDS.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>

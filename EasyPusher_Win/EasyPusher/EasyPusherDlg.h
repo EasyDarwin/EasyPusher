@@ -76,6 +76,7 @@ public:
 private:
 	CSourceManager* m_pManager;
 	CFont	m_ftSaticDefault;
+	CFont	m_ftSaticTittle;
 	CEasySkinButton m_btnLocalView;
 	CEasySkinButton m_btnPush;
 	CEasySkinButton m_btnLiveView;

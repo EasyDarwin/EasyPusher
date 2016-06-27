@@ -712,10 +712,7 @@ int CSourceManager::InitFileCapture(char* sFilePath, int nStartTime, int nEndTim
 		m_pEasyFileCapture = new CEasyFileCapture();
 		m_pEasyFileCapture->SetCaptureFileCallback( (CaptureFileCallback)&CSourceManager::CaptureFileCallBack, this);
 	}
-
-	m_pEasyFileCapture->InitMP4FileCapture(sFilePath, nStartTime, nEndTime,  bAutoLoop);
-	MediaInfo tempMediaInfo;
-	m_pEasyFileCapture->GetMP4FileInfo(&tempMediaInfo);
+	m_pEasyFileCapture->InitFileCapture(sFilePath, nStartTime, nEndTime,  bAutoLoop);
 
 	//初始化Pusher结构信息
  	memset(&m_mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
@@ -745,10 +742,9 @@ void CSourceManager::StartFileCapture()
 {
 	if (m_pEasyFileCapture)
 	{
-		m_pEasyFileCapture->StartMP4FileCapture();
+		m_pEasyFileCapture->StartFileCapture();
 	}
 }
-
 
 //开始捕获(采集)
 // eSourceType==SOURCE_LOCAL_CAMERA时，nCamId有效
@@ -810,7 +806,7 @@ void CSourceManager::StopCapture()
 	//停止文件推送
 	if(m_pEasyFileCapture)
 	{
-		m_pEasyFileCapture->StopMP4FileCapture();
+		m_pEasyFileCapture->StopFileCapture();
 		delete m_pEasyFileCapture;
 		m_pEasyFileCapture = NULL;
 	}

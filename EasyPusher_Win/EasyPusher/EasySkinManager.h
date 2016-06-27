@@ -53,6 +53,7 @@ public:
 	AFX_WND_STYLE					m_enWndStyle;
 	bool							m_bIsZoomed;
 	bool							m_bShowLogo;
+	bool							m_bShowTittle;
 
 public:
 	CEasySkinManager(UINT nIDTemplate,CWnd* pParent = NULL,AFX_WND_STYLE Style = en_Wnd_Normal);   // 标准构造函数
