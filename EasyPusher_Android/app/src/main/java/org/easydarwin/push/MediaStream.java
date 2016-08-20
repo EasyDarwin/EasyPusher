@@ -7,7 +7,6 @@ import android.media.MediaCodec;
 import android.media.MediaFormat;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 import org.easydarwin.audio.AudioStream;
 import org.easydarwin.hw.EncoderDebugger;
@@ -17,6 +16,7 @@ import org.easydarwin.util.Util;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.util.Iterator;
 import java.util.List;
@@ -32,8 +32,7 @@ public class MediaStream {
     int framerate, bitrate;
     int mCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
     MediaCodec mMediaCodec;
-    SurfaceView mSurfaceView;
-    SurfaceHolder mSurfaceHolder;
+    WeakReference<SurfaceHolder> mSurfaceHolderRef;
     Camera mCamera;
     NV21Convertor mConvertor;
     boolean pushStream = false;//是否要推送数据
@@ -44,10 +43,9 @@ public class MediaStream {
     Thread pushThread;
     boolean codecAvailable = false;
 
-    public MediaStream(Context context, SurfaceView mSurfaceView) {
+    public MediaStream(Context context, SurfaceHolder holder) {
         mApplicationContext = context;
-        this.mSurfaceView = mSurfaceView;
-        mSurfaceHolder = mSurfaceView.getHolder();
+        mSurfaceHolderRef = new WeakReference(holder);
         mEasyPusher = new EasyPusher();
         audioStream = new AudioStream(mEasyPusher);
     }
@@ -123,7 +121,10 @@ public class MediaStream {
             int displayRotation;
             displayRotation = (cameraRotationOffset - mDgree + 360) % 360;
             mCamera.setDisplayOrientation(displayRotation);
-            mCamera.setPreviewDisplay(mSurfaceHolder);
+            SurfaceHolder holder = mSurfaceHolderRef.get();
+            if (holder != null) {
+                mCamera.setPreviewDisplay(holder);
+            }
             return true;
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
@@ -387,4 +388,7 @@ public class MediaStream {
         mEasyPusher.stop();
     }
 
+    public void setSurfaceHolder(SurfaceHolder holder) {
+        mSurfaceHolderRef = new WeakReference<SurfaceHolder>(holder);
+    }
 }

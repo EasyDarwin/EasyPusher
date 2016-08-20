@@ -6,12 +6,15 @@
 */
 package org.easydarwin.easypusher;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -77,51 +80,6 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
             height = Integer.parseInt(splitR[1]);
         }
 
-        mMediaStream = new MediaStream(getApplicationContext(), surfaceView);
-        mMediaStream.updateResolution(width, height);
-        mMediaStream.setDgree(getDgree());
-        mMediaStream.setCallback(new EasyPusher.OnInitPusherCallback() {
-            @Override
-            public void onCallback(int code) {
-                switch (code) {
-                    case CODE.EASY_ACTIVATE_INVALID_KEY:
-                        sendMessage("无效Key");
-                        break;
-                    case CODE.EASY_ACTIVATE_SUCCESS:
-                        sendMessage("激活成功");
-                        break;
-                    case CODE.EASY_PUSH_STATE_CONNECTING:
-                        sendMessage("连接中");
-                        break;
-                    case CODE.EASY_PUSH_STATE_CONNECTED:
-                        sendMessage("连接成功");
-                        break;
-                    case CODE.EASY_PUSH_STATE_CONNECT_FAILED:
-                        sendMessage("连接失败");
-                        break;
-                    case CODE.EASY_PUSH_STATE_CONNECT_ABORT:
-                        sendMessage("连接异常中断");
-                        break;
-                    case CODE.EASY_PUSH_STATE_PUSHING:
-                        sendMessage("推流中");
-                        break;
-                    case CODE.EASY_PUSH_STATE_DISCONNECTED:
-                        sendMessage("断开连接");
-                        break;
-                    case CODE.EASY_ACTIVATE_PLATFORM_ERR:
-                        sendMessage("平台不匹配");
-                        break;
-                    case CODE.EASY_ACTIVATE_COMPANY_ID_LEN_ERR:
-                        sendMessage("断授权使用商不匹配");
-                        break;
-                    case CODE.EASY_ACTIVATE_PROCESS_NAME_LEN_ERR:
-                        sendMessage("进程名称长度不匹配");
-                        break;
-                }
-
-            }
-        });
-        initSpninner();
     }
 
     private static final String STATE = "state";
@@ -173,10 +131,98 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
     }
 
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
+    public void surfaceCreated(final SurfaceHolder holder) {
+        if (EasyApplication.sMS == null) {
+            mMediaStream = new MediaStream(getApplicationContext(), holder);
+            EasyApplication.sMS = mMediaStream;
+
+            startCamera();
+        } else {
+            bindService(new Intent(this, BackgroundCameraService.class), new ServiceConnection() {
+                @Override
+                public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                    BackgroundCameraService service = ((BackgroundCameraService.LocalBinder) iBinder).getService();
+                    service.stopMySelf();
+
+
+                    mMediaStream = EasyApplication.sMS;
+                    mMediaStream.setSurfaceHolder(holder);
+                    startCamera();
+
+                    unbindService(this);
+                }
+
+                @Override
+                public void onServiceDisconnected(ComponentName componentName) {
+
+                }
+            }, 0);
+        }
+    }
+
+    private void startCamera() {
+        mMediaStream.updateResolution(width, height);
+        mMediaStream.setDgree(getDgree());
+        mMediaStream.setCallback(new EasyPusher.OnInitPusherCallback() {
+            @Override
+            public void onCallback(int code) {
+                switch (code) {
+                    case CODE.EASY_ACTIVATE_INVALID_KEY:
+                        sendMessage("无效Key");
+                        break;
+                    case CODE.EASY_ACTIVATE_SUCCESS:
+                        sendMessage("激活成功");
+                        break;
+                    case CODE.EASY_PUSH_STATE_CONNECTING:
+                        sendMessage("连接中");
+                        break;
+                    case CODE.EASY_PUSH_STATE_CONNECTED:
+                        sendMessage("连接成功");
+                        break;
+                    case CODE.EASY_PUSH_STATE_CONNECT_FAILED:
+                        sendMessage("连接失败");
+                        break;
+                    case CODE.EASY_PUSH_STATE_CONNECT_ABORT:
+                        sendMessage("连接异常中断");
+                        break;
+                    case CODE.EASY_PUSH_STATE_PUSHING:
+                        sendMessage("推流中");
+                        break;
+                    case CODE.EASY_PUSH_STATE_DISCONNECTED:
+                        sendMessage("断开连接");
+                        break;
+                    case CODE.EASY_ACTIVATE_PLATFORM_ERR:
+                        sendMessage("平台不匹配");
+                        break;
+                    case CODE.EASY_ACTIVATE_COMPANY_ID_LEN_ERR:
+                        sendMessage("断授权使用商不匹配");
+                        break;
+                    case CODE.EASY_ACTIVATE_PROCESS_NAME_LEN_ERR:
+                        sendMessage("进程名称长度不匹配");
+                        break;
+                }
+
+            }
+        });
+
+
         mMediaStream.createCamera();
         mMediaStream.startPreview();
+
+        if (mMediaStream.isStreaming()) {
+            sendMessage("推流中");
+            btnSwitch.setText("停止");
+
+
+            String ip = EasyApplication.getEasyApplication().getIp();
+            String port = EasyApplication.getEasyApplication().getPort();
+            String id = EasyApplication.getEasyApplication().getId();
+            txtStreamAddress.setText(String.format("rtsp://%s:%s/%s.sdp", ip, port, id));
+        }
+
+        initSpninner();
     }
+
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -185,9 +231,16 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        boolean isStreaming = mMediaStream.isStreaming();
         mMediaStream.stopPreview();
-        mMediaStream.stopStream();
         mMediaStream.destroyCamera();
+        mMediaStream.setCallback(null);
+
+        if (isStreaming && PreferenceManager.getDefaultSharedPreferences(StreameActivity.this).getBoolean("key_enable_background_camera", true)) {
+            startService(new Intent(StreameActivity.this, BackgroundCameraService.class));
+        } else {
+            mMediaStream.stopStream();
+        }
     }
 
 
@@ -249,6 +302,5 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
     protected void onDestroy() {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
-        mMediaStream.destroyStream();
     }
 }

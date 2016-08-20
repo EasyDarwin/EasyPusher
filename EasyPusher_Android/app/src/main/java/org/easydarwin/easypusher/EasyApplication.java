@@ -4,9 +4,11 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.widget.ArrayAdapter;
 
 import org.easydarwin.config.Config;
+import org.easydarwin.push.MediaStream;
 import org.easydarwin.util.Util;
 
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ import java.util.Set;
 public class EasyApplication extends Application {
 
     private static EasyApplication mApplication;
+
+    public static MediaStream sMS;
 
     @Override
     public void onCreate() {
