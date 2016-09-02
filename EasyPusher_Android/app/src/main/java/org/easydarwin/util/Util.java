@@ -7,6 +7,7 @@
 
 package org.easydarwin.util;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
@@ -210,5 +211,14 @@ public class Util {
         sharedPreferences.edit().putString(Config.K_RESOLUTION, value).commit();
     }
 
-
+    public static boolean isServiceStarted(Context context, String className) {
+        ActivityManager myManager = (ActivityManager) context.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ArrayList<ActivityManager.RunningServiceInfo> runningService = (ArrayList<ActivityManager.RunningServiceInfo>) myManager.getRunningServices(Integer.MAX_VALUE);
+        for (int i = 0; i < runningService.size(); i++) {
+            if (runningService.get(i).service.getClassName().toString().equals(className)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

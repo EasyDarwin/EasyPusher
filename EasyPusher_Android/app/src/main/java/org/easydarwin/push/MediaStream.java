@@ -18,7 +18,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -45,7 +44,7 @@ public class MediaStream {
 
     public MediaStream(Context context, SurfaceHolder holder) {
         mApplicationContext = context;
-        mSurfaceHolderRef = new WeakReference(holder);
+        mSurfaceHolderRef = new WeakReference<>(holder);
         mEasyPusher = new EasyPusher();
         audioStream = new AudioStream(mEasyPusher);
     }
@@ -90,8 +89,7 @@ public class MediaStream {
     public static int[] determineMaximumSupportedFramerate(Camera.Parameters parameters) {
         int[] maxFps = new int[]{0, 0};
         List<int[]> supportedFpsRanges = parameters.getSupportedPreviewFpsRange();
-        for (Iterator<int[]> it = supportedFpsRanges.iterator(); it.hasNext(); ) {
-            int[] interval = it.next();
+        for (int[] interval : supportedFpsRanges) {
             if (interval[1] > maxFps[1] || (interval[0] > maxFps[0] && interval[1] == maxFps[1])) {
                 maxFps = interval;
             }
@@ -266,12 +264,11 @@ public class MediaStream {
      * 切换前后摄像头
      */
     public void switchCamera() {
-        int cameraCount = 0;
-        if (isCameraBack) {
-            isCameraBack = false;
-        } else {
-            isCameraBack = true;
+        if(mCamera==null) {
+            createCamera();
         }
+        int cameraCount = 0;
+        isCameraBack = !isCameraBack;
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
         cameraCount = Camera.getNumberOfCameras();//得到摄像头的个数
         for (int i = 0; i < cameraCount; i++) {

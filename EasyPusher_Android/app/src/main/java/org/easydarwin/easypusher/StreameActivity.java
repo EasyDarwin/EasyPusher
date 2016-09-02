@@ -15,6 +15,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -48,6 +49,7 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
     List<String> listResolution;
     MediaStream mMediaStream;
     TextView txtStatus;
+    private boolean mSurfaceCreated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
         btnSwitchCemera = (Button) findViewById(R.id.btn_switchCamera);
         btnSwitchCemera.setOnClickListener(this);
         txtStreamAddress = (TextView) findViewById(R.id.txt_stream_address);
+        mSurfaceCreated = false;
         SurfaceView surfaceView = (SurfaceView) findViewById(R.id.sv_surfaceview);
         surfaceView.getHolder().addCallback(this);
         surfaceView.getHolder().setFixedSize(getResources().getDisplayMetrics().widthPixels,
@@ -106,6 +109,22 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
         }
     };
 
+    ServiceConnection mServiceConn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder iBinder) {
+            BackgroundCameraService service = ((BackgroundCameraService.LocalBinder) iBinder).getService();
+            service.stopMySelf();
+            startCamera();
+
+            unbindService(this);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
     private void initSpninner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spn_item, listResolution);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -132,32 +151,21 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
 
     @Override
     public void surfaceCreated(final SurfaceHolder holder) {
+        mMediaStream = EasyApplication.sMS;
+
         if (EasyApplication.sMS == null) {
             mMediaStream = new MediaStream(getApplicationContext(), holder);
             EasyApplication.sMS = mMediaStream;
 
             startCamera();
+        } else if(Util.isServiceStarted(this, "org.easydarwin.easypusher.BackgroundCameraService")){
+            mMediaStream.setSurfaceHolder(holder);
+            bindService(new Intent(this, BackgroundCameraService.class), mServiceConn, 0);
         } else {
-            bindService(new Intent(this, BackgroundCameraService.class), new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                    BackgroundCameraService service = ((BackgroundCameraService.LocalBinder) iBinder).getService();
-                    service.stopMySelf();
-
-
-                    mMediaStream = EasyApplication.sMS;
-                    mMediaStream.setSurfaceHolder(holder);
-                    startCamera();
-
-                    unbindService(this);
-                }
-
-                @Override
-                public void onServiceDisconnected(ComponentName componentName) {
-
-                }
-            }, 0);
+            startCamera();
         }
+
+        mSurfaceCreated = true;
     }
 
     private void startCamera() {
@@ -205,14 +213,12 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
             }
         });
 
-
         mMediaStream.createCamera();
         mMediaStream.startPreview();
 
         if (mMediaStream.isStreaming()) {
             sendMessage("推流中");
             btnSwitch.setText("停止");
-
 
             String ip = EasyApplication.getEasyApplication().getIp();
             String port = EasyApplication.getEasyApplication().getPort();
@@ -231,6 +237,7 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        mSurfaceCreated = false;
         boolean isStreaming = mMediaStream.isStreaming();
         mMediaStream.stopPreview();
         mMediaStream.destroyCamera();
@@ -291,8 +298,10 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
                 }
                 break;
             case R.id.btn_switchCamera: {
-                mMediaStream.setDgree(getDgree());
-                mMediaStream.switchCamera();
+                if(mSurfaceCreated) {
+                    mMediaStream.setDgree(getDgree());
+                    mMediaStream.switchCamera();
+                }
             }
             break;
         }
@@ -302,5 +311,4 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
     protected void onDestroy() {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
-    }
-}
+    }}
