@@ -16,7 +16,7 @@ EasyPusher是EasyDarwin开源流媒体团队开发的一个推送流媒体音/�
 
 	Windows编译方法，
 
-    	Visual Studio 2010 编译：./EasyPusher-master/win/EasyPusher_Demo.sln
+    	Visual Studio 2010 编译：./EasyPusher-master/win/EasyPusher.sln
 
 	Linux编译方法，
 		
