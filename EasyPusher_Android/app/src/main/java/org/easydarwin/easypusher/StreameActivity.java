@@ -35,6 +35,7 @@ import android.widget.TextView;
 
 import org.easydarwin.push.EasyPusher;
 import org.easydarwin.push.MediaStream;
+import org.easydarwin.updatemgr.UpdateMgr;
 import org.easydarwin.util.Util;
 
 import java.util.ArrayList;
@@ -106,6 +107,8 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
             viewById.setText(String.format("视频URL:\nrtsp://%s:%s/%s_s.sdp", ip, port, id));
         }
 
+        UpdateMgr update = new UpdateMgr(this);
+        update.checkUpdate();
     }
 
     private void startScreenPushIntent() {
