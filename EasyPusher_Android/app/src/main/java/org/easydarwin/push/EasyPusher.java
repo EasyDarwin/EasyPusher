@@ -10,7 +10,7 @@ import android.content.Context;
 import android.util.Log;
 
 public class EasyPusher {
-
+    private static String TAG = "EasyPusher";
     static {
         System.loadLibrary("easypusher");
     }
@@ -38,7 +38,9 @@ public class EasyPusher {
 
     }
 
-    public native void setOnInitPusherCallback(OnInitPusherCallback callback);
+    private long mPusherObj = 0;
+
+//    public native void setOnInitPusherCallback(OnInitPusherCallback callback);
 
     /**
      * 初始化
@@ -48,7 +50,7 @@ public class EasyPusher {
      * @param streamName 流名称
      * @param key        授权码
      */
-    public native void init(String serverIP, String serverPort, String streamName, String key, Context context);
+    public native long init(String serverIP, String serverPort, String streamName, String key, Context context, OnInitPusherCallback callback);
 
     /**
      * 推送编码后的H264数据
@@ -56,36 +58,26 @@ public class EasyPusher {
      * @param data      H264数据
      * @param timestamp 时间戳，毫秒
      */
-    public native void push(byte[] data, long timestamp, int type);
-
+    private native void push(long pusherObj, byte[] data, long timestamp, int type);
 
     /**
      * 停止推送
      */
-    private native void stopPush();
+    private native void stopPush(long pusherObj);
 
     public void stop() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                stopPush();
-            }
-        }).start();
+        if (mPusherObj == 0) return;
+        stopPush(mPusherObj);
+        mPusherObj = 0;
     }
 
-    public void initPush(final String serverIP, final String serverPort, final String streamName, final Context context) {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                stopPush();
-
-                String key = "6A34714D6C3536526D34324150455A58714C6E4345755A76636D63755A57467A65575268636E64706269356C59584E356348567A61475679567778576F50365334456468646D6C754A6B4A68596D397A595541794D4445325257467A65555268636E6470626C526C5957316C59584E35";
-
-                init(serverIP, serverPort, streamName, key, context);
-            }
-        });
-        t.start();
+    public void initPush(final String serverIP, final String serverPort, final String streamName, final Context context, final OnInitPusherCallback callback) {
+        String key = "6A34714D6C3536526D34324150455A58714C6E4345755A76636D63755A57467A65575268636E64706269356C59584E356348567A61475679567778576F50365334456468646D6C754A6B4A68596D397A595541794D4445325257467A65555268636E6470626C526C5957316C59584E35";
+        mPusherObj = init(serverIP, serverPort, streamName, key, context, callback);
     }
 
+    public void push(byte[] data, long timestamp, int type){
+        push(mPusherObj, data, timestamp,type);
+    }
 }
 

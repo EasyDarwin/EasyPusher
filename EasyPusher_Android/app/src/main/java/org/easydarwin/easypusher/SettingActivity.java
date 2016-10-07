@@ -7,17 +7,31 @@
 
 package org.easydarwin.easypusher;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.media.audiofx.PresetReverb;
+import android.media.projection.MediaProjectionManager;
+import android.os.Build;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.easydarwin.config.Config;
+import org.easydarwin.push.EasyPusher;
 
 public class SettingActivity extends AppCompatActivity {
+
+    private static final boolean TEST_ = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +72,18 @@ public class SettingActivity extends AppCompatActivity {
                 EasyApplication.getEasyApplication().saveStringIntoPref(Config.SERVER_IP, ipValue);
                 EasyApplication.getEasyApplication().saveStringIntoPref(Config.SERVER_PORT, portValue);
                 EasyApplication.getEasyApplication().saveStringIntoPref(Config.STREAM_ID, idValue);
+finish();
+            }
+        });
 
-                onBackPressed();
+
+        CheckBox backgroundPushing = (CheckBox) findViewById(R.id.enable_background_camera_pushing);
+        backgroundPushing.setChecked(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("key_enable_background_camera", true));
+
+        backgroundPushing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PreferenceManager.getDefaultSharedPreferences(SettingActivity.this).edit().putBoolean("key_enable_background_camera", isChecked).apply();
             }
         });
     }
@@ -68,8 +92,6 @@ public class SettingActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+
+
 }

@@ -18,6 +18,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -44,18 +45,18 @@ public class MediaStream {
 
     public MediaStream(Context context, SurfaceHolder holder) {
         mApplicationContext = context;
-        mSurfaceHolderRef = new WeakReference<>(holder);
+        mSurfaceHolderRef = new WeakReference(holder);
         mEasyPusher = new EasyPusher();
         audioStream = new AudioStream(mEasyPusher);
     }
 
-    public void setCallback(EasyPusher.OnInitPusherCallback callback) {
-        mEasyPusher.setOnInitPusherCallback(callback);
-    }
+//    public void setCallback(EasyPusher.OnInitPusherCallback callback) {
+//        mEasyPusher.setOnInitPusherCallback(callback);
+//    }
 
-    private void initPusher(String ip, String port, String id) {
+    private void initPusher(String ip, String port, String id, EasyPusher.OnInitPusherCallback callback) {
         try {
-            mEasyPusher.initPush(ip, port, String.format("%s.sdp", id), mApplicationContext);
+            mEasyPusher.initPush(ip, port, String.format("%s.sdp", id), mApplicationContext, callback);
         } catch (Exception e) {
             Log.i("", "");
         }
@@ -89,7 +90,8 @@ public class MediaStream {
     public static int[] determineMaximumSupportedFramerate(Camera.Parameters parameters) {
         int[] maxFps = new int[]{0, 0};
         List<int[]> supportedFpsRanges = parameters.getSupportedPreviewFpsRange();
-        for (int[] interval : supportedFpsRanges) {
+        for (Iterator<int[]> it = supportedFpsRanges.iterator(); it.hasNext(); ) {
+            int[] interval = it.next();
             if (interval[1] > maxFps[1] || (interval[0] > maxFps[0] && interval[1] == maxFps[1])) {
                 maxFps = interval;
             }
@@ -264,11 +266,12 @@ public class MediaStream {
      * 切换前后摄像头
      */
     public void switchCamera() {
-        if(mCamera==null) {
-            createCamera();
-        }
         int cameraCount = 0;
-        isCameraBack = !isCameraBack;
+        if (isCameraBack) {
+            isCameraBack = false;
+        } else {
+            isCameraBack = true;
+        }
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
         cameraCount = Camera.getNumberOfCameras();//得到摄像头的个数
         for (int i = 0; i < cameraCount; i++) {
@@ -320,7 +323,7 @@ public class MediaStream {
     private void startMediaCodec() {
         {
             framerate = 25;
-            bitrate = 2 * width * height * framerate / 20;
+            bitrate = 2 * width * height;
             EncoderDebugger debugger = EncoderDebugger.debug(mApplicationContext, width, height);
             mConvertor = debugger.getNV21Convertor();
             try {
@@ -361,8 +364,8 @@ public class MediaStream {
         return pushStream;
     }
 
-    public void startStream(String ip, String port, String id) {
-        initPusher(ip, port, id);
+    public void startStream(String ip, String port, String id, EasyPusher.OnInitPusherCallback callback) {
+        initPusher(ip, port, id, callback);
         pushStream = true;
         audioStream.startRecord();
         startMediaCodec();
