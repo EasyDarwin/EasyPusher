@@ -4,7 +4,7 @@ EasyPusher是EasyDarwin开源流媒体团队开发的一个推送流媒体音/�
 
 ## 调用示例 ##
 
-- **EasyPusher_Android**：实时采集安卓摄像头音视频，进行H264/AAC编码后，调用EasyPusher进行直播推送；
+- **EasyPusher_Android**：实时采集安卓摄像头音视频（Android 5.0+支持采集手机桌面屏幕进行直播），进行H264/AAC编码后，调用libEasyPusher进行直播推送；
 
 - **EasyPusher_File**：推送本地文件到EasyDarwin流媒体服务器；
 
