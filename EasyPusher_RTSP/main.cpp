@@ -199,6 +199,8 @@ int main(int argc, char * argv[])
 
     printf("Press Enter exit...\n");
     getchar();
+	getchar();
+	getchar();
 
 	if(fPusherHandle)
 	{
