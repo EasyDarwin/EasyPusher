@@ -45,7 +45,7 @@ int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_fra
 }
 
 /* EasyRTSPClient Callback */
-int Easy_APICALL __RTSPSourceCallBack( int _chid, int *_chPtr, int _mediatype, char *pbuf, RTSP_FRAME_INFO *frameinfo)
+int Easy_APICALL __RTSPSourceCallBack( int _chid, void *_chPtr, int _mediatype, char *pbuf, RTSP_FRAME_INFO *frameinfo)
 {
 	if (_mediatype == EASY_SDK_VIDEO_FRAME_FLAG)
 	{
@@ -195,7 +195,7 @@ int main(int argc, char * argv[])
 	unsigned int mediaType = EASY_SDK_VIDEO_FRAME_FLAG | EASY_SDK_AUDIO_FRAME_FLAG;	//Get Video & Audio
 
 	EasyRTSP_SetCallback(fRTSPHandle, __RTSPSourceCallBack);
-	EasyRTSP_OpenStream(fRTSPHandle, 0, ConfigRTSPURL, RTP_OVER_TCP, mediaType, 0, 0, NULL, 1000, 0, 1);
+	EasyRTSP_OpenStream(fRTSPHandle, 0, ConfigRTSPURL, EASY_RTP_OVER_TCP, mediaType, 0, 0, NULL, 1000, 0, 0x01, 1);
 
     printf("Press Enter exit...\n");
     getchar();
