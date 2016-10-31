@@ -9,7 +9,7 @@
 
 #include "EasyTypes.h"
 
-#define RTSP_CLIENT_NAME	"EasyPusher v1.16.0325"
+#define RTSP_CLIENT_NAME	"EasyPusher v1.2.16.1031"
 
 
 typedef struct __EASY_AV_Frame
@@ -42,7 +42,11 @@ extern "C"
 {
 #endif
 
+#ifdef ANDROID
+	Easy_API Easy_I32 Easy_APICALL EasyPusher_Activate(char *license, char* userPtr);
+#else
 	Easy_API Easy_I32 Easy_APICALL EasyPusher_Activate(char *license);
+#endif
 
 	/* 创建推送句柄  返回为句柄值 */
 	Easy_API Easy_Pusher_Handle Easy_APICALL EasyPusher_Create();
