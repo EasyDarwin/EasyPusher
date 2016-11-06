@@ -9,8 +9,7 @@
 
 #include "EasyTypes.h"
 
-#define RTSP_CLIENT_NAME	"EasyPusher v1.2.16.1031"
-
+#define RTSP_CLIENT_NAME	"EasyPusher v1.2.16.1105"
 
 typedef struct __EASY_AV_Frame
 {
