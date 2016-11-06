@@ -132,7 +132,7 @@ int main(int argc, char * argv[])
 
     EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
 
-	EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 1024, 0);
+	EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 2048, 0);
 
 	while (1)
 	{
