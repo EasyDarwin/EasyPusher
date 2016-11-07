@@ -37,3 +37,4 @@ ipch/
 /EasyPusher_File/build/
 /EasyPusher_SDK/build/
 /EasyPusher_RTSP/build/
+*.txt
