@@ -13,7 +13,7 @@ clark15b@gmail.com
 #include "common.h"
 #include "h264.h"
 #include "ac3.h"
-#include "EasyPusher\EasyPusherAPI.h"
+#include "EasyPusherAPI.h"
 
 typedef int (WINAPI *CaptureFileCallback)(int nDevId, EASY_AV_Frame* frameInfo, void* pMaster);
 

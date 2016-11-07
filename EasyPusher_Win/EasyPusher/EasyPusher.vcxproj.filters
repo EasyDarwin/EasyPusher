@@ -19,9 +19,6 @@
     <Filter Include="VideoSource\USBCamera">
       <UniqueIdentifier>{51f626cf-0704-49de-8c77-6e145d056ad2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EasyPusher">
-      <UniqueIdentifier>{c36fcf34-c2c4-458a-84b3-577058becdf0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="AudioSource">
       <UniqueIdentifier>{bb1870c2-a382-4ca3-9716-968ad8b86e45}</UniqueIdentifier>
     </Filter>
@@ -89,9 +86,6 @@
     </ClInclude>
     <ClInclude Include="DlgRemotePanel.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EasyPusher\EasyPusherAPI.h">
-      <Filter>EasyPusher</Filter>
     </ClInclude>
     <ClInclude Include="AudioSource\DirectSound.h">
       <Filter>AudioSource</Filter>
@@ -619,9 +613,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="EasyPusher\libEasyPusher.lib">
-      <Filter>EasyPusher</Filter>
-    </Library>
     <Library Include="FFEncoder\FFEncoder.lib" />
     <Library Include="AudioSource\dxguid.lib">
       <Filter>AudioSource</Filter>

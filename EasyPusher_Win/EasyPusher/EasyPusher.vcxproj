@@ -56,15 +56,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./EasyEncoder;./EasyMP4Writer;\DShowCapture\DirectShow\Include;./;.\EasySkinUI;C:\Program Files (x86)\Visual Leak Detector\include;.\VideoSource\USBCamera\DirectShow\Include;.\DShowCapture\DirectShow;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;./EasyEncoder/;./EasyMP4Writer/;./EasySkinUI/;./TSDemux/;./DShowCapture/DirectShow/;./VideoSource/USBCamera/DirectShow/Include/;./DShowCapture/DirectShow/Include/;../../Include/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>../bin/$(ProjectName).exe</OutputFile>
-      <AdditionalDependencies>gdiplus.lib;d3d9.lib</AdditionalDependencies>
+      <AdditionalDependencies>gdiplus.lib;d3d9.lib;libEasyPusher.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalLibraryDirectories>./EasyEncoder;./EasyMP4Writer;.\DShowCapture\DirectShow\Lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>./EasyEncoder/;./EasyMP4Writer/;./DShowCapture/DirectShow/Lib/;../../Lib/</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
     <Midl>
@@ -142,7 +142,6 @@
     <ClInclude Include="EasyLinkCtrl.h" />
     <ClInclude Include="EasyMP4Writer\EasyMP4Writer.h" />
     <ClInclude Include="EasyPlayerManager.h" />
-    <ClInclude Include="EasyPusher\EasyPusherAPI.h" />
     <ClInclude Include="EasySkinManager.h" />
     <ClInclude Include="EasySkinUI\FlashControl.h" />
     <ClInclude Include="EasySkinUI\Function.h" />
@@ -322,7 +321,6 @@
   <ItemGroup>
     <Library Include="AudioSource\dxguid.lib" />
     <Library Include="DShowCapture\DirectShow\Lib\STRMBASE.lib" />
-    <Library Include="EasyPusher\libEasyPusher.lib" />
     <Library Include="FFEncoder\FFEncoder.lib" />
   </ItemGroup>
   <ItemGroup>

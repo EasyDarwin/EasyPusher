@@ -16,8 +16,7 @@
 #pragma comment(lib,  "../libEasyPlayer/D3DRender/D3DRender.lib")
 #pragma comment(lib, "../bin/libEasyPlayer.lib")
 
-#include "./EasyPusher/EasyPusherAPI.h"
-#pragma comment(lib, "./EasyPusher/libEasyPusher.lib")
+#include "EasyPusherAPI.h"
 
 //Gavin's Source Struct流信息结构
 typedef struct __EASY_LOCAL_SOURCE_T

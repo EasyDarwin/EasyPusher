@@ -12,7 +12,7 @@
 #include <vector>
 #include <process.h>
 using namespace std;
-#include "EasyPusher\EasyPusherAPI.h"
+#include "EasyPusherAPI.h"
 #include "TSDemux\ts.h"
 
 #ifndef HANDLE
