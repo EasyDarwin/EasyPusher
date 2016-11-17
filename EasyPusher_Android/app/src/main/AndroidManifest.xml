@@ -30,9 +30,6 @@
             android:screenOrientation="portrait" >
     </activity>
         <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".StreameActivity"
             android:screenOrientation="portrait" >
 
@@ -50,6 +47,12 @@
         <service
             android:name=".BackgroundCameraService"
             android:enabled="true"></service>
+        <receiver android:name="org.easydarwin.updatemgr.CompleteReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
