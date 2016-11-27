@@ -58,7 +58,7 @@ public class EasyPusher {
      * @param data      H264数据
      * @param timestamp 时间戳，毫秒
      */
-    private native void push(long pusherObj, byte[] data, long timestamp, int type);
+    private native void push(long pusherObj, byte[] data, int offset, int length, long timestamp, int type);
 
     /**
      * 停止推送
@@ -76,8 +76,12 @@ public class EasyPusher {
         mPusherObj = init(serverIP, serverPort, streamName, key, context, callback);
     }
 
+    public void push(byte[] data, int offset, int length, long timestamp, int type){
+        push(mPusherObj, data, offset, length, timestamp,type);
+    }
+
     public void push(byte[] data, long timestamp, int type){
-        push(mPusherObj, data, timestamp,type);
+        push(mPusherObj, data, 0, data.length, timestamp,type);
     }
 }
 

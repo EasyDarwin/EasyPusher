@@ -14,9 +14,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.ByteBuffer;
 
-/**
- * Created by Helong on 16/3/26-14:31.
- */
 public class AudioStream {
 
     private int samplingRate = 8000;

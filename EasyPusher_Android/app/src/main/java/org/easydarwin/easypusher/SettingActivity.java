@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import org.easydarwin.config.Config;
 import org.easydarwin.push.EasyPusher;
+import org.easydarwin.push.MediaStream;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -72,7 +73,7 @@ public class SettingActivity extends AppCompatActivity {
                 EasyApplication.getEasyApplication().saveStringIntoPref(Config.SERVER_IP, ipValue);
                 EasyApplication.getEasyApplication().saveStringIntoPref(Config.SERVER_PORT, portValue);
                 EasyApplication.getEasyApplication().saveStringIntoPref(Config.STREAM_ID, idValue);
-finish();
+                finish();
             }
         });
 
@@ -84,6 +85,17 @@ finish();
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceManager.getDefaultSharedPreferences(SettingActivity.this).edit().putBoolean("key_enable_background_camera", isChecked).apply();
+            }
+        });
+
+
+        CheckBox x264enc = (CheckBox) findViewById(R.id.use_x264_encode);
+        x264enc.setChecked(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("key-sw-codec", MediaStream.useSWCodec()));
+
+        x264enc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PreferenceManager.getDefaultSharedPreferences(SettingActivity.this).edit().putBoolean("key-sw-codec", isChecked).apply();
             }
         });
     }

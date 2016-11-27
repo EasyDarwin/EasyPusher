@@ -8,9 +8,7 @@
 package org.easydarwin.config;
 
 /**
- * 类Config的实现描述：//TODO 类实现描述
- *
- * @author HELONG 2016/3/7 19:02
+ * 类Config的实现描述：
  */
 public class Config {
 

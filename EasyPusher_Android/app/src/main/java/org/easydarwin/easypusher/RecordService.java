@@ -144,8 +144,6 @@ public class RecordService extends Service {
                         }
                     } else if (index >= 0) {//有效输出
 
-
-
                         ByteBuffer outputBuffer = mMediaCodec.getOutputBuffer(index);
 
 
