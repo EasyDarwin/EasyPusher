@@ -7,20 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		362073851DDDF1BF00BC4F53 /* .cvsignore in Resources */ = {isa = PBXBuildFile; fileRef = 362073671DDDF1BF00BC4F53 /* .cvsignore */; };
-		362073861DDDF1BF00BC4F53 /* aacquant.c in Sources */ = {isa = PBXBuildFile; fileRef = 362073681DDDF1BF00BC4F53 /* aacquant.c */; };
-		362073871DDDF1BF00BC4F53 /* backpred.c in Sources */ = {isa = PBXBuildFile; fileRef = 3620736A1DDDF1BF00BC4F53 /* backpred.c */; };
-		362073881DDDF1BF00BC4F53 /* bitstream.c in Sources */ = {isa = PBXBuildFile; fileRef = 3620736C1DDDF1BF00BC4F53 /* bitstream.c */; };
-		362073891DDDF1BF00BC4F53 /* channels.c in Sources */ = {isa = PBXBuildFile; fileRef = 3620736E1DDDF1BF00BC4F53 /* channels.c */; };
-		3620738A1DDDF1BF00BC4F53 /* fft.c in Sources */ = {isa = PBXBuildFile; fileRef = 362073711DDDF1BF00BC4F53 /* fft.c */; };
-		3620738B1DDDF1BF00BC4F53 /* filtbank.c in Sources */ = {isa = PBXBuildFile; fileRef = 362073731DDDF1BF00BC4F53 /* filtbank.c */; };
-		3620738C1DDDF1BF00BC4F53 /* frame.c in Sources */ = {isa = PBXBuildFile; fileRef = 362073751DDDF1BF00BC4F53 /* frame.c */; };
-		3620738D1DDDF1BF00BC4F53 /* huffman.c in Sources */ = {isa = PBXBuildFile; fileRef = 362073771DDDF1BF00BC4F53 /* huffman.c */; };
-		3620738E1DDDF1BF00BC4F53 /* ltp.c in Sources */ = {isa = PBXBuildFile; fileRef = 3620737A1DDDF1BF00BC4F53 /* ltp.c */; };
-		3620738F1DDDF1BF00BC4F53 /* midside.c in Sources */ = {isa = PBXBuildFile; fileRef = 3620737C1DDDF1BF00BC4F53 /* midside.c */; };
-		362073901DDDF1BF00BC4F53 /* psychkni.c in Sources */ = {isa = PBXBuildFile; fileRef = 3620737F1DDDF1BF00BC4F53 /* psychkni.c */; };
-		362073911DDDF1BF00BC4F53 /* tns.c in Sources */ = {isa = PBXBuildFile; fileRef = 362073801DDDF1BF00BC4F53 /* tns.c */; };
-		362073921DDDF1BF00BC4F53 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 362073821DDDF1BF00BC4F53 /* util.c */; };
 		3622FEB61DE07CFA007B9A52 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3622FEAE1DE07CFA007B9A52 /* ALView+PureLayout.m */; };
 		3622FEB71DE07CFA007B9A52 /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3622FEB01DE07CFA007B9A52 /* NSArray+PureLayout.m */; };
 		3622FEB81DE07CFA007B9A52 /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3622FEB21DE07CFA007B9A52 /* NSLayoutConstraint+PureLayout.m */; };
@@ -41,38 +27,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		362073671DDDF1BF00BC4F53 /* .cvsignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .cvsignore; sourceTree = "<group>"; };
-		362073681DDDF1BF00BC4F53 /* aacquant.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aacquant.c; sourceTree = "<group>"; };
-		362073691DDDF1BF00BC4F53 /* aacquant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aacquant.h; sourceTree = "<group>"; };
-		3620736A1DDDF1BF00BC4F53 /* backpred.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = backpred.c; sourceTree = "<group>"; };
-		3620736B1DDDF1BF00BC4F53 /* backpred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = backpred.h; sourceTree = "<group>"; };
-		3620736C1DDDF1BF00BC4F53 /* bitstream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bitstream.c; sourceTree = "<group>"; };
-		3620736D1DDDF1BF00BC4F53 /* bitstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bitstream.h; sourceTree = "<group>"; };
-		3620736E1DDDF1BF00BC4F53 /* channels.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = channels.c; sourceTree = "<group>"; };
-		3620736F1DDDF1BF00BC4F53 /* channels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = channels.h; sourceTree = "<group>"; };
-		362073701DDDF1BF00BC4F53 /* coder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coder.h; sourceTree = "<group>"; };
-		362073711DDDF1BF00BC4F53 /* fft.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fft.c; sourceTree = "<group>"; };
-		362073721DDDF1BF00BC4F53 /* fft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fft.h; sourceTree = "<group>"; };
-		362073731DDDF1BF00BC4F53 /* filtbank.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = filtbank.c; sourceTree = "<group>"; };
-		362073741DDDF1BF00BC4F53 /* filtbank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filtbank.h; sourceTree = "<group>"; };
-		362073751DDDF1BF00BC4F53 /* frame.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = frame.c; sourceTree = "<group>"; };
-		362073761DDDF1BF00BC4F53 /* frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = frame.h; sourceTree = "<group>"; };
-		362073771DDDF1BF00BC4F53 /* huffman.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = huffman.c; sourceTree = "<group>"; };
-		362073781DDDF1BF00BC4F53 /* huffman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = huffman.h; sourceTree = "<group>"; };
-		362073791DDDF1BF00BC4F53 /* hufftab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hufftab.h; sourceTree = "<group>"; };
-		3620737A1DDDF1BF00BC4F53 /* ltp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ltp.c; sourceTree = "<group>"; };
-		3620737B1DDDF1BF00BC4F53 /* ltp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ltp.h; sourceTree = "<group>"; };
-		3620737C1DDDF1BF00BC4F53 /* midside.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = midside.c; sourceTree = "<group>"; };
-		3620737D1DDDF1BF00BC4F53 /* midside.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = midside.h; sourceTree = "<group>"; };
-		3620737E1DDDF1BF00BC4F53 /* psych.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = psych.h; sourceTree = "<group>"; };
-		3620737F1DDDF1BF00BC4F53 /* psychkni.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = psychkni.c; sourceTree = "<group>"; };
-		362073801DDDF1BF00BC4F53 /* tns.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tns.c; sourceTree = "<group>"; };
-		362073811DDDF1BF00BC4F53 /* tns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tns.h; sourceTree = "<group>"; };
-		362073821DDDF1BF00BC4F53 /* util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util.c; sourceTree = "<group>"; };
-		362073831DDDF1BF00BC4F53 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
-		362073841DDDF1BF00BC4F53 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
-		362073941DDDF28E00BC4F53 /* faac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = faac.h; sourceTree = "<group>"; };
-		362073951DDDF28E00BC4F53 /* faaccfg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = faaccfg.h; sourceTree = "<group>"; };
 		3622FEAD1DE07CFA007B9A52 /* ALView+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALView+PureLayout.h"; sourceTree = "<group>"; };
 		3622FEAE1DE07CFA007B9A52 /* ALView+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALView+PureLayout.m"; sourceTree = "<group>"; };
 		3622FEAF1DE07CFA007B9A52 /* NSArray+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+PureLayout.h"; sourceTree = "<group>"; };
@@ -82,9 +36,9 @@
 		3622FEB31DE07CFA007B9A52 /* PureLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PureLayout+Internal.h"; sourceTree = "<group>"; };
 		3622FEB41DE07CFA007B9A52 /* PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayout.h; sourceTree = "<group>"; };
 		3622FEB51DE07CFA007B9A52 /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayoutDefines.h; sourceTree = "<group>"; };
-		363856861DE340FE0052B0F9 /* ServerInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerInfoViewController.h; path = EasyCapture/ServerInfoViewController.h; sourceTree = SOURCE_ROOT; };
-		363856871DE340FE0052B0F9 /* ServerInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerInfoViewController.m; path = EasyCapture/ServerInfoViewController.m; sourceTree = SOURCE_ROOT; };
-		363856881DE340FE0052B0F9 /* ServerInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ServerInfoViewController.xib; path = EasyCapture/ServerInfoViewController.xib; sourceTree = SOURCE_ROOT; };
+		363856861DE340FE0052B0F9 /* ServerInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerInfoViewController.h; path = EasyPusher/ServerInfoViewController.h; sourceTree = SOURCE_ROOT; };
+		363856871DE340FE0052B0F9 /* ServerInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerInfoViewController.m; path = EasyPusher/ServerInfoViewController.m; sourceTree = SOURCE_ROOT; };
+		363856881DE340FE0052B0F9 /* ServerInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ServerInfoViewController.xib; path = EasyPusher/ServerInfoViewController.xib; sourceTree = SOURCE_ROOT; };
 		F6C5102A1D858306001EB536 /* EasyPush.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyPush.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6C5102E1D858306001EB536 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F6C510301D858306001EB536 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -122,54 +76,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		362073661DDDF1BF00BC4F53 /* libfaac */ = {
-			isa = PBXGroup;
-			children = (
-				362073671DDDF1BF00BC4F53 /* .cvsignore */,
-				362073681DDDF1BF00BC4F53 /* aacquant.c */,
-				362073691DDDF1BF00BC4F53 /* aacquant.h */,
-				3620736A1DDDF1BF00BC4F53 /* backpred.c */,
-				3620736B1DDDF1BF00BC4F53 /* backpred.h */,
-				3620736C1DDDF1BF00BC4F53 /* bitstream.c */,
-				3620736D1DDDF1BF00BC4F53 /* bitstream.h */,
-				3620736E1DDDF1BF00BC4F53 /* channels.c */,
-				3620736F1DDDF1BF00BC4F53 /* channels.h */,
-				362073701DDDF1BF00BC4F53 /* coder.h */,
-				362073711DDDF1BF00BC4F53 /* fft.c */,
-				362073721DDDF1BF00BC4F53 /* fft.h */,
-				362073731DDDF1BF00BC4F53 /* filtbank.c */,
-				362073741DDDF1BF00BC4F53 /* filtbank.h */,
-				362073751DDDF1BF00BC4F53 /* frame.c */,
-				362073761DDDF1BF00BC4F53 /* frame.h */,
-				362073771DDDF1BF00BC4F53 /* huffman.c */,
-				362073781DDDF1BF00BC4F53 /* huffman.h */,
-				362073791DDDF1BF00BC4F53 /* hufftab.h */,
-				3620737A1DDDF1BF00BC4F53 /* ltp.c */,
-				3620737B1DDDF1BF00BC4F53 /* ltp.h */,
-				3620737C1DDDF1BF00BC4F53 /* midside.c */,
-				3620737D1DDDF1BF00BC4F53 /* midside.h */,
-				3620737E1DDDF1BF00BC4F53 /* psych.h */,
-				3620737F1DDDF1BF00BC4F53 /* psychkni.c */,
-				362073801DDDF1BF00BC4F53 /* tns.c */,
-				362073811DDDF1BF00BC4F53 /* tns.h */,
-				362073821DDDF1BF00BC4F53 /* util.c */,
-				362073831DDDF1BF00BC4F53 /* util.h */,
-				362073841DDDF1BF00BC4F53 /* version.h */,
-			);
-			name = libfaac;
-			path = ../../../Downloads/EasyCapture/libfaac;
-			sourceTree = "<group>";
-		};
-		362073931DDDF28E00BC4F53 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				362073941DDDF28E00BC4F53 /* faac.h */,
-				362073951DDDF28E00BC4F53 /* faaccfg.h */,
-			);
-			name = include;
-			path = ../../../Downloads/EasyCapture/include;
-			sourceTree = "<group>";
-		};
 		3622FEAC1DE07CFA007B9A52 /* PureLayout */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,7 +95,7 @@
 		F6C510211D858306001EB536 = {
 			isa = PBXGroup;
 			children = (
-				F6C5102C1D858306001EB536 /* EasyCapture */,
+				F6C5102C1D858306001EB536 /* EasyPusher */,
 				F6C5102B1D858306001EB536 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -202,7 +108,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F6C5102C1D858306001EB536 /* EasyCapture */ = {
+		F6C5102C1D858306001EB536 /* EasyPusher */ = {
 			isa = PBXGroup;
 			children = (
 				F6C510491D865516001EB536 /* Encoder */,
@@ -218,7 +124,7 @@
 				F6C5103E1D858306001EB536 /* Info.plist */,
 				F6C5102D1D858306001EB536 /* Supporting Files */,
 			);
-			path = EasyCapture;
+			path = EasyPusher;
 			sourceTree = "<group>";
 		};
 		F6C5102D1D858306001EB536 /* Supporting Files */ = {
@@ -236,7 +142,8 @@
 				F6C510461D858319001EB536 /* EasyTypes.h */,
 				F6C510471D858319001EB536 /* libEasyPusher.a */,
 			);
-			path = EasyPusher;
+			name = EasyPusher;
+			path = EasyPusherLib;
 			sourceTree = SOURCE_ROOT;
 		};
 		F6C510491D865516001EB536 /* Encoder */ = {
@@ -247,8 +154,6 @@
 				363856861DE340FE0052B0F9 /* ServerInfoViewController.h */,
 				363856871DE340FE0052B0F9 /* ServerInfoViewController.m */,
 				363856881DE340FE0052B0F9 /* ServerInfoViewController.xib */,
-				362073931DDDF28E00BC4F53 /* include */,
-				362073661DDDF1BF00BC4F53 /* libfaac */,
 				F6C5105A1D8669DA001EB536 /* Codec */,
 			);
 			path = Encoder;
@@ -285,7 +190,7 @@
 			dependencies = (
 			);
 			name = EasyPush;
-			productName = EasyCapture;
+			productName = EasyPusher;
 			productReference = F6C5102A1D858306001EB536 /* EasyPush.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -304,7 +209,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F6C510251D858306001EB536 /* Build configuration list for PBXProject "EasyPush" */;
+			buildConfigurationList = F6C510251D858306001EB536 /* Build configuration list for PBXProject "EasyPusher" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -327,7 +232,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				362073851DDDF1BF00BC4F53 /* .cvsignore in Resources */,
 				F6C5103D1D858306001EB536 /* LaunchScreen.storyboard in Resources */,
 				F6C5103A1D858306001EB536 /* Assets.xcassets in Resources */,
 				F6C510381D858306001EB536 /* Main.storyboard in Resources */,
@@ -342,30 +246,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3620738C1DDDF1BF00BC4F53 /* frame.c in Sources */,
-				3620738B1DDDF1BF00BC4F53 /* filtbank.c in Sources */,
-				362073921DDDF1BF00BC4F53 /* util.c in Sources */,
 				F6C510651D8669DA001EB536 /* H264HWEncoder.m in Sources */,
 				F6C510661D8669DA001EB536 /* H264Packet.m in Sources */,
 				363856891DE340FE0052B0F9 /* ServerInfoViewController.m in Sources */,
 				F6C510351D858306001EB536 /* ViewController.m in Sources */,
-				362073901DDDF1BF00BC4F53 /* psychkni.c in Sources */,
 				F6C510711D880B76001EB536 /* CameraEncoder.m in Sources */,
-				3620738E1DDDF1BF00BC4F53 /* ltp.c in Sources */,
-				362073881DDDF1BF00BC4F53 /* bitstream.c in Sources */,
 				F6C510631D8669DA001EB536 /* AACEncoder.m in Sources */,
 				3622FEB81DE07CFA007B9A52 /* NSLayoutConstraint+PureLayout.m in Sources */,
-				3620738A1DDDF1BF00BC4F53 /* fft.c in Sources */,
-				362073911DDDF1BF00BC4F53 /* tns.c in Sources */,
 				F6C510641D8669DA001EB536 /* H264HWDecoder.m in Sources */,
-				3620738F1DDDF1BF00BC4F53 /* midside.c in Sources */,
-				362073891DDDF1BF00BC4F53 /* channels.c in Sources */,
-				362073861DDDF1BF00BC4F53 /* aacquant.c in Sources */,
 				F6C510321D858306001EB536 /* AppDelegate.m in Sources */,
 				F6C5102F1D858306001EB536 /* main.m in Sources */,
 				3622FEB71DE07CFA007B9A52 /* NSArray+PureLayout.m in Sources */,
-				362073871DDDF1BF00BC4F53 /* backpred.c in Sources */,
-				3620738D1DDDF1BF00BC4F53 /* huffman.c in Sources */,
 				3622FEB61DE07CFA007B9A52 /* ALView+PureLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,19 +382,19 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = EasyCapture/Info.plist;
+				INFOPLIST_FILE = EasyPusher/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/EasyPusher",
+					"$(PROJECT_DIR)/EasyPusherLib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cs.EasyCapture;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -517,19 +408,19 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = EasyCapture/Info.plist;
+				INFOPLIST_FILE = EasyPusher/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/EasyPusher",
+					"$(PROJECT_DIR)/EasyPusherLib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cs.EasyCapture;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -541,7 +432,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F6C510251D858306001EB536 /* Build configuration list for PBXProject "EasyPush" */ = {
+		F6C510251D858306001EB536 /* Build configuration list for PBXProject "EasyPusher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F6C5103F1D858306001EB536 /* Debug */,
