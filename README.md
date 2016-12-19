@@ -76,6 +76,20 @@ EasyPusher目前支持的音视频格式：
 	#define EASY_SDK_AUDIO_CODEC_G711A	0x01000012		/* G711 alaw*/
 	#define EASY_SDK_AUDIO_CODEC_G711U	0x01000014		/* G711 ulaw*/
 
+EasyPusher回调事件定义：
+
+	typedef enum __EASY_PUSH_STATE_T
+	{
+	    EASY_PUSH_STATE_CONNECTING   =   1,     /* 连接中 */
+	    EASY_PUSH_STATE_CONNECTED,              /* 连接成功 */
+	    EASY_PUSH_STATE_CONNECT_FAILED,         /* 连接失败 */
+	    EASY_PUSH_STATE_CONNECT_ABORT,          /* 连接异常中断 */
+	    EASY_PUSH_STATE_PUSHING,                /* 推流中 */
+	    EASY_PUSH_STATE_DISCONNECTED,           /* 断开连接 */
+	    EASY_PUSH_STATE_ERROR
+	}EASY_PUSH_STATE_T;
+
+
 ## 获取更多信息 ##
 
 邮件：[support@easydarwin.org](mailto:support@easydarwin.org) 
