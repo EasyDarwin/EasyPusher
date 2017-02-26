@@ -3,7 +3,7 @@
 EasyPusher是EasyDarwin开源流媒体团队开发的一个推送流媒体音/视频流给开源流媒体服务器EasyDarwin的标准RTSP/RTP协议推送库，全平台支持(包括Windows/Linux(32 & 64)，ARM各平台，Android、IOS)，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP/RTCP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给EasyDarwin服务器进行转发和分发，EasyPusher经过长时间的企业用户检验，稳定性非常高;
 
 ## Android ##
-EasyPusher_Android迁移到了https://github.com/EasyDarwin/EasyPusher_Android，需要Android版本的前去下载。
+EasyPusher_Android迁移到了https://github.com/EasyDarwin/EasyPusher_Android
 ## 调用示例 ##
 
 - **EasyPusher_Android**：实时采集安卓摄像头音视频（Android 5.0+支持采集手机桌面屏幕进行直播），进行H264/AAC编码后，调用libEasyPusher进行直播推送；
