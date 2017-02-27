@@ -84,7 +84,7 @@
     outAudioStreamBasicDescription.mBytesPerPacket = 0; // The number of bytes in a packet of audio data. To indicate variable packet size, set this field to 0. For a format that uses variable packet size, specify the size of each packet using an AudioStreamPacketDescription structure.
     outAudioStreamBasicDescription.mFramesPerPacket = 1024; // The number of frames in a packet of audio data. For uncompressed audio, the value is 1. For variable bit-rate formats, the value is a larger fixed number, such as 1024 for AAC. For formats with a variable number of frames per packet, such as Ogg Vorbis, set this field to 0.
     outAudioStreamBasicDescription.mBytesPerFrame = 0; // The number of bytes from the start of one frame to the start of the next frame in an audio buffer. Set this field to 0 for compressed formats. ...
-    outAudioStreamBasicDescription.mChannelsPerFrame = 1; // The number of channels in each frame of audio data. This value must be nonzero.
+    outAudioStreamBasicDescription.mChannelsPerFrame = 2; // The number of channels in each frame of audio data. This value must be nonzero.
     outAudioStreamBasicDescription.mBitsPerChannel = 0; // ... Set this field to 0 for compressed formats.
     outAudioStreamBasicDescription.mReserved = 0; // Pads the structure out to force an even 8-byte alignment. Must be set to 0.
     AudioClassDescription *description = [self
@@ -242,7 +242,8 @@ static OSStatus inInputDataProc(AudioConverterRef inAudioConverter, UInt32 *ioNu
     int profile = 2;  //AAC LC
     //39=MediaCodecInfo.CodecProfileLevel.AACObjectELD;
     int freqIdx = 4;  //44.1KHz
-    int chanCfg = 1;  //MPEG-4 Audio Channel Configuration. 1 Channel front-center
+//    int chanCfg = 1;  //MPEG-4 Audio Channel Configuration. 1 Channel front-center
+    int chanCfg = 2;
     NSUInteger fullLength = adtsLength + packetLength;
     // fill in ADTS data
     packet[0] = (char)0xFF;	// 11111111  	= syncword
