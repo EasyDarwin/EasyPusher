@@ -50,11 +50,11 @@ EasyPusher_Android迁移到了https://github.com/EasyDarwin/EasyPusher_Android
 
 - Android [https://fir.im/EasyPusher ](https://fir.im/EasyPusher "EasyPusher_Android")
 
-![EasyPusher_Android](http://demo.easydarwin.org/img/EasyPusher_AN.png)
+![EasyPusher_Android](http://www.easydarwin.org/skin/bs/images/app/EasyPusher_AN.png)
 
 - iOS [https://itunes.apple.com/us/app/easypusher/id1211967057](https://itunes.apple.com/us/app/easypusher/id1211967057 "EasyPusher_iOS")
 
-![EasyPusher_iOS](http://demo.easydarwin.org/img/EasyPusher_iOS.png)
+![EasyPusher_iOS](http://www.easydarwin.org/skin/bs/images/app/EasyPusher_iOS.png)
 
 
 ## 调用过程 ##
