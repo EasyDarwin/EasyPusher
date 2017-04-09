@@ -45,20 +45,16 @@ EasyPusher_Android迁移到了https://github.com/EasyDarwin/EasyPusher_Android
 	</table>
 
 
-##更新记录##
-
-### EasyPusher_Win(Windows) v1.0.1.3 (2016-6-24)
-
-* 增加ts文件解析TSDemuxer，支持数据源为h264和aac的ts文件解析推送EasyDarwin服务器；
-* 自适应MP4和ts文件推送，详见CEasyFileCapture类；
+##Demo下载##
 
 
-### EasyPusher_Win(Windows) v1.0.0.9 (2016-6-20)
+- Android [https://fir.im/EasyPusher ](https://fir.im/EasyPusher "EasyPusher_Android")
 
-* 支持本地摄像头和声卡、RTSP流、屏幕捕获、MP4文件推送EasyDarwin服务器；
-* 修复MP4文件部分封装的H264解析不正常的问题；
-* 修复MP4文件部分封装的aac解析不正常的问题，修复文件推送后进行HLS切片音频播放不出声的问题；
-* 增加推送计划（定时推送)，在配置文件ini下进行窗口和计划配置，详见计划模板.ini；
+![EasyPusher_Android](http://demo.easydarwin.org/img/EasyPusher_AN.png)
+
+- iOS [https://itunes.apple.com/us/app/easypusher/id1211967057](https://itunes.apple.com/us/app/easypusher/id1211967057 "EasyPusher_iOS")
+
+![EasyPusher_iOS](http://demo.easydarwin.org/img/EasyPusher_iOS.png)
 
 
 ## 调用过程 ##
