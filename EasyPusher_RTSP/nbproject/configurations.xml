@@ -92,6 +92,10 @@
       <compileType>
         <cTool>
           <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>libEasyRTSPClient/Include</pElem>
+            <pElem>../Include</pElem>
+          </incDir>
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
@@ -127,6 +131,9 @@
       <compileType>
         <cTool>
           <developmentMode>5</developmentMode>
+          <preprocessorList>
+            <Elem>_ARM</Elem>
+          </preprocessorList>
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
@@ -134,6 +141,9 @@
             <pElem>libEasyRTSPClient/Include</pElem>
             <pElem>../Include</pElem>
           </incDir>
+          <preprocessorList>
+            <Elem>_ARM</Elem>
+          </preprocessorList>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -144,8 +154,8 @@
         <linkerTool>
           <output>../${CND_CONF}/easypusher_rtsp</output>
           <linkerAddLib>
-            <pElem>libEasyRTSPClient/Lib/arm</pElem>
-            <pElem>../Lib/arm</pElem>
+            <pElem>libEasyRTSPClient/Lib/hisiv100</pElem>
+            <pElem>../Lib/hisiv100</pElem>
           </linkerAddLib>
           <commandLine>-leasypusher -leasyrtspclient -lpthread</commandLine>
         </linkerTool>

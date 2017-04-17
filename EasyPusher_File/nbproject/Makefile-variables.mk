@@ -31,13 +31,13 @@ CND_PACKAGE_DIR_x64=dist/x64/GNU-Linux/package
 CND_PACKAGE_NAME_x64=easypusherfile.tar
 CND_PACKAGE_PATH_x64=dist/x64/GNU-Linux/package/easypusherfile.tar
 # arm configuration
-CND_PLATFORM_arm=GM8126-Linux
+CND_PLATFORM_arm=hisiv100-Linux
 CND_ARTIFACT_DIR_arm=../arm
 CND_ARTIFACT_NAME_arm=easypusher_file
 CND_ARTIFACT_PATH_arm=../arm/easypusher_file
-CND_PACKAGE_DIR_arm=dist/arm/GM8126-Linux/package
+CND_PACKAGE_DIR_arm=dist/arm/hisiv100-Linux/package
 CND_PACKAGE_NAME_arm=easypusherfile.tar
-CND_PACKAGE_PATH_arm=dist/arm/GM8126-Linux/package/easypusherfile.tar
+CND_PACKAGE_PATH_arm=dist/arm/hisiv100-Linux/package/easypusherfile.tar
 #
 # include compiler specific variables
 #

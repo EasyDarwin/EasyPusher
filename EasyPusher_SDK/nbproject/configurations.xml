@@ -96,13 +96,16 @@
     </conf>
     <conf name="arm" type="1">
       <toolsSet>
-        <compilerSet>GM8126|GNU</compilerSet>
+        <compilerSet>hisiv100|GNU</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <cTool>
           <developmentMode>5</developmentMode>
+          <preprocessorList>
+            <Elem>_ARM</Elem>
+          </preprocessorList>
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
@@ -112,6 +115,7 @@
           </incDir>
           <preprocessorList>
             <Elem>HI_OS_LINUX</Elem>
+            <Elem>_ARM</Elem>
           </preprocessorList>
         </ccTool>
         <fortranCompilerTool>
@@ -123,7 +127,7 @@
         <linkerTool>
           <output>../${CND_CONF}/easypusher_sdk</output>
           <linkerAddLib>
-            <pElem>../Lib/arm</pElem>
+            <pElem>../Lib/hisiv100</pElem>
             <pElem>SDK/Lib/arm</pElem>
           </linkerAddLib>
           <commandLine>-lNetLib -leasypusher</commandLine>
