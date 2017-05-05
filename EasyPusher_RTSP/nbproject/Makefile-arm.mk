@@ -18,7 +18,7 @@ CC=arm-hisiv100-linux-uclibcgnueabi-gcc
 CCC=arm-hisiv100-linux-uclibcgnueabi-g++
 CXX=arm-hisiv100-linux-uclibcgnueabi-g++
 FC=gfortran
-AS=as
+AS=arm-hisiv100-linux-uclibcgnueabi-as
 
 # Macros
 CND_PLATFORM=hisiv100-Linux
@@ -52,7 +52,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-LlibEasyRTSPClient/Lib/arm -L../Lib/arm
+LDLIBSOPTIONS=-LlibEasyRTSPClient/Lib/hisiv100 -L../Lib/hisiv100
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -65,7 +65,7 @@ LDLIBSOPTIONS=-LlibEasyRTSPClient/Lib/arm -L../Lib/arm
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -IlibEasyRTSPClient/Include -I../Include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -O2 -D_ARM -IlibEasyRTSPClient/Include -I../Include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:

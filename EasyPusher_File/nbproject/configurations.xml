@@ -114,7 +114,7 @@
     </conf>
     <conf name="arm" type="1">
       <toolsSet>
-        <compilerSet>GM8126|GNU</compilerSet>
+        <compilerSet>hisiv100|GNU</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -124,9 +124,15 @@
           <incDir>
             <pElem>../Include</pElem>
           </incDir>
+          <preprocessorList>
+            <Elem>_ARM</Elem>
+          </preprocessorList>
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
+          <preprocessorList>
+            <Elem>_ARM</Elem>
+          </preprocessorList>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -137,7 +143,7 @@
         <linkerTool>
           <output>../${CND_CONF}/easypusher_file</output>
           <linkerAddLib>
-            <pElem>../Lib/arm</pElem>
+            <pElem>../Lib/hisiv100</pElem>
           </linkerAddLib>
           <commandLine>-leasypusher -lpthread</commandLine>
         </linkerTool>

@@ -14,14 +14,14 @@ GREP=grep
 NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=arm-none-linux-gnueabi-gcc
-CCC=arm-none-linux-gnueabi-g++
-CXX=arm-none-linux-gnueabi-g++
+CC=arm-hisiv100-linux-uclibcgnueabi-gcc
+CCC=arm-hisiv100-linux-uclibcgnueabi-g++
+CXX=arm-hisiv100-linux-uclibcgnueabi-g++
 FC=gfortran
-AS=arm-none-linux-gnueabi-as
+AS=arm-hisiv100-linux-uclibcgnueabi-as
 
 # Macros
-CND_PLATFORM=GM8126-Linux
+CND_PLATFORM=hisiv100-Linux
 CND_DLIB_EXT=so
 CND_CONF=arm
 CND_DISTDIR=dist
@@ -52,7 +52,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../Lib/arm
+LDLIBSOPTIONS=-L../Lib/hisiv100
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -65,7 +65,7 @@ LDLIBSOPTIONS=-L../Lib/arm
 ${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -O2 -I../Include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
+	$(COMPILE.c) -O2 -D_ARM -I../Include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
 
 # Subprojects
 .build-subprojects:

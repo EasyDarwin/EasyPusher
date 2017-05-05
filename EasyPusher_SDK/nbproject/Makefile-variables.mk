@@ -23,13 +23,13 @@ CND_PACKAGE_DIR_i386=dist/i386/GNU-Linux/package
 CND_PACKAGE_NAME_i386=easypushersdk.tar
 CND_PACKAGE_PATH_i386=dist/i386/GNU-Linux/package/easypushersdk.tar
 # arm configuration
-CND_PLATFORM_arm=GM8126-Linux
+CND_PLATFORM_arm=hisiv100-Linux
 CND_ARTIFACT_DIR_arm=../arm
 CND_ARTIFACT_NAME_arm=easypusher_sdk
 CND_ARTIFACT_PATH_arm=../arm/easypusher_sdk
-CND_PACKAGE_DIR_arm=dist/arm/GM8126-Linux/package
+CND_PACKAGE_DIR_arm=dist/arm/hisiv100-Linux/package
 CND_PACKAGE_NAME_arm=easypushersdk.tar
-CND_PACKAGE_PATH_arm=dist/arm/GM8126-Linux/package/easypushersdk.tar
+CND_PACKAGE_PATH_arm=dist/arm/hisiv100-Linux/package/easypushersdk.tar
 #
 # include compiler specific variables
 #

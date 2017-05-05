@@ -6,7 +6,7 @@
 
 # Macros
 TOP=`pwd`
-CND_PLATFORM=GM8126-Linux
+CND_PLATFORM=hisiv100-Linux
 CND_CONF=arm
 CND_DISTDIR=dist
 CND_BUILDDIR=build
