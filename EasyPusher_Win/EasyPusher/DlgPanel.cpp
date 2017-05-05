@@ -134,7 +134,7 @@ BOOL CDlgPanel::OnInitDialog()
 	}
 	if (m_pEdtServerIP)
 	{
-		m_pEdtServerIP->SetWindowTextW(TEXT("121.40.50.44"));
+		m_pEdtServerIP->SetWindowTextW(TEXT("114.55.107.180"));
 	}
 	if (m_pEdtServerPort)
 	{

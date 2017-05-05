@@ -204,10 +204,10 @@ BOOL CEasyPusherDlg::OnInitDialog()
 
 	if (NULL != pRtspURL)
 	{
-		pRtspURL->SetWindowTextW(TEXT("rtsp://121.40.50.44:554/stream.sdp"));
+		pRtspURL->SetWindowTextW(TEXT("rtsp://114.55.107.180:554/stream.sdp"));
 	}
 
-	m_edtIp.SetWindowTextW(TEXT("121.40.50.44"));
+	m_edtIp.SetWindowTextW(TEXT("114.55.107.180"));
 
 	CEdit* pPort = (CEdit*)GetDlgItem(IDC_EDIT_SERVER_PORT);
 	if (pPort)
