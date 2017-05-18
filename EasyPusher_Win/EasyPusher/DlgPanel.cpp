@@ -134,7 +134,7 @@ BOOL CDlgPanel::OnInitDialog()
 	}
 	if (m_pEdtServerIP)
 	{
-		m_pEdtServerIP->SetWindowTextW(TEXT("114.55.107.180"));
+		m_pEdtServerIP->SetWindowTextW(TEXT("www.easydarwin.org"));
 	}
 	if (m_pEdtServerPort)
 	{

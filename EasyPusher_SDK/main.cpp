@@ -24,8 +24,8 @@
 #include "hi_net_dev_sdk.h"
 #include "hi_net_dev_errors.h"
 
-char* ConfigIP		= "114.55.107.180";		//Default EasyDarwin Address
-char* ConfigPort	= "10554";				//Default EasyDarwin Port
+char* ConfigIP		= "www.easydarwin.org";		//Default EasyDarwin Address
+char* ConfigPort	= "554";				//Default EasyDarwin Port
 char* ConfigName	= "easypusher_sdk.sdp";//Default Push StreamName
 char* ConfigUName	= "admin";			//SDK UserName
 char* ConfigPWD		= "admin";			//SDK Password
