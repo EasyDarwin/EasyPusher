@@ -52,7 +52,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../Lib
+LDLIBSOPTIONS=-L../Lib/i386
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -62,7 +62,7 @@ LDLIBSOPTIONS=-L../Lib
 	${MKDIR} -p ../${CND_CONF}
 	${LINK.c} -o ../${CND_CONF}/easypusher_file ${OBJECTFILES} ${LDLIBSOPTIONS} -leasypusher -lpthread
 
-${OBJECTDIR}/main.o: main.c 
+${OBJECTDIR}/main.o: main.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -I../Include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c

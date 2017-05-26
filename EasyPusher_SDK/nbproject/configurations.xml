@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="97">
+<configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
     </logicalFolder>
@@ -83,7 +83,7 @@
         <linkerTool>
           <output>../${CND_CONF}/easypusher_sdk</output>
           <linkerAddLib>
-            <pElem>../Lib</pElem>
+            <pElem>../Lib/i386</pElem>
             <pElem>SDK/Lib</pElem>
           </linkerAddLib>
           <commandLine>-lNetLib -leasypusher</commandLine>

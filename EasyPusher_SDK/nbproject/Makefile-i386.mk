@@ -52,7 +52,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../Lib -LSDK/Lib
+LDLIBSOPTIONS=-L../Lib/i386 -LSDK/Lib
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -62,7 +62,7 @@ LDLIBSOPTIONS=-L../Lib -LSDK/Lib
 	${MKDIR} -p ../${CND_CONF}
 	${LINK.cc} -o ../${CND_CONF}/easypusher_sdk ${OBJECTFILES} ${LDLIBSOPTIONS} -lNetLib -leasypusher
 
-${OBJECTDIR}/main.o: main.cpp 
+${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DHI_OS_LINUX -ISDK/Include -I../Include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp

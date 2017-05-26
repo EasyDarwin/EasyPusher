@@ -52,7 +52,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-LlibEasyRTSPClient/Lib -L../Lib
+LDLIBSOPTIONS=-LlibEasyRTSPClient/Lib/${CND_CONF} -L../Lib/${CND_CONF}
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -60,9 +60,9 @@ LDLIBSOPTIONS=-LlibEasyRTSPClient/Lib -L../Lib
 
 ../${CND_CONF}/easypusher_rtsp: ${OBJECTFILES}
 	${MKDIR} -p ../${CND_CONF}
-	${LINK.cc} -o ../${CND_CONF}/easypusher_rtsp ${OBJECTFILES} ${LDLIBSOPTIONS} -leasypusher -leasyrtspclient -lpthread
+	${LINK.cc} -o ../${CND_CONF}/easypusher_rtsp ${OBJECTFILES} ${LDLIBSOPTIONS} -leasypusher -leasyrtspclient -lpthread -lrt
 
-${OBJECTDIR}/main.o: main.cpp 
+${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -IlibEasyRTSPClient/Include -I../Include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp

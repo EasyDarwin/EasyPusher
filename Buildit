@@ -32,8 +32,6 @@ build()
 		make -f nbproject/Makefile-arm.mk QMAKE= SUBPROJECTS= .build-conf	
 	elif [ "$1" = "x64" ] ; then
 		make -f nbproject/Makefile-x64.mk QMAKE= SUBPROJECTS= .build-conf
-	elif [ "$1" = "debug" ] ; then
-		make -f nbproject/Makefile-Debug.mk QMAKE= SUBPROJECTS= .build-conf
 	elif [ "$1" = "i386" ] ; then
 		make -f nbproject/Makefile-i386.mk QMAKE= SUBPROJECTS= .build-conf
 	else 		

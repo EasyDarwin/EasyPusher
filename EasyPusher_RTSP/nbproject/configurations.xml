@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="97">
+<configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
     </logicalFolder>
@@ -74,10 +74,10 @@
         <linkerTool>
           <output>../${CND_CONF}/easypusher_rtsp</output>
           <linkerAddLib>
-            <pElem>libEasyRTSPClient/Lib</pElem>
-            <pElem>../Lib</pElem>
+            <pElem>libEasyRTSPClient/Lib/${CND_CONF}</pElem>
+            <pElem>../Lib/${CND_CONF}</pElem>
           </linkerAddLib>
-          <commandLine>-leasypusher -leasyrtspclient -lpthread</commandLine>
+          <commandLine>-leasypusher -leasyrtspclient -lpthread -lrt</commandLine>
         </linkerTool>
       </compileType>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
@@ -116,7 +116,7 @@
             <pElem>libEasyRTSPClient/Lib/x64</pElem>
             <pElem>../Lib/x64</pElem>
           </linkerAddLib>
-          <commandLine>-leasypusher -leasyrtspclient -lpthread</commandLine>
+          <commandLine>-leasypusher -leasyrtspclient -lpthread -lrt</commandLine>
         </linkerTool>
       </compileType>
       <item path="main.cpp" ex="false" tool="1" flavor2="9">
