@@ -191,10 +191,16 @@ int main(int argc, char * argv[])
 	}
 
 	if(EASY_ACTIVATE_SUCCESS != isActivated)
+	{
+		getchar();
 		return -1;
+	}
 
 	if(EASY_ACTIVATE_SUCCESS != EasyRTSP_Activate(EasyRTSPClient_KEY))
+	{
+		getchar();
 		return -1;
+	}
 
 	//Create RTSPClient Handle
 	EasyRTSP_Init(&fRTSPHandle);

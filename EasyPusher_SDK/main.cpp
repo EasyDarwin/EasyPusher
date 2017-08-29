@@ -216,7 +216,10 @@ int main(int argc, char * argv[])
 	}
 
 	if(EASY_ACTIVATE_SUCCESS != isActivated)
+	{
+		getchar();
 		return -1;
+	}
 
     HI_S32 s32Ret = HI_SUCCESS;
     HI_S_STREAM_INFO struStreamInfo;
@@ -227,6 +230,8 @@ int main(int argc, char * argv[])
     if (s32Ret != HI_SUCCESS)
     {
         HI_NET_DEV_DeInit();
+		printf("确认一下您有没有这种硬件设备，这个SDK只能连接固定的摄像机，您如果有自己的摄像机型号，请换成自己的摄像机SDK!\n");
+		getchar();
 		return -1;
     }
     

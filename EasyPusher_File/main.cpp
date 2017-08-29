@@ -324,12 +324,18 @@ int main(int argc, char * argv[])
 	}
 
 	if(EASY_ACTIVATE_SUCCESS != isActivated)
+	{
+		getchar();
 		return -1;
+	}
 
 	g_fPusherHandle = EasyPusher_Create();
 
 	if(g_fPusherHandle == NULL)
+	{
+		getchar();
 		return -2;
+	}
 
 	EasyPusher_SetEventCallback(g_fPusherHandle, __EasyPusher_Callback, 0, NULL);
 	EasyPusher_StartStream(g_fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 1024, 0);
