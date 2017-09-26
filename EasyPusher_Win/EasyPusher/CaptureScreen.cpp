@@ -50,7 +50,7 @@ int CCaptureScreen::Init()
 
 	if (!m_hdib)
 	{
-		m_hdib = (PRGBTRIPLE)malloc(1920*1080*4);//1920*1080 32位图像大小
+		m_hdib = (PRGBTRIPLE)malloc(m_nMaxxScreen*m_nMaxyScreen*4);//32位图像大小
 	}
 	if (!m_pFrame)
 	{
