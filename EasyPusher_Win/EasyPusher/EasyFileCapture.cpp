@@ -648,15 +648,15 @@ void CEasyFileCapture::GetMediaInfo(EASY_MEDIA_INFO_T& mediainfo)
 			mediainfo.u32VideoFps = m_mediaInfo.nFps;
 			if (m_videoInfo.sps&&m_videoInfo.pps)
 			{
-				mediainfo.u32H264SpsLength = m_videoInfo.sps->sequenceParameterSetLength;
-				mediainfo.u32H264PpsLength = m_videoInfo.pps->pictureParameterSetLength;
+				mediainfo.u32SpsLength = m_videoInfo.sps->sequenceParameterSetLength;
+				mediainfo.u32PpsLength = m_videoInfo.pps->pictureParameterSetLength;
 				if (m_videoInfo.sps->sequenceParameterSetNALUnit && m_videoInfo.sps->sequenceParameterSetLength>0 )
 				{
-					memcpy(mediainfo.u8H264Sps, m_videoInfo.sps->sequenceParameterSetNALUnit, mediainfo.u32H264SpsLength);
+					memcpy(mediainfo.u8Sps, m_videoInfo.sps->sequenceParameterSetNALUnit, mediainfo.u32SpsLength);
 				}
 				if (m_videoInfo.pps->pictureParameterSetNALUnit && m_videoInfo.pps->pictureParameterSetLength>0 )
 				{
-					memcpy(mediainfo.u8H264Pps, m_videoInfo.pps->pictureParameterSetNALUnit, mediainfo.u32H264PpsLength );
+					memcpy(mediainfo.u8Pps, m_videoInfo.pps->pictureParameterSetNALUnit, mediainfo.u32PpsLength );
 				}
 			}
 		}

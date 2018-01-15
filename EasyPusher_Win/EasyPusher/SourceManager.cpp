@@ -876,7 +876,7 @@ int CSourceManager::StartPush(char* ServerIp, int nPushPort, char* sPushName, in
 	{
 		EasyPusher_SetEventCallback(m_sPushInfo.pusherHandle, __EasyPusher_Callback, 0, NULL);
 		nRet = EasyPusher_StartStream(m_sPushInfo.pusherHandle , 
-			ServerIp, nPushPort, sPushName, "admin", "admin", (EASY_MEDIA_INFO_T*)&m_mediainfo, nPushBufSize, 0);//512-2048
+			ServerIp, nPushPort, sPushName, EASY_RTP_OVER_TCP, "", "", (EASY_MEDIA_INFO_T*)&m_mediainfo, nPushBufSize, 0);//512-2048
 	}	
 	else
 	{

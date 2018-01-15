@@ -29,10 +29,10 @@
 #include "EasyPusherAPI.h"
 #include "EasyRTSPClientAPI.h"
 
-char* ConfigIP		= "www.easydarwin.org";		//Default EasyDarwin Address
+char* ConfigIP		= "192.168.1.55";		//Default EasyDarwin Address
 char* ConfigPort	= "554";				//Default EasyDarwin Port
 char* ConfigName	= "easypusher_rtsp.sdp";//Default Stream Name
-char* ConfigRTSPURL	= "rtsp://admin:admin@192.168.66.222/22";	//RTSP Source URL(With username:password@)
+char* ConfigRTSPURL	= "rtsp://admin:admin@192.168.1.222/22";	//RTSP Source URL(With username:password@)
 char* ProgName;		//Program Name
 
 Easy_Pusher_Handle	fPusherHandle = 0;		//libEasyPusher Handle
@@ -63,14 +63,14 @@ int Easy_APICALL __RTSPSourceCallBack( int _chid, void *_chPtr, int _mediatype, 
 			EASY_MEDIA_INFO_T mediainfo;
 			memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
 			memcpy(&mediainfo, fSourceMediaInfo, sizeof(EASY_MEDIA_INFO_T));
-			mediainfo.u32H264SpsLength = frameinfo->reserved1-4;
-			mediainfo.u32H264PpsLength = frameinfo->reserved2-frameinfo->reserved1-4;
-			memcpy(mediainfo.u8H264Sps, pbuf+4, mediainfo.u32H264SpsLength);
-			memcpy(mediainfo.u8H264Pps, pbuf+4+mediainfo.u32H264SpsLength+4, mediainfo.u32H264PpsLength);
+			mediainfo.u32SpsLength = frameinfo->reserved1-4;
+			mediainfo.u32PpsLength = frameinfo->reserved2-frameinfo->reserved1-4;
+			memcpy(mediainfo.u8Sps, pbuf+4, mediainfo.u32SpsLength);
+			memcpy(mediainfo.u8Pps, pbuf+4+mediainfo.u32SpsLength+4, mediainfo.u32PpsLength);
 
 			fPusherHandle = EasyPusher_Create();
 			EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
-			EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 1024, false);//1M»º³åÇø
+			EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, EASY_RTP_OVER_UDP, "admin", "admin", &mediainfo, 1024, false);//1M»º³åÇø
 			printf("*** live streaming url:rtsp://%s:%d/%s ***\n", ConfigIP, atoi(ConfigPort), ConfigName);
 		}
 
@@ -210,7 +210,7 @@ int main(int argc, char * argv[])
 	unsigned int mediaType = EASY_SDK_VIDEO_FRAME_FLAG | EASY_SDK_AUDIO_FRAME_FLAG;	//Get Video & Audio
 
 	EasyRTSP_SetCallback(fRTSPHandle, __RTSPSourceCallBack);
-	EasyRTSP_OpenStream(fRTSPHandle, 0, ConfigRTSPURL, EASY_RTP_OVER_TCP, mediaType, 0, 0, NULL, 1000, 0, 0x01, 1);
+	EasyRTSP_OpenStream(fRTSPHandle, 0, ConfigRTSPURL, EASY_RTP_OVER_UDP, mediaType, 0, 0, NULL, 1000, 0, 0x01, 1);
 
     printf("Press Enter exit...\n");
     getchar();

@@ -273,15 +273,15 @@ int main(int argc, char * argv[])
 	{
 		mediainfo.u32VideoCodec =   EASY_SDK_VIDEO_CODEC_H264;
 		mediainfo.u32VideoFps = 25;
-		mediainfo.u32H264SpsLength = videoInfo.sps->sequenceParameterSetLength;
-		mediainfo.u32H264PpsLength = videoInfo.pps->pictureParameterSetLength;
+		mediainfo.u32SpsLength = videoInfo.sps->sequenceParameterSetLength;
+		mediainfo.u32PpsLength = videoInfo.pps->pictureParameterSetLength;
 		if (videoInfo.sps->sequenceParameterSetNALUnit && videoInfo.sps->sequenceParameterSetLength>0 )
 		{
-			memcpy(mediainfo.u8H264Sps, videoInfo.sps->sequenceParameterSetNALUnit, mediainfo.u32H264SpsLength);
+			memcpy(mediainfo.u8Sps, videoInfo.sps->sequenceParameterSetNALUnit, mediainfo.u32SpsLength);
 		}
 		if (videoInfo.pps->pictureParameterSetNALUnit && videoInfo.pps->pictureParameterSetLength>0 )
 		{
-			memcpy(mediainfo.u8H264Pps, videoInfo.pps->pictureParameterSetNALUnit, mediainfo.u32H264PpsLength );
+			memcpy(mediainfo.u8Pps, videoInfo.pps->pictureParameterSetNALUnit, mediainfo.u32PpsLength );
 		}
 
 		g_mp4TrackThread[nVideoTrackId] = (HANDLE)_beginthreadex(NULL, 0, VideoThread, (void*)nVideoTrackId,0,0);

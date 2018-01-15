@@ -62,7 +62,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>../bin/$(ProjectName).exe</OutputFile>
-      <AdditionalDependencies>gdiplus.lib;d3d9.lib;libEasyPusher.lib</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;wsock32.lib;gdiplus.lib;d3d9.lib;libEasyPusher.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <AdditionalLibraryDirectories>./EasyEncoder/;./EasyMP4Writer/;./DShowCapture/DirectShow/Lib/;../../Lib/</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
@@ -94,7 +94,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>../bin/$(ProjectName).exe</OutputFile>
-      <AdditionalDependencies>gdiplus.lib;d3d9.lib;libEasyPusher.lib</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;wsock32.lib;gdiplus.lib;d3d9.lib;libEasyPusher.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>./EasyEncoder/;./EasyMP4Writer/;./DShowCapture/DirectShow/Lib/;../../Lib/</AdditionalLibraryDirectories>
     </Link>
     <Midl>

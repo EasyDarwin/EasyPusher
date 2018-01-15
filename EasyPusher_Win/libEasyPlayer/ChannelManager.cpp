@@ -10,7 +10,6 @@
 #include "vstime.h"
 #include "trace.h"
 
-
 #define		CHANNEL_ID_GAIN			1000
 
 
@@ -113,8 +112,8 @@ int	CChannelManager::OpenStream(const char *url, HWND hWnd, RENDER_FORMAT render
 		if (NULL == pRealtimePlayThread[iNvsIdx].nvsHandle)		break;	//ÍË³öwhileÑ­»·
 
 		unsigned int mediaType = MEDIA_TYPE_VIDEO | MEDIA_TYPE_AUDIO;
-		EasyRTSP_SetCallback(pRealtimePlayThread[iNvsIdx].nvsHandle, __RTSPSourceCallBack);
-		EasyRTSP_OpenStream(pRealtimePlayThread[iNvsIdx].nvsHandle, iNvsIdx, (char*)url, _rtpovertcp==0x01?RTP_OVER_TCP:RTP_OVER_UDP, mediaType, (char*)username, (char*)password, (int*)&pRealtimePlayThread[iNvsIdx], 1000, 0, 0);
+		EasyRTSP_SetCallback(pRealtimePlayThread[iNvsIdx].nvsHandle, (RTSPSourceCallBack)__RTSPSourceCallBack);
+		EasyRTSP_OpenStream(pRealtimePlayThread[iNvsIdx].nvsHandle, iNvsIdx, (char*)url, _rtpovertcp==0x01?EASY_RTP_OVER_TCP:EASY_RTP_OVER_UDP, mediaType, (char*)username, (char*)password, (int*)&pRealtimePlayThread[iNvsIdx], 1000, 0, 0, 0);
 
 		pRealtimePlayThread[iNvsIdx].pCallback = callback;
 		pRealtimePlayThread[iNvsIdx].pUserPtr = userPtr;
