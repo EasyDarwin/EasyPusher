@@ -44,7 +44,7 @@ EasyPusher RTSP推流SDK是EasyDarwin开源流媒体团队开发的一款推送�
 	<tr><td>Android</td><td>armeabi</td><td>armeabi libeasypusher.so</td></tr>
 	<tr><td>Android</td><td>armeabi-v7a</td><td>libeasypusher.so</td></tr>
 	<tr><td>Android</td><td>arm64-v8a</td><td>libeasypusher.so</td></tr>
-	<tr><td colspan="3"><center>邮件获取更多平台版本</center></td></tr>
+	<tr><td colspan="3"><center>更多平台版本SDK：邮件support@easydarwin.org，附上交叉编译工具链，我们为您编译对应版本！</center></td></tr>
 	</table>
 
 
