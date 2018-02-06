@@ -21,10 +21,10 @@
 #else //x86 linux
 #include "unistd.h"
 #include <signal.h>
-#define KEY "6A36334A74354F576B596F416343645A7074695070664E325A47646E656E5A6C5A336836646D4F2B567778576F502B6C34456468646D6C754A6B4A68596D397A595541794D4445325257467A65555268636E6470626C526C5957316C59584E35"
+#define KEY "6A36334A74354F576B59714157484A617059326D4576426C59584E356348567A6147567958325A7062475658444661672F704C67523246326157346D516D466962334E68514449774D545A4659584E355247467964326C75564756686257566863336B3D"
 #endif
 
-char* ConfigIP	=	"www.easydarwin.org";			//Default EasyDarwin Address 183.220.236.189
+char* ConfigIP	=	"cloud.easydarwin.org";			//Default EasyDarwin Address 183.220.236.189
 char* ConfigPort=	"554";					//Default EasyDarwin Port121.40.50.44
 char* ConfigName=	"easypusher_file_linux.sdp";	//Default RTSP Push StreamName
 char* ProgName;								//Program Name
@@ -139,7 +139,7 @@ int main(int argc, char * argv[])
 
     EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
 
-	EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 2048, 0);
+	EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, EASY_RTP_OVER_TCP, "", "", &mediainfo, 2048, 0);
 
 	while (1)
 	{

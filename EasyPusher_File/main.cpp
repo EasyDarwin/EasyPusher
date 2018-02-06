@@ -338,7 +338,7 @@ int main(int argc, char * argv[])
 	}
 
 	EasyPusher_SetEventCallback(g_fPusherHandle, __EasyPusher_Callback, 0, NULL);
-	EasyPusher_StartStream(g_fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 1024, 0);
+	EasyPusher_StartStream(g_fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, EASY_RTP_OVER_TCP, "admin", "admin", &mediainfo, 1024, 0);
 	memset(&g_clock, 0, sizeof(g_clock));
 
 	printf("Press Enter exit...\n");
