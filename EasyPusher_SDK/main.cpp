@@ -261,7 +261,7 @@ int main(int argc, char * argv[])
 
     fPusherHandle = EasyPusher_Create();
     EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
-	EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, "admin", "admin", &mediainfo, 1024, false);//1M»º³åÇø
+	EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, 1, "admin", "admin", &mediainfo, 1024, false);//1M»º³åÇø
     printf("Press Enter exit...\n");
     getchar();
 
