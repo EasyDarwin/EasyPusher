@@ -86,6 +86,7 @@ FILE* g_finA = NULL;
 Easy_Pusher_Handle g_fPusherHandle = 0;
 CRITICAL_SECTION m_cs;
 bool g_bVideoStart = false;
+EASY_MEDIA_INFO_T   mediainfo;
 
 #define VEDIO_PUSH 0
 #define AUDIO_PUSH 1
@@ -241,7 +242,6 @@ int main(int argc, char * argv[])
 
 	char szIP[16] = {0};
 	Easy_Pusher_Handle fPusherHandle = 0;
-	EASY_MEDIA_INFO_T   mediainfo;
 
 	int buf_size = 1024*512;
 	char *pbuf = (char *) malloc(buf_size);
@@ -402,7 +402,8 @@ unsigned int _stdcall  VideoThread(void* lParam)
 				LeaveCriticalSection(&m_cs);
 
 				_fseeki64(g_fin,cur,SEEK_SET);
-				unsigned char *ptr=new unsigned char [sample_size];
+				int nBufLen = sample_size+mediainfo.u32SpsLength+mediainfo.u32PpsLength+8;
+				unsigned char *ptr=new unsigned char [nBufLen];
 				fread(ptr, sample_size, 1, g_fin);
 
 				//写一帧数据 --- 可以直接进行网络推送
@@ -410,14 +411,23 @@ unsigned int _stdcall  VideoThread(void* lParam)
 				EASY_AV_Frame	avFrame;
 				memset(&avFrame, 0x00, sizeof(EASY_AV_Frame));
 
+				byte btHeader[4] = {0x00,0x00,0x00,0x01};
 				ptr[0] = 0x00;
 				ptr[1] = 0x00;
 				ptr[2] = 0x00;
 				ptr[3] = 0x01;
 				unsigned char naltype = ( (unsigned char)ptr[4] & 0x1F);
+				if (naltype==0x05)//I帧
+				{
+					memmove(ptr+mediainfo.u32SpsLength+mediainfo.u32PpsLength+8, ptr, sample_size);
+					memcpy(ptr, btHeader, 4);
+					memcpy(ptr+4, mediainfo.u8Sps, mediainfo.u32SpsLength);
+					memcpy(ptr+4+mediainfo.u32SpsLength, btHeader, 4);
+					memcpy(ptr+4+mediainfo.u32SpsLength+4, mediainfo.u8Pps, mediainfo.u32PpsLength);
+				}
 
 				avFrame.pBuffer = (unsigned char*)ptr;
-				avFrame.u32AVFrameLen = sample_size;
+				avFrame.u32AVFrameLen = nBufLen;
 				avFrame.u32VFrameType = (naltype==0x05)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
 				avFrame.u32AVFrameFlag = EASY_SDK_VIDEO_FRAME_FLAG;
 				avFrame.u32TimestampSec = lTimeStamp/1000000;
