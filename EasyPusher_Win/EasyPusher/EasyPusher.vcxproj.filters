@@ -363,6 +363,12 @@
     <ClInclude Include="TSDemux\h264.h">
       <Filter>TSDemux</Filter>
     </ClInclude>
+    <ClInclude Include="EasyDefine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vdev.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -610,6 +616,9 @@
     </ClCompile>
     <ClCompile Include="TSDemux\ts.cpp">
       <Filter>TSDemux</Filter>
+    </ClCompile>
+    <ClCompile Include="vdev.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

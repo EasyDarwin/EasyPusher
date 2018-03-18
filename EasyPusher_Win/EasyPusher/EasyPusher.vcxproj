@@ -56,15 +56,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;./EasyEncoder/;./EasyMP4Writer/;./EasySkinUI/;./TSDemux/;./DShowCapture/DirectShow/;./VideoSource/USBCamera/DirectShow/Include/;./DShowCapture/DirectShow/Include/;../../Include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;./EasyEncoder/;./EasyMP4Writer/;./EasySkinUI/;./TSDemux/;./DShowCapture/DirectShow/;./VideoSource/USBCamera/DirectShow/Include/;./DShowCapture/DirectShow/Include/;../../Include/;.\ffmpeg-win32\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>../bin/$(ProjectName).exe</OutputFile>
-      <AdditionalDependencies>ws2_32.lib;wsock32.lib;gdiplus.lib;d3d9.lib;libEasyPusher.lib</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;wsock32.lib;gdiplus.lib;d3d9.lib;libEasyPusher.lib;avcodec.lib;avfilter.lib;avformat.lib;avutil.lib;swresample.lib;swscale.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalLibraryDirectories>./EasyEncoder/;./EasyMP4Writer/;./DShowCapture/DirectShow/Lib/;../../Lib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>./EasyEncoder/;./EasyMP4Writer/;./DShowCapture/DirectShow/Lib/;../../Lib/;.\ffmpeg-win32\lib</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
     <Midl>
@@ -131,6 +131,7 @@
     <ClInclude Include="DShowCapture\DShowCaptureAudioAndVideo_Interface.h" />
     <ClInclude Include="DShowCapture\DshowDef.h" />
     <ClInclude Include="DShowCapture\SampleGrabberCB.h" />
+    <ClInclude Include="EasyDefine.h" />
     <ClInclude Include="EasyPusher.h" />
     <ClInclude Include="EasyPusherDlg.h" />
     <ClInclude Include="EasyEncoder\EasyRtmp.h" />
@@ -215,6 +216,7 @@
     <ClInclude Include="TSDemux\common.h" />
     <ClInclude Include="TSDemux\h264.h" />
     <ClInclude Include="TSDemux\ts.h" />
+    <ClInclude Include="vdev.h" />
     <ClInclude Include="VideoSource\USBCamera\CameraDS.h" />
     <ClInclude Include="VideoSource\USBCamera\convert.h" />
     <ClInclude Include="VideoSource\USBCamera\DllManager.h" />
@@ -303,6 +305,7 @@
     </ClCompile>
     <ClCompile Include="trace.cpp" />
     <ClCompile Include="TSDemux\ts.cpp" />
+    <ClCompile Include="vdev.cpp" />
     <ClCompile Include="VideoSource\USBCamera\CameraDS.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>

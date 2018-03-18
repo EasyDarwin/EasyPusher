@@ -661,7 +661,7 @@ HANDLE  CCaptureScreen::Bitmap2Dib( HBITMAP hbitmap, UINT bits )
 
 	pbi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	pbi.bmiHeader.biWidth = bitmap.bmWidth;
-	pbi.bmiHeader.biHeight = bitmap.bmHeight;
+	pbi.bmiHeader.biHeight = -bitmap.bmHeight;
 	pbi.bmiHeader.biPlanes = 1;
 	pbi.bmiHeader.biBitCount = bits;
 	pbi.bmiHeader.biCompression = BI_RGB;

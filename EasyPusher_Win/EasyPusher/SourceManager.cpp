@@ -8,6 +8,7 @@
 #include "SourceManager.h"
 #include "EasyPusherDlg.h"
 #include "YUVTransform.h"
+#include "vdev.h"
 
 #define KEY "6A36334A743469576B5A7341656B6C6170625747492F464659584E355548567A614756794C6D56345A536C584446616741435067523246326157346D516D466962334E68514449774D545A4659584E355247467964326C75564756686257566863336B3D"
 
@@ -42,7 +43,8 @@ CSourceManager::CSourceManager(void)
 	m_bUseFFEncoder = FALSE;
 	m_hCaptureWnd = NULL;
 	m_pEasyFileCapture = NULL;
-
+	m_pVFXMaker = NULL;
+	memset(&m_vfxConfigInfo, 0x00, sizeof(VFXMakerInfo));
 }
 
 CSourceManager::~CSourceManager(void)
@@ -236,24 +238,163 @@ void CSourceManager::DSRealDataManager(int nDevId, unsigned char *pBuffer, int n
 				strDataType = m_sDevConfigInfo.VideoInfo.strDataType;
 				BYTE* pDataBuffer = NULL;
 				BYTE* pDesBuffer = pBuffer;
+				BYTE* pVfxBuffer = NULL;
+				int nBufSize = nVideoWidth*nVideoHeight << 1;
+				if (!pVfxBuffer)
+				{
+					pVfxBuffer = (BYTE*)malloc(nBufSize); //缓存写入源数据 
+					memset(pVfxBuffer, 0x00, nBufSize);
+				}
 				if (strDataType == _T("YUY2"))
 				{
-					pDataBuffer=new unsigned char[nWidhtHeightBuf];
-					YUY2toI420(nVideoWidth,nVideoHeight,pBuffer, pDataBuffer);
-					pDesBuffer = pDataBuffer;
+					memcpy(pVfxBuffer, pBuffer, nBufSize);
+// 					pDataBuffer=new unsigned char[nWidhtHeightBuf];
+// 					YUY2toI420(nVideoWidth,nVideoHeight, pVfxBuffer, pDataBuffer);
+// 					pDesBuffer = pDataBuffer;
 				}
 				else //默认==RGB24
 				{
-					pDesBuffer = pBuffer;
-					if (!m_bUseFFEncoder)//x264 Encoder just suppport i420 CSP 
+					//RGB24->YUY2
+					vdev_convert( AV_PIX_FMT_BGR24 , nVideoWidth,nVideoHeight, pBuffer, AV_PIX_FMT_YUYV422, nVideoWidth,nVideoHeight, &pVfxBuffer);
+
+// 					pDesBuffer = pBuffer;
+// 					if (!m_bUseFFEncoder)//x264 Encoder just suppport i420 CSP 
+// 					{
+// 						pDataBuffer=new unsigned char[nWidhtHeightBuf];
+// 						// rgb24->i420
+// 						ConvertRGB2YUV(nVideoWidth,nVideoHeight, pBuffer, (unsigned char*)pDataBuffer);
+// 						pDesBuffer = pDataBuffer;
+// 					}
+				}
+				//YUY2层上做特技叠加
+#if 1
+				WaterMarkInfo waterMarkInfo = m_vfxConfigInfo.warkMarkInfo;
+				if (waterMarkInfo.bIsUseWaterMark)
+				{
+					if (waterMarkInfo.bResetWaterMark )
 					{
-						pDataBuffer=new unsigned char[nWidhtHeightBuf];
-						// rgb24->i420
-						ConvertRGB2YUV(nVideoWidth,nVideoHeight,pBuffer, (unsigned char*)pDataBuffer);
-						pDesBuffer = pDataBuffer;
+						//初始化水印叠加
+						//;表示台标位置：1 == 左上 2 == 右上 3 == 左下 4 == 右下
+						//eWaterMarkPos = 3
+
+						//;水印顶点x轴坐标，建议不小于0；不大于视频宽度
+						//nLeftTopX = 0
+
+						//;水印顶点y轴坐标，建议不小于0；不大于视频高度
+						//nLeftTopY = 480
+
+						//;水印风格：0 - 6
+						//eWatermarkStyle = 3
+
+						//;水印图像文件路径LOGO.png
+						//strWMFilePath = .\Res\logo.png
+						switch (waterMarkInfo.eWaterMarkPos)
+						{
+						case POS_LEFT_TOP:
+							waterMarkInfo.nLeftTopX = 0;
+							waterMarkInfo.nLeftTopY = 0;
+							break;
+						case POS_RIGHT_TOP:
+							waterMarkInfo.nLeftTopX = nVideoWidth;
+							waterMarkInfo.nLeftTopY = 0;
+							break;
+						case POS_LEFT_BOTTOM:
+							waterMarkInfo.nLeftTopX = 0;
+							waterMarkInfo.nLeftTopY = nVideoHeight;
+							break;
+						case POS_RIGHT_BOTTOM:
+							waterMarkInfo.nLeftTopX = nVideoWidth;
+							waterMarkInfo.nLeftTopY = nVideoHeight;
+							break;
+						}
+
+						m_pVFXMaker->SetVideoInVideoParam( 101, 0, 0, nVideoWidth, nVideoHeight, 100, 100, 100);
+
+						m_pVFXMaker->SetLogoImage(waterMarkInfo.strWMFilePath, waterMarkInfo.nLeftTopX,
+							waterMarkInfo.nLeftTopY, waterMarkInfo.bIsUseWaterMark, waterMarkInfo.eWatermarkStyle);
+
+						m_vfxConfigInfo.warkMarkInfo.bResetWaterMark = FALSE;
 					}
 				}
 
+				//初始化字幕信息
+				VideoTittleInfo tittleInfo = m_vfxConfigInfo.tittleInfo;
+				if(tittleInfo.bResetTittleInfo)
+				{
+
+					// 	-->1、初始化创建字幕指针,并初始化视频长宽参数		m_pVideoVfxMakerInfo->nDesWidth, m_pVideoVfxMakerInfo->nDesHeight,  m_pVideoVfxMakerInfo->strDesBytesType);
+					m_pVFXMaker->CreateOverlayTitle(nVideoWidth, nVideoHeight, ("YUY2"));
+
+					// 	-->2、设置字幕文字信息
+					LOGFONTA inFont;
+					inFont.lfHeight      = tittleInfo.nTittleHeight;
+					inFont.lfWidth       = tittleInfo.nTittleWidth;
+					inFont.lfEscapement  = 0;
+					inFont.lfOrientation = 0;
+					inFont.lfWeight      = tittleInfo.nFontWeight;//FW_NORMAL;
+					inFont.lfItalic      = 0;
+					inFont.lfUnderline   = 0;
+					inFont.lfStrikeOut   = 0;
+					inFont.lfCharSet        =GB2312_CHARSET;// ANSI_CHARSET;//134
+					inFont.lfOutPrecision   =3;// OUT_DEFAULT_PRECIS;
+					inFont.lfClipPrecision  = 2;//CLIP_DEFAULT_PRECIS;
+					inFont.lfQuality        = 1;//PROOF_QUALITY;
+					inFont.lfPitchAndFamily = 0;//49;//49
+
+					strcpy(inFont.lfFaceName, tittleInfo.strFontType);//"华文新魏");//"华文隶书");"隶书"
+
+					POINT pointTitle;
+
+					if(tittleInfo.nMoveType==0)
+					{
+						pointTitle=	tittleInfo.ptStartPosition;
+						if(pointTitle.x<=0) pointTitle.x=1;
+						if(pointTitle.x>=nVideoWidth) pointTitle.x=nVideoWidth/2;
+					}
+					else if(tittleInfo.nMoveType==1)//从左往右
+					{
+						pointTitle.x =	-1;
+						pointTitle.y = tittleInfo.ptStartPosition.y;
+					}
+					else if(tittleInfo.nMoveType==2)
+					{
+						pointTitle.x =	nVideoWidth+1;
+						pointTitle.y = tittleInfo.ptStartPosition.y;
+					}
+
+					m_pVFXMaker->SetOverlayTitleInfo(tittleInfo.strTittleContent, 
+						inFont, tittleInfo.nColorR, tittleInfo.nColorG,
+						tittleInfo.nColorB, pointTitle);
+
+					//-->3、设置字幕运行抓状态
+					m_pVFXMaker->SetOverlayTitleState(tittleInfo.nState);
+
+					m_vfxConfigInfo.tittleInfo.bResetTittleInfo = FALSE;
+				}
+
+				if (m_pVFXMaker && (waterMarkInfo.bIsUseWaterMark || tittleInfo.nState))//logo-水印 + 字幕 + ？？？
+				{
+
+					//int nBufSize = nVideoWidth*nVideoHeight << 1;
+					// 						if (!pVfxBuffer)
+					// 						{
+					// 							pVfxBuffer = (BYTE*)malloc(nBufSize); //缓存写入源数据 
+					// 							memset(pVfxBuffer, 0x00, nBufSize);
+					// 						}
+					// 						memcpy(pVfxBuffer, pBuffer, nBufSize);
+
+					//水印叠加
+					if(waterMarkInfo.bIsUseWaterMark)
+						m_pVFXMaker->AddWaterMask(pVfxBuffer);
+					//OSD叠加
+					if(tittleInfo.nState)
+						m_pVFXMaker->DoOverlayTitle(pVfxBuffer);
+				}
+#endif
+				pDataBuffer=new unsigned char[nWidhtHeightBuf];
+				vdev_convert( AV_PIX_FMT_YUYV422, nVideoWidth,nVideoHeight, pVfxBuffer, AV_PIX_FMT_YUV420P, nVideoWidth,nVideoHeight, &pDataBuffer);
+				pDesBuffer = pDataBuffer;
+				// 					
 				RTSP_FRAME_INFO	frameinfo;
 				memset(&frameinfo, 0x00, sizeof(RTSP_FRAME_INFO));
 				int datasize=0;
@@ -324,7 +465,13 @@ void CSourceManager::DSRealDataManager(int nDevId, unsigned char *pBuffer, int n
 				{
 					delete[] pDataBuffer;
 					pDataBuffer = NULL;
-				}			
+				}	
+				if(pVfxBuffer)
+				{
+					free(pVfxBuffer);
+					pVfxBuffer = NULL;
+
+				}
 			}
 		}
 		break;
@@ -483,6 +630,10 @@ int CSourceManager::StartDSCapture(int nCamId, int nAudioId,HWND hShowWnd,int nV
 	if (m_bDSCapture)
 	{
 		return 0;
+	}
+	if (!m_pVFXMaker)
+	{
+		m_pVFXMaker = Create_VideoVFXMaker();
 	}
 
 	if(!m_pVideoManager)
@@ -847,7 +998,12 @@ void CSourceManager::StopCapture()
 		delete[] m_EncoderBuffer ;	//申请编码的内存空间
 		m_EncoderBuffer = NULL;
 	}	
-
+	//销毁VFX MAKER
+	if (m_pVFXMaker)
+	{
+		Release_VideoVFXMaker(m_pVFXMaker);
+		m_pVFXMaker = NULL;
+	}
 
 	m_bDSCapture = FALSE;
 }
@@ -1244,5 +1400,46 @@ void CSourceManager::CloseMP4Writer()
 			m_pMP4Writer=NULL;
 		}
 	}
-
 }
+
+//设置字幕叠加
+int   CSourceManager::SetOSD (int bIsUse, int nMoveType, int R, int G, int B,
+	int weight, int x, int y, int width, int height, char* fontname, char* tittleContent)
+{
+	m_vfxConfigInfo.tittleInfo.nState = bIsUse;
+	m_vfxConfigInfo.tittleInfo.nMoveType = nMoveType;
+	m_vfxConfigInfo.tittleInfo.nColorR = R;
+	m_vfxConfigInfo.tittleInfo.nColorG = G;
+	m_vfxConfigInfo.tittleInfo.nColorB = B;
+	m_vfxConfigInfo.tittleInfo.nFontWeight = weight;
+	m_vfxConfigInfo.tittleInfo.nTittleWidth = width;
+	m_vfxConfigInfo.tittleInfo.nTittleHeight = height;
+	m_vfxConfigInfo.tittleInfo.ptStartPosition.x = x;
+	m_vfxConfigInfo.tittleInfo.ptStartPosition.y = y;
+
+	strcpy(m_vfxConfigInfo.tittleInfo.strFontType,fontname);
+	strcpy(m_vfxConfigInfo.tittleInfo.strTittleContent,tittleContent);
+
+	m_vfxConfigInfo.tittleInfo.bResetTittleInfo = TRUE;
+	return 1;
+}
+
+//设置台标。logo。水印...
+int   CSourceManager::SetLogo (int bIsUse, int ePos, int eStyle, 
+	int x, int y, int width, int height, char* logopath)
+{
+	m_vfxConfigInfo.warkMarkInfo.bIsUseWaterMark = bIsUse;
+	m_vfxConfigInfo.warkMarkInfo.eWaterMarkPos = (WATER_MARK_POS)ePos;
+	m_vfxConfigInfo.warkMarkInfo.eWatermarkStyle = (WATERMARK_ENTRY_TYPE)eStyle;
+	m_vfxConfigInfo.warkMarkInfo.nLeftTopX = x;
+	m_vfxConfigInfo.warkMarkInfo.nLeftTopY = y;
+	m_vfxConfigInfo.warkMarkInfo.nWidth = width;
+	m_vfxConfigInfo.warkMarkInfo.nHeight = height;
+
+	strcpy(m_vfxConfigInfo.warkMarkInfo.strWMFilePath, (logopath));
+	m_vfxConfigInfo.warkMarkInfo.bResetWaterMark = TRUE;
+
+	return 1;
+}
+
+

@@ -39,7 +39,7 @@ CDlgPanel::CDlgPanel(CWnd* pParent /*=NULL*/)
 	m_sAVCapParamInfo.nVWidth = 640;
 	m_sAVCapParamInfo.nVHeight = 480;
 	m_sAVCapParamInfo.nFps = 25;
-	m_sAVCapParamInfo.nBitrate = 2048;
+	m_sAVCapParamInfo.nBitrate = 1024;
 	strcpy_s(m_sAVCapParamInfo.strColorFormat, "YUY2");
 	m_sAVCapParamInfo.nASampleRate = 44100;
 	m_sAVCapParamInfo.nAChannels = 2;
@@ -432,7 +432,13 @@ void CDlgPanel::OnBnClickedButtonStart()
 					__WCharToMByte(strURL, szURL, sizeof(szURL)/sizeof(szURL[0]));
 					strTemp = _T("网络音视频流采集");
 				}
-
+#if 0
+				m_pManager->SetOSD ( 1, 0, 0, 255, 0,
+					700, 100, 200, 0, 20, "楷体", "你说你爱了不该爱的人");
+				m_pManager->SetLogo ( 1, 2, 3, 
+					0, 0, 0, 0, ".\SkinUI\图标\Easy_32.png");
+#endif
+				SetTimer(TIMER_SHOWTIMEOSD, 1000,NULL);
 				int nRet = m_pManager->StartCapture( eType,  nCamId, nAudioId, pCapWnd->GetSafeHwnd(),  szFilePath, -1, -1, bAutoLoop, szURL, nWidth, nHeight, nFps,nBitrate, szDataType, nASampleRate , nAChannels );
 				if (nRet>0)
 				{
@@ -1153,6 +1159,31 @@ void CDlgPanel::OnTimer(UINT_PTR nIDEvent)
 	if(nIDEvent==4)
 	{
 		CheckOrderList();
+	}
+	else if (TIMER_SHOWTIMEOSD == nIDEvent)
+	{
+		if (m_pManager)
+		{
+
+			USES_CONVERSION;
+			unsigned int timestamp = (unsigned int)time(NULL);
+			time_t tt = timestamp;
+			struct tm _time;
+			::localtime_s(&_time, &tt);
+			char szTime[64] = { 0, };
+			strftime(szTime, 32, "%Y年%m月%d日 %H:%M:%S", &_time);
+
+			CString strTime = (CString)szTime;
+
+			m_pManager->SetOSD ( 1, 0, 0, 255, 0,
+				700, 180, 60, 0, 24, "微软雅黑", T2A(strTime));
+
+			CString strFilePath("");
+			strFilePath = GET_MODULE_FILE_INFO.strPath + _T("SkinUI\\图标\\Easy_32.png");
+
+			m_pManager->SetLogo ( 1, 3, 3, 
+					0, 0, 0, 0, T2A(strFilePath));
+		}
 	}
 	CEasySkinDialog::OnTimer(nIDEvent);
 }

@@ -35,6 +35,11 @@
 #include "./EasyEncoder/H264EncoderManager.h"
 #include "./EasyEncoder/EasyRtmp.h"
 
+// 字幕和图片叠加 [3/18/2018 SwordTwelve]
+#include "EasyDefine.h"
+#include "./EasyVFX/VideoVFXMakerInterface.h"
+#pragma comment(lib, "./EasyVFX/VideoVFXMakerMFCDll.lib")
+
 extern "C"
 {
 //MP4Creater Package MP4
@@ -158,6 +163,51 @@ public:
 	int WriteMP4VideoFrame(unsigned char* pdata, int datasize, bool keyframe, long nTimestamp, int nWidth, int nHeight);
 	int WriteMP4AudioFrame(unsigned char* pdata,int datasize, long timestamp);
 	void CloseMP4Writer();	
+
+	// 字幕图片叠加接口 [3/18/2018 SwordTwelve]
+	//   设置台标/LOGO
+	// 		player				- 指向 EasyPlayerPro_Open 返回的 player 对象
+	// 		bIsUse				- 是否使用水印 1=启用 0=不启用
+	// 		ePos				- 台标位置：1==leftttop 2==righttop 3==leftbottom 4==rightbottom
+	// 		eStyle				-  水印的风格，见WATERMARK_ENTRY_TYPE声明
+	// 		x					- 水印左上角位置x坐标
+	// 		y					- 水印左上角位置y坐标
+	// 		width				- 宽
+	// 		height				- 高
+	// 		logopath			- 水印图片路径
+	int   SetLogo (int bIsUse, int ePos, int eStyle, 
+		int x, int y, int width, int height, char* logopath);
+
+	//   设置叠加字幕
+	// 		player				- 指向 EasyPlayerPro_Open 返回的 player 对象
+	// 		bIsUse				- 是否使用水印 1=启用 0=不启用 -1=删除
+	// 		nMoveType			- 移动类型：0--固定位置，1--从左往右，2--从右往左，
+	//		R,G,B				- 字体颜色对应三个分量红绿蓝0-255
+	// 		x					- 字幕显示左上角位置x坐标
+	// 		y					- 字幕显示左上角位置y坐标
+	// 		weight				- 字体权重，见如下声明
+	// /* Font Weights */
+	// #define FW_DONTCARE         0
+	// #define FW_THIN             100
+	// #define FW_EXTRALIGHT       200
+	// #define FW_LIGHT            300
+	// #define FW_NORMAL           400
+	// #define FW_MEDIUM           500
+	// #define FW_SEMIBOLD         600
+	// #define FW_BOLD             700
+	// #define FW_EXTRABOLD        800
+	// #define FW_HEAVY            900
+	// #define FW_ULTRALIGHT       FW_EXTRALIGHT
+	// #define FW_REGULAR          FW_NORMAL
+	// #define FW_DEMIBOLD         FW_SEMIBOLD
+	// #define FW_ULTRABOLD        FW_EXTRABOLD
+	// #define FW_BLACK            FW_HEA
+	// 		width				- 宽
+	// 		height				- 高
+	// 		fontname			- 字体名称，如“宋体”“楷体”“隶书”“华文行楷”......
+	//		tittleContent		- OSD显示内容
+	int   SetOSD ( int bIsUse, int nMoveType, int R, int G, int B,
+		int weight, int x, int y, int width, int height, char* fontname, char* tittleContent);
 
 	//状态
 	BOOL IsInCapture()
@@ -286,5 +336,11 @@ private:
 	byte* m_pFrameBuf; 
 	// x264+faac Encoder---End
 	EasyRtmp* m_pEasyrtmp;
+
+	// 字幕图片叠加特技制作管理实列 [3/18/2018 SwordTwelve]
+	LPVideoVFXMaker m_pVFXMaker;
+	//VFX配置信息
+	VFXMakerInfo	 m_vfxConfigInfo;
+
 };
 

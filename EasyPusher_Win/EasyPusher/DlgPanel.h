@@ -13,6 +13,7 @@
 #include "OrderRecord.h"
 
 #define MSG_ORDER_RUN WM_USER+1001
+#define TIMER_SHOWTIMEOSD WM_USER+1002
 
 // CDlgPanel ¶Ô»°¿ò
 class CEasyPusherDlg;
