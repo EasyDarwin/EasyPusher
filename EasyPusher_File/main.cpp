@@ -32,8 +32,13 @@ using namespace std;
 #include <signal.h>
 #endif
 
+<<<<<<< HEAD
+char* ConfigIP		= "192.168.0.107";		//Default EasyDarwin Address
+char* ConfigPort	= "10554";				//Default EasyDarwin Port
+=======
 char* ConfigIP		= "www.easydarwin.org";		//Default EasyDarwin Address
 char* ConfigPort	= "554";				//Default EasyDarwin Port
+>>>>>>> 6f3f44fd8a9e954d2aaafb6773d4e04d6fab7fd6
 char* ConfigName=	"test.sdp";	//Default RTSP Push StreamName
 char* ProgName;								//Program Name
 
@@ -64,6 +69,7 @@ void PrintUsage()
 #endif//HANDLE
 
 #define MAX_TRACK_NUM 32
+#define SWAP(x,y)   ((x)^=(y)^=(x)^=(y))
 
 //Globle Func for thread callback
 unsigned int _stdcall  VideoThread(void* lParam);
@@ -354,6 +360,55 @@ int main(int argc, char * argv[])
 	return 0;
 }
 
+int AvcToH264Frame(unsigned char* pFrame, uint32_t nFrameLen,  bool& bKeyFrame, unsigned char** pOutBuffer, uint32_t& nFrameLength)
+{
+	if ( !pFrame )
+	{
+		return -1;
+	}
+	bKeyFrame = false;
+	uint32_t nNalCount = 0;
+	//第一个nal的大小s
+	uint32_t nFirstNalSize = 0;
+	bool bFindPFrame = false;
+	while (nNalCount < nFrameLen)
+	{
+		unsigned char ucHeader[4];
+		memcpy(ucHeader, pFrame+nNalCount, 4);
+		SWAP(ucHeader[1], ucHeader[2]);
+		SWAP(ucHeader[0], ucHeader[3]);
+		memcpy(&nFirstNalSize,ucHeader,4 );
+
+		(pFrame+nNalCount)[0] = 0x00;
+		(pFrame+nNalCount)[1] = 0x00;
+		(pFrame+nNalCount)[2] = 0x00;
+		(pFrame+nNalCount)[3] = 0x01;
+
+		unsigned char naltype =  (unsigned char)((pFrame+nNalCount)[4] & 0x1F);
+		if (naltype==0x07&&bKeyFrame == false)//I
+		{
+			bKeyFrame = true;
+			*pOutBuffer = pFrame+nNalCount;
+			nFrameLength = nFrameLen-nNalCount;
+		}
+		if (naltype==0x05&&bKeyFrame == false)//I
+		{
+			bKeyFrame = true;
+			*pOutBuffer = pFrame+nNalCount;
+			nFrameLength = nFrameLen-nNalCount;
+		}
+		if (naltype==0x01&&bFindPFrame == false)//P/B
+		{
+			bFindPFrame = true;
+			*pOutBuffer = pFrame+nNalCount;
+			nFrameLength = nFrameLen-nNalCount;
+		}
+
+		nNalCount += nFirstNalSize+4;
+	}
+	return 1;
+}
+
 
 //MP4 file pusher  calllback
 unsigned int _stdcall  VideoThread(void* lParam)
@@ -408,23 +463,24 @@ unsigned int _stdcall  VideoThread(void* lParam)
 				memset(&avFrame, 0x00, sizeof(EASY_AV_Frame));
 
 				byte btHeader[4] = {0x00,0x00,0x00,0x01};
-				ptr[0] = 0x00;
-				ptr[1] = 0x00;
-				ptr[2] = 0x00;
-				ptr[3] = 0x01;
-				unsigned char naltype = ( (unsigned char)ptr[4] & 0x1F);
-				if (naltype==0x05)//I帧
-				{
-					memmove(ptr+mediainfo.u32SpsLength+mediainfo.u32PpsLength+8, ptr, sample_size);
-					memcpy(ptr, btHeader, 4);
-					memcpy(ptr+4, mediainfo.u8Sps, mediainfo.u32SpsLength);
-					memcpy(ptr+4+mediainfo.u32SpsLength, btHeader, 4);
-					memcpy(ptr+4+mediainfo.u32SpsLength+4, mediainfo.u8Pps, mediainfo.u32PpsLength);
-				}
 
-				avFrame.pBuffer = (unsigned char*)ptr;
-				avFrame.u32AVFrameLen = nBufLen;
-				avFrame.u32VFrameType = (naltype==0x05)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
+				unsigned char* pFrame = ptr;
+				uint32_t nFrameLength = sample_size;
+				unsigned char naltype = ( (unsigned char)pFrame[4] & 0x1F);
+
+				bool bKeyFrame = false;
+				AvcToH264Frame(ptr, sample_size, bKeyFrame, &pFrame, nFrameLength );
+				if (bKeyFrame)//I帧
+				{
+					memmove(pFrame+mediainfo.u32SpsLength+mediainfo.u32PpsLength+8, pFrame, nFrameLength);
+					memcpy(pFrame, btHeader, 4);
+					memcpy(pFrame+4, mediainfo.u8Sps, mediainfo.u32SpsLength);
+					memcpy(pFrame+4+mediainfo.u32SpsLength, btHeader, 4);
+					memcpy(pFrame+4+mediainfo.u32SpsLength+4, mediainfo.u8Pps, mediainfo.u32PpsLength);
+				}
+				avFrame.pBuffer = (unsigned char*)pFrame;
+				avFrame.u32AVFrameLen = nFrameLength+mediainfo.u32SpsLength+mediainfo.u32PpsLength+8;
+				avFrame.u32VFrameType = (bKeyFrame)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
 				avFrame.u32AVFrameFlag = EASY_SDK_VIDEO_FRAME_FLAG;
 				avFrame.u32TimestampSec = lTimeStamp/1000000;
 				avFrame.u32TimestampUsec = (lTimeStamp%1000000);

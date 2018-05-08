@@ -363,13 +363,14 @@ int CEasyFileCapture::VideoProcess()
 					uint32_t uSampleTime = Sync_clock(m_root.trk[m_nVideoTrackId].mdia.mdhd.timescale, sample_time,VEDIO_PUSH, &lTimeStamp);
 					LeaveCriticalSection(&m_cs);
 #endif
-					unsigned char *ptr=new unsigned char [sample_size];
+					unsigned char *ptr=new unsigned char [sample_size+m_videoInfo.sps->sequenceParameterSetLength+m_videoInfo.pps->pictureParameterSetLength+8];
 					fread(ptr, sample_size, 1, m_fin);
 
 					//写一帧数据 --- 可以直接进行网络推送
 					//fwrite(ptr, sample_size, 1, fout);
 					EASY_AV_Frame	avFrame;
 					memset(&avFrame, 0x00, sizeof(EASY_AV_Frame));
+					byte btHeader[4] = {0x00,0x00,0x00,0x01};
 
 					unsigned char* pFrame = ptr;
 					uint32_t nFrameLength = sample_size;
@@ -383,9 +384,17 @@ int CEasyFileCapture::VideoProcess()
 					// 				}
 					bool bKeyFrame = false;
 					AvcToH264Frame(ptr, sample_size, bKeyFrame, &pFrame, nFrameLength );
+					if (bKeyFrame)//I帧
+					{
+						memmove(pFrame+m_videoInfo.sps->sequenceParameterSetLength+m_videoInfo.pps->pictureParameterSetLength+8, pFrame, nFrameLength);
+						memcpy(pFrame, btHeader, 4);
+						memcpy(pFrame+4, m_videoInfo.sps->sequenceParameterSetNALUnit, m_videoInfo.sps->sequenceParameterSetLength);
+						memcpy(pFrame+4+m_videoInfo.sps->sequenceParameterSetLength, btHeader, 4);
+						memcpy(pFrame+4+m_videoInfo.sps->sequenceParameterSetLength+4, m_videoInfo.pps->pictureParameterSetNALUnit, m_videoInfo.pps->pictureParameterSetLength);
+					}
 
 					avFrame.pBuffer = (unsigned char*)pFrame;
-					avFrame.u32AVFrameLen = nFrameLength;
+					avFrame.u32AVFrameLen = nFrameLength+m_videoInfo.sps->sequenceParameterSetLength+m_videoInfo.pps->pictureParameterSetLength+8;
 					avFrame.u32VFrameType = (bKeyFrame==true)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
 					avFrame.u32AVFrameFlag = EASY_SDK_VIDEO_FRAME_FLAG;
 					avFrame.u32TimestampSec = lTimeStamp/1000000;
