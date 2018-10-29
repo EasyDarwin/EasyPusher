@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2013-2014 EasyDarwin.ORG.  All rights reserved.
+	Copyright (c) 2013-2018 EasyDarwin.ORG.  All rights reserved.
 	Github: https://github.com/EasyDarwin
 	WEChat: EasyDarwin
 	Website: http://www.EasyDarwin.org
@@ -7,23 +7,26 @@
 #include "EasyPusherAPI.h"
 #include "trace.h"
 #include <stdio.h>
+#include <stdlib.h>
+
 
 /*
 *本Key为3个月临时授权License，如需商业使用，请邮件至support@easydarwin.org咨询商业授权方案。
 */
 #ifdef _WIN32
 #include "getopt.h"
-#define KEY "6A36334A743469576B5A7541754D5A6170546C47792B784659584E355548567A6147567958305A4A544555755A58686C567778576F50394C34456468646D6C754A6B4A68596D397A595541794D4445325257467A65555268636E6470626C526C5957316C59584E35"
+#define KEY "6A36334A743469576B5A754147546862704D652F634F784659584E355548567A6147567958305A4A544555755A58686C567778576F4E6A773430566863336C4559584A33615735555A57467453584E55614756435A584E30514449774D54686C59584E35"
 #else //linux
 #include "unistd.h"
 #include <signal.h>
-#define KEY "6A36334A74354F576B59714169745A6170536C30792F426C59584E356348567A6147567958325A7062475658444661672F307667523246326157346D516D466962334E68514449774D545A4659584E355247467964326C75564756686257566863336B3D"
+#define KEY "6A36334A74354F576B596F412F4E5262704373447066426C59584E356348567A6147567958325A7062475658444661672F36586A5257467A65555268636E6470626C526C5957314A6331526F5A554A6C633352414D6A41784F47566863336B3D"
 #endif
 
-char* ConfigIP	=	"cloud.easydarwin.org";			//Default EasyDarwin Address 183.220.236.189
-char* ConfigPort=	"554";					//Default EasyDarwin Port121.40.50.44
-char* ConfigName=	"easypusher_file_linux.sdp";	//Default RTSP Push StreamName
+char* ConfigIP	=	"cloud.easydarwin.org";			//Default EasyDarwin Address 
+char* ConfigPort=	"554";					//Default EasyDarwin Port
+char* ConfigName=	"easypusher_filetest.sdp";	//Default RTSP Push StreamName
 char* ProgName;								//Program Name
+char* FileName = "EasyDarwin.h264";								//File Name
 
 int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_frame, void *_userptr)
 {
@@ -40,9 +43,9 @@ void PrintUsage()
 {
 	printf("Usage:\n");
 	printf("------------------------------------------------------\n");
-	printf("%s [-d <host> -p <port> -n <streamName>]\n", ProgName);
+	printf("%s [-s <sourceFile> -a <dest ip> -p <port>]\n", ProgName);
 	printf("Help Mode:   %s -h \n", ProgName );
-	printf("For example: %s -d 115.29.139.20 -p 554 -n easypusher_file.sdp\n", ProgName); 
+	printf("For example: %s -s test.h264 -a 192.168.1.127 -p 10000]\n", ProgName); 
 	printf("------------------------------------------------------\n");
 }
 
@@ -52,6 +55,12 @@ int main(int argc, char * argv[])
 #ifndef _WIN32
    signal(SIGPIPE, SIG_IGN);
 #endif
+
+     WORD sockVersion = MAKEWORD(2,2);//版本号
+	WSADATA data;    //用来保存WSAStartup调用后返回的windows Sockets数据
+	struct sockaddr_in serAddr;
+     SOCKET sock_Client;
+    SOCKADDR_IN addr_server;   //服务器的地址数据结构
 
 #ifdef _WIN32
 	extern char* optarg;
@@ -71,7 +80,7 @@ int main(int argc, char * argv[])
 	PrintUsage();
 
 
-	while ((ch = getopt(argc,argv, "hd:p:n:")) != EOF) 
+	while ((ch = getopt(argc,argv, "h:p:a:s:")) != EOF) 
 	{
 		switch(ch)
 		{
@@ -79,14 +88,14 @@ int main(int argc, char * argv[])
 			PrintUsage();
 			return 0;
 			break;
-		case 'd':
-			ConfigIP =optarg;
-			break;
 		case 'p':
 			ConfigPort =optarg;
 			break;
-		case 'n':
+		case 'a':
 			ConfigName =optarg;
+			break;
+        case 's':
+			FileName =optarg;
 			break;
 		case '?':
 			return 0;
@@ -99,43 +108,20 @@ int main(int argc, char * argv[])
     mediainfo.u32VideoCodec =   EASY_SDK_VIDEO_CODEC_H264;
 	mediainfo.u32VideoFps = 25;
 
-    fES = fopen("./EasyDarwin.264", "rb");
+    fES = fopen(FileName, "rb");
     if (NULL == fES)        return 0;
 
-	isActivated = EasyPusher_Activate(KEY);
-	switch(isActivated)
+    
+	if(WSAStartup(sockVersion, &data) != 0)
 	{
-	case EASY_ACTIVATE_INVALID_KEY:
-		printf("KEY is EASY_ACTIVATE_INVALID_KEY!\n");
-		break;
-	case EASY_ACTIVATE_TIME_ERR:
-		printf("KEY is EASY_ACTIVATE_TIME_ERR!\n");
-		break;
-	case EASY_ACTIVATE_PROCESS_NAME_LEN_ERR:
-		printf("KEY is EASY_ACTIVATE_PROCESS_NAME_LEN_ERR!\n");
-		break;
-	case EASY_ACTIVATE_PROCESS_NAME_ERR:
-		printf("KEY is EASY_ACTIVATE_PROCESS_NAME_ERR!\n");
-		break;
-	case EASY_ACTIVATE_VALIDITY_PERIOD_ERR:
-		printf("KEY is EASY_ACTIVATE_VALIDITY_PERIOD_ERR!\n");
-		break;
-	case EASY_ACTIVATE_SUCCESS:
-		printf("KEY is EASY_ACTIVATE_SUCCESS!\n");
-		break;
+		return 0;
 	}
 
-	if(EASY_ACTIVATE_SUCCESS != isActivated)
-		return -1;
-
-    fPusherHandle = EasyPusher_Create();
-
-	if(fPusherHandle == NULL)
-		return -2;
-
-    EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
-
-	EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, EASY_RTP_OVER_TCP, "", "", &mediainfo, 2048, 0);
+	sock_Client=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);//创建客户端用于通信的Socket
+    
+    addr_server.sin_family=AF_INET;
+    addr_server.sin_port=htons(atoi(ConfigPort));//端口号为4567
+    addr_server.sin_addr.S_un.S_addr=inet_addr(ConfigName);   //127.0.0.1为本电脑IP地址
 
 	while (1)
 	{
@@ -164,19 +150,10 @@ int main(int argc, char * argv[])
 					(naltype == 0x07 || naltype == 0x01 ) )
 			{
 				int framesize = position - 5;
-                EASY_AV_Frame   avFrame;
 
-				naltype = (unsigned char)pbuf[4] & 0x1F;
-
-                memset(&avFrame, 0x00, sizeof(EASY_AV_Frame));
-                avFrame.u32AVFrameLen   =   framesize;
-                avFrame.pBuffer = (unsigned char*)pbuf;
-				avFrame.u32VFrameType = (naltype==0x07)?EASY_SDK_VIDEO_FRAME_I:EASY_SDK_VIDEO_FRAME_P;
-				avFrame.u32AVFrameFlag = EASY_SDK_VIDEO_FRAME_FLAG;
-				avFrame.u32TimestampSec = timestamp/1000;
-				avFrame.u32TimestampUsec = (timestamp%1000)*1000;
-                EasyPusher_PushFrame(fPusherHandle, &avFrame);
 				timestamp += 1000/mediainfo.u32VideoFps;
+
+                sendto(sock_Client,pbuf,framesize,0,(SOCKADDR*)&addr_server,sizeof(SOCKADDR));
 
 #ifndef _WIN32
                 usleep(30*1000);
@@ -196,9 +173,7 @@ int main(int argc, char * argv[])
 
     _TRACE("Press Enter exit...\n");
     getchar();
-
-    EasyPusher_StopStream(fPusherHandle);
-    EasyPusher_Release(fPusherHandle);
+    closesocket(sock_Client);
 	free(pbuf);
     return 0;
 }
