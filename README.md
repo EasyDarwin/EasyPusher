@@ -19,7 +19,6 @@ EasyPusher RTSP推流SDK是EasyDarwin开源流媒体团队开发的一款推送�
 
 - **EasyPusher_Win**：支持本地摄像头和声卡、RTSP流、屏幕捕获、MP4文件通过EasyPusher推送到RTSP流媒体服务器；
 
-- **EasyPusher_SDK**：通过调用摄像机厂家的Camera SDK回调的音视频数据，进行RTSP/RTP直播推送，示例中的SDK是我们EasyDarwin开源摄像机的配套库，您也可以用自己项目中用到的SDK获取音视频数据进行推送。EasyPusher_SDK可以接入所有的IP Camera，其他IP Camera只需要使用其对于SDK进行调用即可。
 
 	Windows编译方法，
 
@@ -111,7 +110,7 @@ EasyPusher回调事件定义：
 
 **EasyNVR**无插件直播方案：[www.EasyNVR.com](http://www.easynvr.com)
 
-Copyright &copy; EasyDarwin Team 2012-2017
+Copyright &copy; EasyDarwin Team 2012-2019
 
 ![EasyDarwin](http://www.easydarwin.org/skin/easydarwin/images/wx_qrcode.jpg)
 
