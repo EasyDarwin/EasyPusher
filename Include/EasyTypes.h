@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2013-2015 EasyDarwin.ORG.  All rights reserved.
+	Copyright (c) 2013-2019 EasyDarwin.ORG.  All rights reserved.
 	Github: https://github.com/EasyDarwin
 	WEChat: EasyDarwin
 	Website: http://www.easydarwin.org
@@ -16,13 +16,10 @@
 #define Easy_APICALL 
 #endif
 
-// Handle Type
-#define Easy_RTSP_Handle void*
-#define Easy_Pusher_Handle void*
-#define Easy_HLS_Handle void*
+// Handle
+#define Easy_Handle void*
 
 typedef int						Easy_I32;
-
 typedef unsigned char           Easy_U8;
 typedef unsigned char           Easy_UChar;
 typedef unsigned short          Easy_U16;
@@ -59,7 +56,7 @@ enum
 };
 typedef int Easy_Error;
 
-
+/* 授权激活，>0为激活可用天数(9999代表永久授权)，<0为授权失败错误码 */
 typedef enum __EASY_ACTIVATE_ERR_CODE_ENUM
 {
 	EASY_ACTIVATE_INVALID_KEY		=		-1,			/* 无效Key */
@@ -69,7 +66,7 @@ typedef enum __EASY_ACTIVATE_ERR_CODE_ENUM
 	EASY_ACTIVATE_VALIDITY_PERIOD_ERR=		-5,			/* 有效期校验不一致 */
 	EASY_ACTIVATE_PLATFORM_ERR		=		-6,			/* 平台不匹配 */
 	EASY_ACTIVATE_COMPANY_ID_LEN_ERR=		-7,			/* 授权使用商不匹配 */
-	EASY_ACTIVATE_SUCCESS			=		0,			/* 激活成功 */
+	EASY_ACTIVATE_SUCCESS			=		9999,		/* 永久授权 */
 
 }EASY_ACTIVATE_ERR_CODE_ENUM;
 
@@ -96,7 +93,6 @@ typedef enum __EASY_ACTIVATE_ERR_CODE_ENUM
 #define EASY_SDK_RTP_FRAME_FLAG		0x00000008		/* RTP帧标志 */
 #define EASY_SDK_SDP_FRAME_FLAG		0x00000010		/* SDP帧标志 */
 #define EASY_SDK_MEDIA_INFO_FLAG	0x00000020		/* 媒体类型标志*/
-#define EASY_SDK_VIDEO_RAW_RGB		0x00000040			/* RGB*/
 
 /* 视频关键字标识 */
 #define EASY_SDK_VIDEO_FRAME_I		0x01		/* I帧 */
@@ -114,22 +110,22 @@ typedef enum __EASY_RTP_CONNECT_TYPE
 /* 媒体信息 */
 typedef struct __EASY_MEDIA_INFO_T
 {
-	Easy_U32 u32VideoCodec;				/* 视频编码类型 */
-	Easy_U32 u32VideoFps;				/* 视频帧率 */
+	Easy_U32 u32VideoCodec;				/* video codec */
+	Easy_U32 u32VideoFps;				/* video framerate */
 
-	Easy_U32 u32AudioCodec;				/* 音频编码类型 */
-	Easy_U32 u32AudioSamplerate;		/* 音频采样率 */
-	Easy_U32 u32AudioChannel;			/* 音频通道数 */
-	Easy_U32 u32AudioBitsPerSample;		/* 音频采样精度 */
+	Easy_U32 u32AudioCodec;				/* audio codec */
+	Easy_U32 u32AudioSamplerate;		/* audio samplerate */
+	Easy_U32 u32AudioChannel;			/* audio channel number */
+	Easy_U32 u32AudioBitsPerSample;		/* audio bit per sample */
 
-	Easy_U32 u32VpsLength;			/* 脢脫脝碌vps脰隆鲁陇露脠 */
-	Easy_U32 u32SpsLength;			/* 脢脫脝碌sps脰隆鲁陇露脠 */
-	Easy_U32 u32PpsLength;			/* 脢脫脝碌pps脰隆鲁陇露脠 */
-	Easy_U32 u32SeiLength;			/* 脢脫脝碌sei脰隆鲁陇露脠 */
-	Easy_U8	 u8Vps[255];			/* 脢脫脝碌vps脰隆脛脷脠脻 */
-	Easy_U8	 u8Sps[255];			/* 脢脫脝碌sps脰隆脛脷脠脻 */
-	Easy_U8	 u8Pps[128];				/* 脢脫脝碌sps脰隆脛脷脠脻 */
-	Easy_U8	 u8Sei[128];				/* 脢脫脝碌sei脰隆脛脷脠脻 */
+	Easy_U32 u32VpsLength;				/* video vps length */
+	Easy_U32 u32SpsLength;				/* video sps length */
+	Easy_U32 u32PpsLength;				/* video pps length */
+	Easy_U32 u32SeiLength;				/* video sei length */
+	Easy_U8	 u8Vps[255];				/* video vps data */
+	Easy_U8	 u8Sps[255];				/* video sps data */
+	Easy_U8	 u8Pps[128];				/* video pps data */
+	Easy_U8	 u8Sei[128];				/* video sei data */
 }EASY_MEDIA_INFO_T;
 
 /* 帧信息 */
@@ -155,6 +151,6 @@ typedef struct
 	
 	float			bitrate;			/* 比特率 */
 	float			losspacket;			/* 丢包率 */
-}RTSP_FRAME_INFO;
+}EASY_FRAME_INFO;
 
 #endif

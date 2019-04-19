@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2013-2015 EasyDarwin.ORG.  All rights reserved.
+	Copyright (c) 2013-2019 EasyDarwin.ORG.  All rights reserved.
 	Github: https://github.com/EasyDarwin
 	WEChat: EasyDarwin
 	Website: http://www.easydarwin.org
@@ -9,7 +9,7 @@
 
 #include "EasyTypes.h"
 
-#define RTSP_CLIENT_NAME	"EasyPusher v1.2.16.1105"
+#define RTSP_CLIENT_NAME	"EasyPusher v2.0.19.0415"
 
 typedef struct __EASY_AV_Frame
 {
@@ -41,29 +41,23 @@ extern "C"
 {
 #endif
 
-#ifdef ANDROID
-	Easy_API Easy_I32 Easy_APICALL EasyPusher_Activate(char *license, char* userPtr);
-#else
-	Easy_API Easy_I32 Easy_APICALL EasyPusher_Activate(char *license);
-#endif
-
 	/* 创建推送句柄  返回为句柄值 */
-	Easy_API Easy_Pusher_Handle Easy_APICALL EasyPusher_Create();
+	Easy_API Easy_Handle Easy_APICALL EasyPusher_Create();
 	
 	/* 释放推送句柄 */
-	Easy_API Easy_U32 Easy_APICALL EasyPusher_Release(Easy_Pusher_Handle handle);
+	Easy_API Easy_U32 Easy_APICALL EasyPusher_Release(Easy_Handle handle);
 
     /* 设置流传输事件回调 userptr传输自定义对象指针*/
-    Easy_API Easy_U32 Easy_APICALL EasyPusher_SetEventCallback(Easy_Pusher_Handle handle,  EasyPusher_Callback callback, int id, void *userptr);
+    Easy_API Easy_U32 Easy_APICALL EasyPusher_SetEventCallback(Easy_Handle handle,  EasyPusher_Callback callback, int id, void *userptr);
 
 	/* 开始流传输 serverAddr:流媒体服务器地址、port:流媒体端口、streamName:流名称<xxx.sdp>、username/password:推送携带的用户名密码、pstruStreamInfo:推送的媒体定义、bufferKSize:以k为单位的缓冲区大小<512~2048之间,默认512> bool createlogfile:创建日志文件*/
-	Easy_API Easy_U32 Easy_APICALL EasyPusher_StartStream(Easy_Pusher_Handle handle, char* serverAddr, Easy_U16 port, char* streamName, int rtpOverTcp/*1-tcp, 2-udp*/, char *username, char *password, EASY_MEDIA_INFO_T*  pstruStreamInfo, Easy_U32 bufferKSize, Easy_Bool createlogfile );
+	Easy_API Easy_U32 Easy_APICALL EasyPusher_StartStream(Easy_Handle handle, char* serverAddr, Easy_U16 port, char* streamName, int rtpOverTcp/*1-tcp, 2-udp*/, char *username, char *password, EASY_MEDIA_INFO_T*  pstruStreamInfo, Easy_U32 bufferKSize, Easy_Bool createlogfile );
 
 	/* 停止流传输 */
-	Easy_API Easy_U32 Easy_APICALL EasyPusher_StopStream(Easy_Pusher_Handle handle);
+	Easy_API Easy_U32 Easy_APICALL EasyPusher_StopStream(Easy_Handle handle);
 
 	/* 推流 frame:具体推送的流媒体帧 */
-	Easy_API Easy_U32 Easy_APICALL EasyPusher_PushFrame(Easy_Pusher_Handle handle, EASY_AV_Frame* frame );
+	Easy_API Easy_U32 Easy_APICALL EasyPusher_PushFrame(Easy_Handle handle, EASY_AV_Frame* frame );
 
 #ifdef __cplusplus
 }
