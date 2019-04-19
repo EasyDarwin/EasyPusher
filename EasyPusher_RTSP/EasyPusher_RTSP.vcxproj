@@ -62,7 +62,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>ws2_32.lib;wsock32.lib;winmm.lib;libEasyPusher.lib;libEasyRTSPClient.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../Lib/;./libEasyRTSPClient/Lib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../Lib/x86;./libEasyRTSPClient/Lib/</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -88,7 +88,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>ws2_32.lib;wsock32.lib;winmm.lib;libEasyPusher.lib;libEasyRTSPClient.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../Lib/;./libEasyRTSPClient/Lib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../Lib/x86;./libEasyRTSPClient/Lib/</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

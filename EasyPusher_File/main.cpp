@@ -24,10 +24,9 @@ using namespace std;
 #include <stdio.h>
 
 #ifdef _WIN32
-#define KEY "6A36334A743469576B5A754154645A6270436D794A65784659584E355548567A6147567958305A4A544555755A58686C567778576F502B6C3430566863336C4559584A33615735555A57467453584E55614756435A584E30514449774D54686C59584E35"
 #include "getopt.h"
 #else //linux
-#define KEY "6A36334A74354F576B596F412F4E5262704373447066426C59584E356348567A6147567958325A7062475658444661672F36586A5257467A65555268636E6470626C526C5957314A6331526F5A554A6C633352414D6A41784F47566863336B3D"
+
 #include "unistd.h"
 #include <signal.h>
 #endif
@@ -81,7 +80,7 @@ bool  g_bThreadLiving[MAX_TRACK_NUM];
 CMp4_root_box g_root;
 FILE * g_fin = NULL; 
 FILE* g_finA = NULL;
-Easy_Pusher_Handle g_fPusherHandle = 0;
+Easy_Handle g_fPusherHandle = 0;
 CRITICAL_SECTION m_cs;
 bool g_bVideoStart = false;
 EASY_MEDIA_INFO_T   mediainfo;
@@ -239,7 +238,7 @@ int main(int argc, char * argv[])
 	}
 
 	char szIP[16] = {0};
-	Easy_Pusher_Handle fPusherHandle = 0;
+	Easy_Handle fPusherHandle = 0;
 
 	int buf_size = 1024*512;
 	char *pbuf = (char *) malloc(buf_size);
@@ -297,36 +296,7 @@ int main(int argc, char * argv[])
 		g_mp4TrackThread[nAudioTrackId] = (HANDLE)_beginthreadex(NULL, 0, AudioThread,  (void*)nAudioTrackId,0,0);
 		g_bThreadLiving[nAudioTrackId] = true;
 	}
-
-	int isActivated = EasyPusher_Activate(KEY);
-	switch(isActivated)
-	{
-	case EASY_ACTIVATE_INVALID_KEY:
-		printf("KEY is EASY_ACTIVATE_INVALID_KEY!\n");
-		break;
-	case EASY_ACTIVATE_TIME_ERR:
-		printf("KEY is EASY_ACTIVATE_TIME_ERR!\n");
-		break;
-	case EASY_ACTIVATE_PROCESS_NAME_LEN_ERR:
-		printf("KEY is EASY_ACTIVATE_PROCESS_NAME_LEN_ERR!\n");
-		break;
-	case EASY_ACTIVATE_PROCESS_NAME_ERR:
-		printf("KEY is EASY_ACTIVATE_PROCESS_NAME_ERR!\n");
-		break;
-	case EASY_ACTIVATE_VALIDITY_PERIOD_ERR:
-		printf("KEY is EASY_ACTIVATE_VALIDITY_PERIOD_ERR!\n");
-		break;
-	case EASY_ACTIVATE_SUCCESS:
-		printf("KEY is EASY_ACTIVATE_SUCCESS!\n");
-		break;
-	}
-
-	if(EASY_ACTIVATE_SUCCESS != isActivated)
-	{
-		getchar();
-		return -1;
-	}
-
+		
 	g_fPusherHandle = EasyPusher_Create();
 
 	if(g_fPusherHandle == NULL)
@@ -611,7 +581,7 @@ unsigned int _stdcall  AudioThread(void* lParam)
 // #endif
 // 	int ch;
 //     char szIP[16] = {0};
-//     Easy_Pusher_Handle fPusherHandle = 0;
+//     Easy_Handle fPusherHandle = 0;
 //     EASY_MEDIA_INFO_T   mediainfo;
 // 
 //     int buf_size = 1024*512;
