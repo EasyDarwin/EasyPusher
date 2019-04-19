@@ -1,6 +1,6 @@
-# EasyPusher RTSP推流SDK #
+# EasyPusher v2.0 #
 
-EasyPusher RTSP推流SDK是EasyDarwin开源流媒体团队开发的一款推送流媒体音/视频流给标准RTSP流媒体服务器（如EasyDarwin、Wowza）的流媒体推送库，全平台支持(包括Windows/Linux(32 & 64)，ARM各平台，Android、iOS)，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP/RTCP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给RTSP流媒体服务器进行处理和转发，EasyPusher经过长时间的企业用户体验，稳定性非常高;
+EasyPusher RTSP推流是EasyDarwin开源流媒体团队开发的一款推送流媒体音/视频流给标准RTSP流媒体服务器（如EasyDarwin、Wowza）的流媒体推送库，全平台支持(包括Windows/Linux(32 & 64)，ARM各平台，Android、iOS)，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP/RTCP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给RTSP流媒体服务器进行处理和转发，EasyPusher经过长时间的企业用户体验，稳定性非常高;
 
 ## 工作流程 ##
 
@@ -34,16 +34,22 @@ EasyPusher RTSP推流SDK是EasyDarwin开源流媒体团队开发的一款推送�
 
 	<table>
 	<tr><td><b>支持平台</b></td><td><b>芯片</b></td><td><b>位置名称</b></td></tr>
-	<tr><td>Windows</td><td>x86</td><td>./Lib/</td></tr>
+	<tr><td>Windows</td><td>x86</td><td>./Lib/x86/</td></tr>
 	<tr><td>Windows</td><td>x64</td><td>./Lib/x64/</td></tr>
-	<tr><td>Linux</td><td>x86</td><td>./Lib/</td></tr>
+	<tr><td>Linux</td><td>x86</td><td>./Lib/x86/</td></tr>
 	<tr><td>Linux</td><td>x64</td><td>./Lib/x64/</td></tr>
 	<tr><td>海思</td><td>arm-hisiv100-linux</td><td>./Lib/hisiv100/</td></tr>
 	<tr><td>海思</td><td>arm-hisiv200-linux</td><td>./Lib/hisiv200/</td></tr>
-	<tr><td>Android</td><td>armeabi</td><td>armeabi libeasypusher.so</td></tr>
-	<tr><td>Android</td><td>armeabi-v7a</td><td>libeasypusher.so</td></tr>
-	<tr><td>Android</td><td>arm64-v8a</td><td>libeasypusher.so</td></tr>
-	<tr><td colspan="3"><center>更多平台版本SDK：邮件support@easydarwin.org，附上交叉编译工具链，我们为您编译对应版本！</center></td></tr>
+	<tr><td>海思</td><td>arm-hisiv300-linux</td><td>./Lib/hisiv300/</td></tr>
+	<tr><td>海思</td><td>arm-hisiv400-linux</td><td>./Lib/hisiv400/</td></tr>
+	<tr><td>海思</td><td>arm-hisiv500-linux</td><td>./Lib/hisiv500/</td></tr>
+	<tr><td>海思</td><td>arm-hisiv600-linux</td><td>./Lib/hisiv600/</td></tr>
+	<tr><td>Android</td><td>arm</td><td>./Lib/Android/arm/libeasypusher.a</td></tr>
+	<tr><td>Android</td><td>arm64</td><td>./Lib/Android/arm64/libeasypusher.a</td></tr>
+	<tr><td>Android</td><td>x86</td><td>./Lib/Android/x86/libeasypusher.a</td></tr>
+	<tr><td>Android</td><td>x86_64</td><td>./Lib/Android/x86_64/libeasypusher.a</td></tr>
+	<tr><td>Android</td><td>mips</td><td>./Lib/Android/mips/libeasypusher.a</td></tr>
+	<tr><td>Android</td><td>mips64</td><td>./Lib/Android/mips64/libeasypusher.a</td></tr>
 	</table>
 
 
@@ -95,20 +101,11 @@ EasyPusher回调事件定义：
 
 - 邮件：[support@easydarwin.org](mailto:support@easydarwin.org) 
 
-- Tel：13718530929
-
 - QQ交流群：465901074
-
-> EasyPusher是一款非常稳定的RTSP推流直播组件，各平台版本需要经过授权才能商业使用，商业授权方案可以通过以上渠道进行更深入的技术与合作咨询；
-
 
 ## 获取更多信息 ##
 
 **EasyDarwin**开源流媒体服务器：[www.EasyDarwin.org](http://www.easydarwin.org)
-
-**EasyDSS**商用流媒体解决方案：[www.EasyDSS.com](http://www.easydss.com)
-
-**EasyNVR**无插件直播方案：[www.EasyNVR.com](http://www.easynvr.com)
 
 Copyright &copy; EasyDarwin Team 2012-2019
 
