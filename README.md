@@ -9,9 +9,9 @@ EasyPusher RTSP推流是EasyDarwin开源流媒体团队开发的一款推送流�
 
 ## 功能版本 ##
 
-- **EasyPusher-Android**：实时采集安卓摄像头音视频（Android 5.0+支持采集手机桌面屏幕进行直播），进行H.264/AAC编码后，调用EasyPusher进行直播推送，项目地址：[https://github.com/EasyDSS/EasyPusher_Android](https://github.com/EasyDSS/EasyPusher_Android "EasyPusher") ；
+- **EasyPusher-Android**：实时采集安卓摄像头音视频（Android 5.0+支持采集手机桌面屏幕进行直播），进行H.264/AAC编码后，调用EasyPusher进行直播推送，项目地址：[https://github.com/EasyDSS/EasyPusher_Android](https://github.com/EasyDSS/EasyPusher-Android "EasyPusher") ；
 
-- **EasyPusher-iOS**：实时采集iOS摄像头音视频进行H.264/AAC编码，调用EasyPusher推送到RTSP流媒体服务器，项目地址：[https://github.com/EasyDSS/EasyPusher_iOS](https://github.com/EasyDSS/EasyPusher_iOS "EasyPusher") ；
+- **EasyPusher-iOS**：实时采集iOS摄像头音视频进行H.264/AAC编码，调用EasyPusher推送到RTSP流媒体服务器，项目地址：[https://github.com/EasyDSS/EasyPusher-iOS](https://github.com/EasyDSS/EasyPusher_iOS "EasyPusher") ；
 
 - **EasyPusher_File**：推送本地文件到RTSP流媒体服务器进行文件直播；
 
