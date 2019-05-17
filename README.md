@@ -99,9 +99,7 @@ EasyPusher回调事件定义：
 
 ## 技术支持 ##
 
-- 邮件：[support@easydarwin.org](mailto:support@easydarwin.org) 
-
-- QQ交流群：465901074
+- EasyPusher免费的，技术交流直接到QQ群：465901074，交流意见
 
 ## 获取更多信息 ##
 
