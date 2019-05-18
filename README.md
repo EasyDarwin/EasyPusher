@@ -1,6 +1,6 @@
 # EasyPusher v2.0 #
 
-EasyPusher RTSP推流是EasyDarwin开源流媒体团队开发的一款推送流媒体音/视频流给标准RTSP流媒体服务器（如EasyDarwin、Wowza）的流媒体推送库，全平台支持(包括Windows/Linux(32 & 64)，ARM各平台，Android、iOS)，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP/RTCP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给RTSP流媒体服务器进行处理和转发，EasyPusher经过长时间的企业用户体验，稳定性非常高;
+EasyPusher RTSP推流是EasyDarwin开源流媒体团队开发的一款推送流媒体音/视频流给标准RTSP流媒体服务器（如EasyDarwin、Wowza）的流媒体推送库，全平台支持(包括Windows/Linux(32 & 64)，ARM各平台，Android、iOS)，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP/RTCP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给RTSP流媒体服务器进行处理和转发，EasyPusher经过长时间的企业用户体验，稳定性非常高;更重要的是EasyPusher是免费的！
 
 ## 工作流程 ##
 
