@@ -160,7 +160,7 @@ int main(int argc, char * argv[])
 		}
 	}
 
-	if(EASY_ACTIVATE_SUCCESS != EasyRTSP_Activate(EasyRTSPClient_KEY))
+	if( EasyRTSP_Activate(EasyRTSPClient_KEY)<0)
 	{
 		getchar();
 		return -1;
