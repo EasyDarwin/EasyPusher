@@ -1,17 +1,17 @@
-# EasyPusher v2.0 #
+# EasyPusher v2.0
 
-EasyPusher RTSP推流是EasyDarwin开源流媒体团队开发的一款推送流媒体音/视频流给标准RTSP流媒体服务器（如EasyDarwin、Wowza）的流媒体推送库，全平台支持(包括Windows/Linux(32 & 64)，ARM各平台，Android、iOS)，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP/RTCP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给RTSP流媒体服务器进行处理和转发，EasyPusher经过长时间的企业用户体验，稳定性非常高;更重要的是EasyPusher是免费的！
+EasyPusher RTSP推流是EasyDarwin开源流媒体团队开发的一款推送流媒体音/视频流给标准RTSP流媒体服务器（如EasyDarwin、Wowza）的流媒体推送库，全平台支持(包括Windows、Linux、ARM、Android、iOS)，通过EasyPusher我们就可以避免接触到稍显复杂的RTSP/RTP/RTCP推送流程，只需要调用EasyPusher的几个API接口，就能轻松、稳定地把流媒体音视频数据推送给RTSP流媒体服务器进行处理和转发，EasyPusher经过长时间的企业用户体验，稳定性非常高；更重要的是EasyPusher是完全免费使用的！
 
-## 工作流程 ##
+## 工作流程
 
 ![EasyPusher Work Flow](http://www.easydarwin.org/github/images/easypusher/easypusher_android_workfolw.png?20190415)
 
 
-## 功能版本 ##
+## 功能版本
 
-- **EasyPusher-Android**：实时采集安卓摄像头音视频（Android 5.0+支持采集手机桌面屏幕进行直播），进行H.264/AAC编码后，调用EasyPusher进行直播推送，项目地址：[https://github.com/EasyDSS/EasyPusher_Android](https://github.com/EasyDSS/EasyPusher-Android "EasyPusher") ；
+- **EasyPusher-Android**：实时采集安卓摄像头音视频（Android 5.0+支持采集手机桌面屏幕进行直播），进行H.264/AAC编码后，调用EasyPusher进行直播推送，项目地址：[https://github.com/EasyDarwin/EasyPusher-Android](https://github.com/EasyDarwin/EasyPusher-Android "EasyPusher-Android") ；
 
-- **EasyPusher-iOS**：实时采集iOS摄像头音视频进行H.264/AAC编码，调用EasyPusher推送到RTSP流媒体服务器，项目地址：[https://github.com/EasyDSS/EasyPusher-iOS](https://github.com/EasyDSS/EasyPusher_iOS "EasyPusher") ；
+- **EasyPusher-iOS**：实时采集iOS摄像头音视频进行H.264/AAC编码，调用EasyPusher推送到RTSP流媒体服务器，项目地址：[https://github.com/EasyDarwin/EasyPusher-iOS](https://github.com/EasyDarwin/EasyPusher-iOS "EasyPusher-iOS") ；
 
 - **EasyPusher_File**：推送本地文件到RTSP流媒体服务器进行文件直播；
 
@@ -86,7 +86,7 @@ EasyPusher回调事件定义：
 
 ## 版本下载 ##
 
-- Windows：[https://github.com/EasyDSS/EasyPusher/releases](https://github.com/EasyDSS/EasyPusher/releases "EasyPusher")
+- Windows：[https://github.com/EasyDarwin/EasyPusher/releases](https://github.com/EasyDarwin/EasyPusher/releases "EasyPusher")
 
 - Android：[https://fir.im/EasyPusher ](https://fir.im/EasyPusher "EasyPusher_Android")
 
@@ -99,7 +99,8 @@ EasyPusher回调事件定义：
 
 ## 技术支持 ##
 
-- EasyPusher免费的，技术交流直接到QQ群：465901074，交流意见
+- EasyPusher完全免费使用的，技术交流直接到QQ群：465901074，交流意见！
+
 
 ## 获取更多信息 ##
 
