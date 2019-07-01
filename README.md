@@ -4,7 +4,7 @@ EasyPusher RTSP推流是EasyDarwin开源流媒体团队开发的一款推送流�
 
 ## 工作流程
 
-![EasyPusher Work Flow](http://www.easydarwin.org/github/images/easypusher/easypusher_android_workfolw.png?20190415)
+![EasyPusher Work Flow](http://www.easydarwin.org/github/images/easypusher/easypusher_android_workfolw.png?20190701)
 
 
 ## 功能版本
